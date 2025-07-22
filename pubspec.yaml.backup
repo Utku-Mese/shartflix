@@ -21,6 +21,9 @@ dependencies:
   retrofit: ^4.4.1
   json_annotation: ^4.9.0
 
+  # Local Storage
+  shared_preferences: ^2.3.2
+
   # UI Components
   cached_network_image: ^3.4.1
   image_picker: ^1.1.2
@@ -29,19 +32,18 @@ dependencies:
   equatable: ^2.0.5
   get_it: ^8.0.0
   injectable: ^2.5.0
-
+  
   # Security & Storage
   flutter_secure_storage: ^9.2.2
-  shared_preferences: ^2.3.2
-
+  
   # Localization
   flutter_localizations:
     sdk: flutter
   intl: ^0.19.0
-
+  
   # Logging
   logger: ^2.4.0
-
+  
   # UI & Animation
   flutter_native_splash: ^2.4.1
   lottie: ^3.1.2
@@ -61,8 +63,11 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   generate: true
-
+  
   assets:
     - assets/images/
     - assets/animations/
     - assets/icons/
+
+  assets:
+    - assets/images/

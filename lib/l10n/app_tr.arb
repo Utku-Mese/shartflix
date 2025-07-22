@@ -1,0 +1,47 @@
+{
+  "@@locale": "tr",
+  "appTitle": "Shartflix",
+  
+  "login": "Giriş Yap",
+  "register": "Kayıt Ol",
+  "email": "E-posta",
+  "password": "Şifre",
+  "name": "İsim",
+  "confirmPassword": "Şifreyi Onayla",
+  "forgotPassword": "Şifreni mi unuttun?",
+  "dontHaveAccount": "Hesabın yok mu?",
+  "alreadyHaveAccount": "Zaten hesabın var mı?",
+  
+  "home": "Ana Sayfa",
+  "profile": "Profil",
+  "movies": "Filmler",
+  "favorites": "Favoriler",
+  "addToFavorites": "Favorilere Ekle",
+  "removeFromFavorites": "Favorilerden Çıkar",
+  
+  "loadingMore": "Daha fazla yükleniyor...",
+  "pullToRefresh": "Yenilemek için çek",
+  "noMoviesFound": "Film bulunamadı",
+  "errorOccurred": "Bir hata oluştu",
+  "tryAgain": "Tekrar Dene",
+  
+  "logout": "Çıkış Yap",
+  "addProfilePhoto": "Profil Fotoğrafı Ekle",
+  "camera": "Kamera",
+  "gallery": "Galeri",
+  "cancel": "İptal",
+  "save": "Kaydet",
+  
+  "emailValidationError": "Lütfen geçerli bir e-posta adresi girin",
+  "passwordValidationError": "Şifre en az 6 karakter olmalı",
+  "nameValidationError": "İsim en az 2 karakter olmalı",
+  "passwordsDoNotMatch": "Şifreler eşleşmiyor",
+  
+  "loginSuccess": "Giriş başarılı",
+  "registerSuccess": "Kayıt başarılı",
+  
+  "limitedOffer": "Sınırlı Teklif",
+  "specialDeal": "Sadece ayda 299₺ ile premium erişim!",
+  "subscribe": "Hemen Abone Ol",
+  "notNow": "Şimdi Değil"
+}

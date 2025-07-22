@@ -1,0 +1,4 @@
+# This is a placeholder for the splash logo
+# Please add your actual splash_logo.png file to assets/images/
+# Recommended size: 144x144 pixels for mdpi (Android)
+# The system will automatically scale for other densities

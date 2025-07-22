@@ -1,0 +1,187 @@
+{
+  "@@locale": "en",
+  "appTitle": "Shartflix",
+  "@appTitle": {
+    "description": "The title of the application"
+  },
+  
+  "login": "Login",
+  "@login": {
+    "description": "Login button text"
+  },
+  
+  "register": "Register",
+  "@register": {
+    "description": "Register button text"
+  },
+  
+  "email": "Email",
+  "@email": {
+    "description": "Email field label"
+  },
+  
+  "password": "Password",
+  "@password": {
+    "description": "Password field label"
+  },
+  
+  "name": "Name",
+  "@name": {
+    "description": "Name field label"
+  },
+  
+  "confirmPassword": "Confirm Password",
+  "@confirmPassword": {
+    "description": "Confirm password field label"
+  },
+  
+  "forgotPassword": "Forgot Password?",
+  "@forgotPassword": {
+    "description": "Forgot password link text"
+  },
+  
+  "dontHaveAccount": "Don't have an account?",
+  "@dontHaveAccount": {
+    "description": "Text for users who don't have an account"
+  },
+  
+  "alreadyHaveAccount": "Already have an account?",
+  "@alreadyHaveAccount": {
+    "description": "Text for users who already have an account"
+  },
+  
+  "home": "Home",
+  "@home": {
+    "description": "Home page title"
+  },
+  
+  "profile": "Profile",
+  "@profile": {
+    "description": "Profile page title"
+  },
+  
+  "movies": "Movies",
+  "@movies": {
+    "description": "Movies section title"
+  },
+  
+  "favorites": "Favorites",
+  "@favorites": {
+    "description": "Favorites section title"
+  },
+  
+  "addToFavorites": "Add to Favorites",
+  "@addToFavorites": {
+    "description": "Add to favorites button text"
+  },
+  
+  "removeFromFavorites": "Remove from Favorites",
+  "@removeFromFavorites": {
+    "description": "Remove from favorites button text"
+  },
+  
+  "loadingMore": "Loading more...",
+  "@loadingMore": {
+    "description": "Loading more content text"
+  },
+  
+  "pullToRefresh": "Pull to refresh",
+  "@pullToRefresh": {
+    "description": "Pull to refresh text"
+  },
+  
+  "noMoviesFound": "No movies found",
+  "@noMoviesFound": {
+    "description": "No movies found message"
+  },
+  
+  "errorOccurred": "An error occurred",
+  "@errorOccurred": {
+    "description": "Generic error message"
+  },
+  
+  "tryAgain": "Try Again",
+  "@tryAgain": {
+    "description": "Try again button text"
+  },
+  
+  "logout": "Logout",
+  "@logout": {
+    "description": "Logout button text"
+  },
+  
+  "addProfilePhoto": "Add Profile Photo",
+  "@addProfilePhoto": {
+    "description": "Add profile photo button text"
+  },
+  
+  "camera": "Camera",
+  "@camera": {
+    "description": "Camera option text"
+  },
+  
+  "gallery": "Gallery",
+  "@gallery": {
+    "description": "Gallery option text"
+  },
+  
+  "cancel": "Cancel",
+  "@cancel": {
+    "description": "Cancel button text"
+  },
+  
+  "save": "Save",
+  "@save": {
+    "description": "Save button text"
+  },
+  
+  "emailValidationError": "Please enter a valid email address",
+  "@emailValidationError": {
+    "description": "Email validation error message"
+  },
+  
+  "passwordValidationError": "Password must be at least 6 characters",
+  "@passwordValidationError": {
+    "description": "Password validation error message"
+  },
+  
+  "nameValidationError": "Name must be at least 2 characters",
+  "@nameValidationError": {
+    "description": "Name validation error message"
+  },
+  
+  "passwordsDoNotMatch": "Passwords do not match",
+  "@passwordsDoNotMatch": {
+    "description": "Password confirmation error message"
+  },
+  
+  "loginSuccess": "Login successful",
+  "@loginSuccess": {
+    "description": "Login success message"
+  },
+  
+  "registerSuccess": "Registration successful",
+  "@registerSuccess": {
+    "description": "Registration success message"
+  },
+  
+  "limitedOffer": "Limited Offer",
+  "@limitedOffer": {
+    "description": "Limited offer title"
+  },
+  
+  "specialDeal": "Get premium access for just $9.99/month!",
+  "@specialDeal": {
+    "description": "Special deal description"
+  },
+  
+  "subscribe": "Subscribe Now",
+  "@subscribe": {
+    "description": "Subscribe button text"
+  },
+  
+  "notNow": "Not Now",
+  "@notNow": {
+    "description": "Not now button text"
+  }
+}

@@ -2,6 +2,92 @@ import 'package:flutter/material.dart';
 import 'app_colors.dart';
 
 class AppTheme {
+  static ThemeData get lightTheme {
+    return ThemeData(
+      useMaterial3: true,
+      brightness: Brightness.light,
+      primaryColor: AppColors.secondary,
+      scaffoldBackgroundColor: AppColors.white,
+      colorScheme: const ColorScheme.light(
+        primary: AppColors.secondary,
+        secondary: AppColors.accent,
+        surface: AppColors.grey100,
+        error: AppColors.error,
+        onPrimary: AppColors.white,
+        onSecondary: AppColors.white,
+        onSurface: AppColors.black,
+        onError: AppColors.white,
+      ),
+      appBarTheme: const AppBarTheme(
+        backgroundColor: AppColors.white,
+        foregroundColor: AppColors.black,
+        elevation: 0,
+        centerTitle: true,
+      ),
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: AppColors.secondary,
+          foregroundColor: AppColors.white,
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
+        ),
+      ),
+      outlinedButtonTheme: OutlinedButtonThemeData(
+        style: OutlinedButton.styleFrom(
+          foregroundColor: AppColors.secondary,
+          side: const BorderSide(color: AppColors.secondary),
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
+        ),
+      ),
+      textButtonTheme: TextButtonThemeData(
+        style: TextButton.styleFrom(
+          foregroundColor: AppColors.secondary,
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        ),
+      ),
+      inputDecorationTheme: InputDecorationTheme(
+        filled: true,
+        fillColor: AppColors.grey100,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: const BorderSide(color: AppColors.grey400),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: const BorderSide(color: AppColors.grey400),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: const BorderSide(color: AppColors.secondary, width: 2),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: const BorderSide(color: AppColors.error),
+        ),
+        labelStyle: const TextStyle(color: AppColors.grey700),
+        hintStyle: const TextStyle(color: AppColors.grey500),
+      ),
+      cardTheme: CardTheme(
+        color: AppColors.white,
+        elevation: 4,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+      ),
+      bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+        backgroundColor: AppColors.white,
+        selectedItemColor: AppColors.secondary,
+        unselectedItemColor: AppColors.grey500,
+        type: BottomNavigationBarType.fixed,
+      ),
+    );
+  }
+
   static ThemeData get darkTheme {
     return ThemeData(
       useMaterial3: true,
