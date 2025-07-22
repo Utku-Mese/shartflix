@@ -1,0 +1,9 @@
+targets:
+  $default:
+    builders:
+      injectable_generator:injectable_builder:
+        enabled: true
+      json_serializable:
+        enabled: true
+      retrofit_generator:
+        enabled: true
