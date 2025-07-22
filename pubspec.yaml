@@ -1,0 +1,52 @@
+name: shartflix
+description: "A new Flutter project."
+publish_to: "none"
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.6.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.8
+
+  # State Management
+  flutter_bloc: ^8.1.6
+
+  # Network
+  dio: ^5.7.0
+  retrofit: ^4.4.1
+  json_annotation: ^4.9.0
+
+  # Local Storage
+  shared_preferences: ^2.3.2
+
+  # UI Components
+  cached_network_image: ^3.4.1
+  image_picker: ^1.1.2
+
+  # Utils
+  equatable: ^2.0.5
+  get_it: ^8.0.0
+  injectable: ^2.5.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^5.0.0
+
+  # Code Generation
+  build_runner: ^2.4.13
+  retrofit_generator: ^9.1.2
+  json_serializable: ^6.8.0
+  injectable_generator: ^2.6.2
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/images/
