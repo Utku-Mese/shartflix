@@ -29,6 +29,10 @@ class UnauthorizedFailure extends Failure {
   const UnauthorizedFailure(super.message);
 }
 
+class AuthFailure extends Failure {
+  const AuthFailure({required String message}) : super(message);
+}
+
 class NotFoundFailure extends Failure {
   const NotFoundFailure(super.message);
 }

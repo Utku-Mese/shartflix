@@ -15,11 +15,23 @@ import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 import 'package:shared_preferences/shared_preferences.dart' as _i460;
 import 'package:shartflix/core/di/core_module.dart' as _i1006;
+import 'package:shartflix/core/di/network_module.dart' as _i408;
 import 'package:shartflix/core/network/api_client.dart' as _i325;
+import 'package:shartflix/core/network/services/auth_api_service.dart' as _i102;
+import 'package:shartflix/core/network/services/movie_api_service.dart'
+    as _i421;
 import 'package:shartflix/core/services/localization_service.dart' as _i1013;
 import 'package:shartflix/core/services/logger_service.dart' as _i12;
 import 'package:shartflix/core/services/secure_storage_service.dart' as _i313;
 import 'package:shartflix/core/services/theme_service.dart' as _i32;
+import 'package:shartflix/features/auth/data/repositories/auth_repository_impl.dart'
+    as _i689;
+import 'package:shartflix/features/auth/domain/repositories/auth_repository.dart'
+    as _i291;
+import 'package:shartflix/features/movies/data/repositories/movie_repository_impl.dart'
+    as _i343;
+import 'package:shartflix/features/movies/domain/repositories/movie_repository.dart'
+    as _i1003;
 
 extension GetItInjectableX on _i174.GetIt {
 // initializes the registration of main-scope dependencies inside of GetIt
@@ -33,6 +45,7 @@ extension GetItInjectableX on _i174.GetIt {
       environmentFilter,
     );
     final coreModule = _$CoreModule();
+    final networkModule = _$NetworkModule();
     await gh.factoryAsync<_i460.SharedPreferences>(
       () => coreModule.provideSharedPreferences(),
       preResolve: true,
@@ -50,17 +63,33 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i460.SharedPreferences>(),
           gh<_i12.LoggerService>(),
         ));
-    gh.factory<_i325.ApiClient>(() => _i325.ApiClient(
-          gh<_i361.Dio>(),
-          gh<_i460.SharedPreferences>(),
-        ));
     gh.lazySingleton<_i313.SecureStorageService>(
         () => _i313.SecureStorageService(
               gh<_i558.FlutterSecureStorage>(),
               gh<_i12.LoggerService>(),
             ));
+    gh.factory<_i325.ApiClient>(() => _i325.ApiClient(
+          gh<_i361.Dio>(),
+          gh<_i313.SecureStorageService>(),
+          gh<_i12.LoggerService>(),
+        ));
+    gh.lazySingleton<_i102.AuthApiService>(
+        () => networkModule.authApiService(gh<_i325.ApiClient>()));
+    gh.lazySingleton<_i421.MovieApiService>(
+        () => networkModule.movieApiService(gh<_i325.ApiClient>()));
+    gh.lazySingleton<_i1003.MovieRepository>(() => _i343.MovieRepositoryImpl(
+          gh<_i421.MovieApiService>(),
+          gh<_i12.LoggerService>(),
+        ));
+    gh.lazySingleton<_i291.AuthRepository>(() => _i689.AuthRepositoryImpl(
+          gh<_i102.AuthApiService>(),
+          gh<_i313.SecureStorageService>(),
+          gh<_i12.LoggerService>(),
+        ));
     return this;
   }
 }
 
 class _$CoreModule extends _i1006.CoreModule {}
+
+class _$NetworkModule extends _i408.NetworkModule {}

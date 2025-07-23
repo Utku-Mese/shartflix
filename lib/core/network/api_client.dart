@@ -1,15 +1,16 @@
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../constants/api_constants.dart';
-import '../constants/app_constants.dart';
+import '../services/logger_service.dart';
+import '../services/secure_storage_service.dart';
 
 @injectable
 class ApiClient {
   final Dio _dio;
-  final SharedPreferences _prefs;
+  final SecureStorageService _secureStorage;
+  final LoggerService _logger;
 
-  ApiClient(this._dio, this._prefs) {
+  ApiClient(this._dio, this._secureStorage, this._logger) {
     _setupInterceptors();
   }
 
@@ -21,35 +22,47 @@ class ApiClient {
     // Request interceptor for adding auth token
     _dio.interceptors.add(
       InterceptorsWrapper(
-        onRequest: (options, handler) {
-          final token = _prefs.getString(AppConstants.tokenKey);
+        onRequest: (options, handler) async {
+          final token = await _secureStorage.getToken();
           if (token != null) {
-            options.headers[ApiConstants.authorization] =
+            options.headers[ApiConstants.authorization] = 
                 '${ApiConstants.bearer} $token';
           }
           options.headers[Headers.contentTypeHeader] = ApiConstants.contentType;
+          
+          _logger.logRequest(
+            options.method, 
+            options.uri.toString(), 
+            options.data,
+          );
+          
           handler.next(options);
         },
+        onResponse: (response, handler) {
+          _logger.logResponse(
+            response.requestOptions.method,
+            response.requestOptions.uri.toString(),
+            response.statusCode ?? 0,
+            response.data,
+          );
+          handler.next(response);
+        },
         onError: (error, handler) {
+          _logger.logResponse(
+            error.requestOptions.method,
+            error.requestOptions.uri.toString(),
+            error.response?.statusCode ?? 0,
+            error.response?.data,
+          );
+          
           // Handle common errors
           if (error.response?.statusCode == 401) {
             // Token expired or invalid
-            _prefs.remove(AppConstants.tokenKey);
-            _prefs.remove(AppConstants.userKey);
+            _secureStorage.clearAuthData();
+            _logger.logAuth('Token invalidated due to 401 error', null);
           }
           handler.next(error);
         },
-      ),
-    );
-
-    // Logging interceptor for debugging
-    _dio.interceptors.add(
-      LogInterceptor(
-        requestBody: true,
-        responseBody: true,
-        requestHeader: true,
-        responseHeader: false,
-        error: true,
       ),
     );
   }
