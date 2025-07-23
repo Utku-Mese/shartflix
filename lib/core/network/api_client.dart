@@ -25,17 +25,17 @@ class ApiClient {
         onRequest: (options, handler) async {
           final token = await _secureStorage.getToken();
           if (token != null) {
-            options.headers[ApiConstants.authorization] = 
+            options.headers[ApiConstants.authorization] =
                 '${ApiConstants.bearer} $token';
           }
           options.headers[Headers.contentTypeHeader] = ApiConstants.contentType;
-          
+
           _logger.logRequest(
-            options.method, 
-            options.uri.toString(), 
+            options.method,
+            options.uri.toString(),
             options.data,
           );
-          
+
           handler.next(options);
         },
         onResponse: (response, handler) {
@@ -54,7 +54,7 @@ class ApiClient {
             error.response?.statusCode ?? 0,
             error.response?.data,
           );
-          
+
           // Handle common errors
           if (error.response?.statusCode == 401) {
             // Token expired or invalid

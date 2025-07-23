@@ -1,9 +1,11 @@
 import 'package:dio/dio.dart';
+import 'package:injectable/injectable.dart';
 import '../api_response.dart';
 import '../../../features/auth/data/models/user_model.dart';
 import '../../../features/auth/data/models/auth_requests.dart';
 import '../../constants/api_constants.dart';
 
+@injectable
 class AuthApiService {
   final Dio _dio;
 

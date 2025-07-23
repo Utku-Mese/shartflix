@@ -140,10 +140,10 @@ class Movie extends Equatable {
   List<String> get actorList => actors.split(', ');
   List<String> get languageList => language.split(', ');
   List<String> get countryList => country.split(', ');
-  
+
   double get rating => double.tryParse(imdbRating) ?? 0.0;
   int get votes => int.tryParse(imdbVotes.replaceAll(',', '')) ?? 0;
   int get metascoreInt => int.tryParse(metascore) ?? 0;
-  
+
   String get mainImage => images.isNotEmpty ? images.first : poster;
 }

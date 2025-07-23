@@ -6,10 +6,10 @@ import '../network/services/movie_api_service.dart';
 @module
 abstract class NetworkModule {
   @lazySingleton
-  AuthApiService authApiService(ApiClient apiClient) => 
+  AuthApiService authApiService(ApiClient apiClient) =>
       AuthApiService(apiClient.dio);
 
   @lazySingleton
-  MovieApiService movieApiService(ApiClient apiClient) => 
+  MovieApiService movieApiService(ApiClient apiClient) =>
       MovieApiService(apiClient.dio);
 }

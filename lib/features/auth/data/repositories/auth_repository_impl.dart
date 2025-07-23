@@ -30,7 +30,7 @@ class AuthRepositoryImpl implements AuthRepository {
   }) async {
     try {
       _logger.logAuth('Attempting login', email);
-      
+
       final request = LoginRequest(
         email: email,
         password: password,
@@ -47,7 +47,7 @@ class AuthRepositoryImpl implements AuthRepository {
         _logger.logAuth('Login successful', user.email);
         return Result.ok(user);
       } else {
-        final message = response.response.message ?? 'Login failed';
+        final message = response.response.message;
         _logger.logAuth('Login failed: $message', email);
         return Result.err(ServerFailure(message));
       }
@@ -69,7 +69,7 @@ class AuthRepositoryImpl implements AuthRepository {
   }) async {
     try {
       _logger.logAuth('Attempting registration', email);
-      
+
       final request = RegisterRequest(
         email: email,
         name: '$firstName $lastName', // API expects single name field
@@ -87,7 +87,7 @@ class AuthRepositoryImpl implements AuthRepository {
         _logger.logAuth('Registration successful', user.email);
         return Result.ok(user);
       } else {
-        final message = response.response.message ?? 'Registration failed';
+        final message = response.response.message;
         _logger.logAuth('Registration failed: $message', email);
         return Result.err(ServerFailure(message));
       }
@@ -106,14 +106,14 @@ class AuthRepositoryImpl implements AuthRepository {
   }) async {
     try {
       _logger.logAuth('Attempting forgot password', email);
-      
+
       final response = await _apiService.forgotPassword({'email': email});
 
       if (response.isSuccess) {
         _logger.logAuth('Forgot password successful', email);
         return Result.ok(true);
       } else {
-        final message = response.response.message ?? 'Forgot password failed';
+        final message = response.response.message;
         _logger.logAuth('Forgot password failed: $message', email);
         return Result.err(ServerFailure(message));
       }
@@ -130,7 +130,7 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<Result<User, Failure>> getProfile() async {
     try {
       _logger.logAuth('Fetching profile', null);
-      
+
       final response = await _apiService.getProfile();
 
       if (response.isSuccess && response.data != null) {
@@ -142,7 +142,7 @@ class AuthRepositoryImpl implements AuthRepository {
         _logger.logAuth('Profile fetch successful', user.email);
         return Result.ok(user);
       } else {
-        final message = response.response.message ?? 'Profile fetch failed';
+        final message = response.response.message;
         _logger.logAuth('Profile fetch failed: $message', null);
         return Result.err(ServerFailure(message));
       }
@@ -162,7 +162,7 @@ class AuthRepositoryImpl implements AuthRepository {
   }) async {
     try {
       _logger.logAuth('Attempting password change', null);
-      
+
       final response = await _apiService.changePassword({
         'current_password': currentPassword,
         'new_password': newPassword,
@@ -172,7 +172,7 @@ class AuthRepositoryImpl implements AuthRepository {
         _logger.logAuth('Password change successful', null);
         return Result.ok(true);
       } else {
-        final message = response.response.message ?? 'Password change failed';
+        final message = response.response.message;
         _logger.logAuth('Password change failed: $message', null);
         return Result.err(ServerFailure(message));
       }
@@ -191,7 +191,7 @@ class AuthRepositoryImpl implements AuthRepository {
   }) async {
     try {
       _logger.logAuth('Attempting photo upload', null);
-      
+
       final formData = FormData.fromMap({
         'photo': photo,
       });
@@ -203,7 +203,7 @@ class AuthRepositoryImpl implements AuthRepository {
         _logger.logAuth('Photo upload successful', photoUrl);
         return Result.ok(photoUrl);
       } else {
-        final message = response.response.message ?? 'Photo upload failed';
+        final message = response.response.message;
         _logger.logAuth('Photo upload failed: $message', null);
         return Result.err(ServerFailure(message));
       }
@@ -220,7 +220,7 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<Result<void, Failure>> logout() async {
     try {
       _logger.logAuth('Attempting logout', null);
-      
+
       // Clear stored auth data
       await _secureStorage.clearAuthData();
 
@@ -267,7 +267,7 @@ class AuthRepositoryImpl implements AuthRepository {
       case DioExceptionType.badResponse:
         final statusCode = error.response?.statusCode;
         final message = error.response?.data?['message'] ?? 'Server error';
-        
+
         switch (statusCode) {
           case 400:
             return ValidationFailure(message);

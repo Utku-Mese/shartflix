@@ -1,9 +1,11 @@
 import 'package:dio/dio.dart';
+import 'package:injectable/injectable.dart';
 import '../api_response.dart';
 import '../../../features/movies/data/models/movie_model.dart';
 import '../../../features/movies/data/models/movie_responses.dart';
 import '../../constants/api_constants.dart';
 
+@injectable
 class MovieApiService {
   final Dio _dio;
 

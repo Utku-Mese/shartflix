@@ -64,7 +64,9 @@ final class Ok<T, E> extends Result<T, E> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is Ok<T, E> && runtimeType == other.runtimeType && value == other.value;
+      other is Ok<T, E> &&
+          runtimeType == other.runtimeType &&
+          value == other.value;
 
   @override
   int get hashCode => value.hashCode;
@@ -82,7 +84,9 @@ final class Err<T, E> extends Result<T, E> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is Err<T, E> && runtimeType == other.runtimeType && error == other.error;
+      other is Err<T, E> &&
+          runtimeType == other.runtimeType &&
+          error == other.error;
 
   @override
   int get hashCode => error.hashCode;
@@ -96,7 +100,8 @@ extension ResultExtensions<T, E> on Result<T, E> {
   /// Returns the success value or throws if this is an error
   T unwrap() => switch (this) {
         Ok(value: final value) => value,
-        Err(error: final error) => throw Exception('Called unwrap on Err: $error'),
+        Err(error: final error) =>
+          throw Exception('Called unwrap on Err: $error'),
       };
 
   /// Returns the success value or the provided default
