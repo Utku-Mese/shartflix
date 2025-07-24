@@ -210,15 +210,31 @@ class AuthRepositoryImpl implements AuthRepository {
         return NetworkFailure('Connection timeout');
       case DioExceptionType.badResponse:
         final statusCode = error.response?.statusCode;
-        final message = error.response?.data?['message'] ?? 'Server error';
+
+        // Try to extract message from API response format first
+        String message = 'Server error';
+        final responseData = error.response?.data;
+
+        if (responseData is Map<String, dynamic>) {
+          // Check for our API format: {response: {code: ..., message: ...}}
+          if (responseData['response'] is Map<String, dynamic>) {
+            final responseInfo =
+                responseData['response'] as Map<String, dynamic>;
+            message = responseInfo['message'] ?? message;
+          }
+          // Fallback to direct message field
+          else if (responseData['message'] != null) {
+            message = responseData['message'];
+          }
+        }
 
         switch (statusCode) {
           case 400:
             return ValidationFailure(message);
           case 401:
-            return AuthFailure(message: 'Authentication failed');
+            return AuthFailure(message: message);
           case 403:
-            return AuthFailure(message: 'Access denied');
+            return AuthFailure(message: message);
           case 404:
             return ServerFailure('Resource not found');
           case 500:
