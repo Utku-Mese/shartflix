@@ -40,9 +40,6 @@ class _ProfilePageState extends State<ProfilePage> {
         body: SafeArea(
           child: BlocConsumer<AuthBloc, AuthState>(
             listener: (context, state) {
-              if (state is AuthUnauthenticated) {
-                Navigator.pushReplacementNamed(context, '/login');
-              }
             },
             builder: (context, authState) {
               return CustomScrollView(
@@ -74,7 +71,6 @@ class _ProfilePageState extends State<ProfilePage> {
       padding: const EdgeInsets.all(24),
       child: Column(
         children: [
-          // Header with back button and offer button
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -292,8 +288,6 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget _buildFavoriteMoviesGrid() {
     return BlocBuilder<MovieBloc, MovieState>(
       builder: (context, state) {
-        // For demo purposes, we'll show some mock favorite movies
-        // In a real app, you'd load actual favorite movies
         final demoMovies = _getDemoMovies();
 
         return SliverPadding(

@@ -39,7 +39,6 @@ class _HomePageState extends State<HomePage> {
           child: BlocConsumer<MovieBloc, MovieState>(
             listener: (context, state) {
               if (state is MovieError) {
-                // Check if it's an authentication error
                 if (state.message.contains('TOKEN_UNAVAILABLE') ||
                     state.message.contains('TOKEN_EXPIRED') ||
                     state.message.contains('INVALID_TOKEN') ||

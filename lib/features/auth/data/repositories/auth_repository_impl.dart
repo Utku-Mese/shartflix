@@ -222,7 +222,7 @@ class AuthRepositoryImpl implements AuthRepository {
         final responseData = error.response?.data;
 
         if (responseData is Map<String, dynamic>) {
-          // Check for our API format: {response: {code: ..., message: ...}}
+          // Check for our API format
           if (responseData['response'] is Map<String, dynamic>) {
             final responseInfo =
                 responseData['response'] as Map<String, dynamic>;
@@ -234,7 +234,7 @@ class AuthRepositoryImpl implements AuthRepository {
           }
         }
 
-        // Handle token-related errors as authentication failures regardless of status code
+        // Handle token errors
         if (message.contains('TOKEN_UNAVAILABLE') ||
             message.contains('TOKEN_EXPIRED') ||
             message.contains('INVALID_TOKEN')) {

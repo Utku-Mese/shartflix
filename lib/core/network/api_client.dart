@@ -77,12 +77,12 @@ class ApiClient {
             _logger.logAuth('Token invalidated due to 401 error', null);
           }
 
-          // Handle connectivity errors with user-friendly messages
+          // Handle connectivity errors
           if (error.type == DioExceptionType.connectionError ||
               error.type == DioExceptionType.connectionTimeout ||
               error.type == DioExceptionType.receiveTimeout ||
               error.type == DioExceptionType.sendTimeout) {
-            // Create a more user-friendly error
+
             final connectivityError = DioException(
               requestOptions: error.requestOptions,
               error: 'İnternet bağlantısı kontrol ediniz',

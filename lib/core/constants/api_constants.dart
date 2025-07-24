@@ -30,6 +30,6 @@ class ApiConstants {
   static const String serverError = '500';
 
   // Default values
-  static const int defaultPerPage = 10;
+  static const int defaultPerPage = 5;
   static const int defaultTimeout = 30;
 }

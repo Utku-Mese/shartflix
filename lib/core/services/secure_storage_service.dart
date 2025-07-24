@@ -53,7 +53,7 @@ class SecureStorageService {
     }
   }
 
-  // Auth-specific methods
+  // Auth specific methods
   Future<void> saveToken(String token) async {
     await write(AppConstants.tokenKey, token);
     _logger.logAuth('Token saved', null);

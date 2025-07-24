@@ -8,7 +8,7 @@ class AuthApiService {
   final Dio _dio;
 
   AuthApiService(this._dio);
-
+  
   Future<ApiResponse<UserModel>> login(LoginRequest request) async {
     final response = await _dio.post(
       ApiConstants.login,

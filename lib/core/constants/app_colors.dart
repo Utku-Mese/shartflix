@@ -9,11 +9,6 @@ class AppColors {
   static const Color secondary = Color(0x22FFFFFF);
   static const Color secondaryLight = Color(0x44FFFFFF);
 
-  // Accent Colors
-  static const Color accent = Color(0xFF4ECDC4);
-  static const Color accentLight = Color(0xFF6FDFD8);
-  static const Color accentDark = Color(0xFF3CB9B1);
-
   // Neutral Colors
   static const Color white = Color(0xFFFFFFFF);
   static const Color black = Color(0xFF000000);

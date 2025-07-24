@@ -26,7 +26,7 @@ class ThemeService {
       _logger.error('Failed to get current theme mode', e, stackTrace);
     }
 
-    return AppThemeMode.dark; // Default to dark theme
+    return AppThemeMode.dark; // Default dark theme
   }
 
   Future<void> setThemeMode(AppThemeMode themeMode) async {

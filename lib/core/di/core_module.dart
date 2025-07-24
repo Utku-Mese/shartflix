@@ -4,6 +4,8 @@ import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 
+// This module provides core services and dependencies for the application.
+
 @module
 abstract class CoreModule {
   @lazySingleton

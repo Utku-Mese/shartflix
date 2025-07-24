@@ -115,7 +115,6 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
     Emitter<MovieState> emit,
   ) async {
     // TODO: Implement actual favorite toggle logic
-    // For now, we'll assume we're adding to favorites
     final result = await _addToFavoritesUseCase.call(event.movieId);
 
     result.fold(

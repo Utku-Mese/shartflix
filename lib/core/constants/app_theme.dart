@@ -11,7 +11,6 @@ class AppTheme {
       fontFamily: 'EuclidCircularA',
       colorScheme: const ColorScheme.light(
         primary: AppColors.secondary,
-        secondary: AppColors.accent,
         surface: AppColors.grey100,
         error: AppColors.error,
         onPrimary: AppColors.white,

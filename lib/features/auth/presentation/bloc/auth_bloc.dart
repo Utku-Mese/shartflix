@@ -1,7 +1,9 @@
+import 'dart:convert';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import '../../domain/usecases/login_usecase.dart';
 import '../../domain/usecases/register_usecase.dart';
+import '../../data/models/user_model.dart';
 import '../../../../core/services/secure_storage_service.dart';
 import 'auth_event.dart';
 import 'auth_state.dart';
@@ -69,7 +71,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     LogoutRequested event,
     Emitter<AuthState> emit,
   ) async {
-    await _storageService.delete('auth_token');
+    await _storageService.clearAuthData();
     emit(AuthUnauthenticated());
   }
 
@@ -77,12 +79,34 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     CheckAuthStatus event,
     Emitter<AuthState> emit,
   ) async {
-    final token = await _storageService.read('auth_token');
-    if (token != null) {
-      // TODO: Validate token and get user info
-      // For now, just emit unauthenticated
-      emit(AuthUnauthenticated());
-    } else {
+    try {
+      // Check if token exists
+      final hasToken = await _storageService.hasToken();
+
+      if (hasToken) {
+        // Try to get stored user data
+        final userData = await _storageService.getUserData();
+
+        if (userData != null) {
+          try {
+            final userJson = jsonDecode(userData) as Map<String, dynamic>;
+            final userModel = UserModel.fromJson(userJson);
+            final user = userModel.toEntity();
+
+            emit(AuthAuthenticated(user));
+          } catch (e) {
+            await _storageService.clearAuthData();
+            emit(AuthUnauthenticated());
+          }
+        } else {
+          await _storageService.clearAuthData();
+          emit(AuthUnauthenticated());
+        }
+      } else {
+        emit(AuthUnauthenticated());
+      }
+    } catch (e) {
+      await _storageService.clearAuthData();
       emit(AuthUnauthenticated());
     }
   }

@@ -20,7 +20,7 @@ class ConnectivityService {
         return false;
       }
 
-      // Additional check: try to reach a reliable host
+      // Additional check to verify internet access
       final result = await InternetAddress.lookup('google.com');
       if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
         _logger.info('Internet connection verified');
@@ -53,7 +53,7 @@ class ConnectivityService {
   /// Check specific API endpoint connectivity
   Future<bool> canReachApi() async {
     try {
-      final result = await InternetAddress.lookup('nodelabs.flutter.com.tr');
+      final result = await InternetAddress.lookup('https://caseapi.servicelabs.tech');
       if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
         _logger.info('API server reachable');
         return true;

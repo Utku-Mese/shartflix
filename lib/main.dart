@@ -5,7 +5,7 @@ import 'core/di/injection.dart';
 import 'core/services/logger_service.dart';
 import 'core/services/theme_service.dart';
 import 'core/services/localization_service.dart';
-import 'features/splash/splash.dart';
+import 'core/widgets/auth_wrapper.dart';
 import 'features/auth/presentation/pages/login_page.dart';
 import 'features/auth/presentation/pages/register_page.dart';
 import 'features/auth/presentation/pages/profile_page.dart';
@@ -83,7 +83,7 @@ class _ShartflixAppState extends State<ShartflixApp> {
         GlobalCupertinoLocalizations.delegate,
       ],
       supportedLocales: AppLocalizations.supportedLocales,
-      home: const SplashPage(),
+      home: const AuthWrapper(),
       routes: {
         '/login': (context) => const LoginPage(),
         '/register': (context) => const RegisterPage(),

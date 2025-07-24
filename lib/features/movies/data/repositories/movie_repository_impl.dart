@@ -114,12 +114,11 @@ class MovieRepositoryImpl implements MovieRepository {
       case DioExceptionType.badResponse:
         final statusCode = error.response?.statusCode;
 
-        // Try to extract message from API response format first
         String message = 'Server error';
         final responseData = error.response?.data;
 
         if (responseData is Map<String, dynamic>) {
-          // Check for our API format: {response: {code: ..., message: ...}}
+          // Check for our API format
           if (responseData['response'] is Map<String, dynamic>) {
             final responseInfo =
                 responseData['response'] as Map<String, dynamic>;
@@ -131,7 +130,6 @@ class MovieRepositoryImpl implements MovieRepository {
           }
         }
 
-        // Handle token-related errors as authentication failures regardless of status code
         if (message.contains('TOKEN_UNAVAILABLE') ||
             message.contains('TOKEN_EXPIRED') ||
             message.contains('INVALID_TOKEN')) {

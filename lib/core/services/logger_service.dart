@@ -40,29 +40,29 @@ class LoggerService {
 
   // Network logging
   void logRequest(String method, String url, Map<String, dynamic>? data) {
-    info('🌐 $method $url', data);
+    info('$method $url', data);
   }
 
   void logResponse(String method, String url, int statusCode, dynamic data) {
     if (statusCode >= 200 && statusCode < 300) {
-      info('✅ $method $url - $statusCode', data);
+      info('$method $url - $statusCode', data);
     } else {
-      error('❌ $method $url - $statusCode', data);
+      error('$method $url - $statusCode', data);
     }
   }
 
   // Auth logging
   void logAuth(String action, String? userId) {
-    info('🔐 Auth: $action ${userId != null ? 'for user $userId' : ''}');
+    info('Auth: $action ${userId != null ? 'for user $userId' : ''}');
   }
 
   // Navigation logging
   void logNavigation(String from, String to) {
-    info('🧭 Navigation: $from → $to');
+    info('Navigation: $from → $to');
   }
 
   // Business logic logging
   void logBusinessEvent(String event, Map<String, dynamic>? data) {
-    info('💼 Business Event: $event', data);
+    info('Business Event: $event', data);
   }
 }

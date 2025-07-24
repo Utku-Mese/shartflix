@@ -48,8 +48,6 @@ class _LoginPageState extends State<LoginPage> {
                           backgroundColor: Colors.red,
                         ),
                       );
-                    } else if (state is AuthAuthenticated) {
-                      Navigator.pushReplacementNamed(context, '/home');
                     }
                   },
                   builder: (context, state) {

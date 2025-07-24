@@ -18,9 +18,6 @@ class AppConstants {
   static const double defaultRadius = 18.0;
   static const double defaultElevation = 4.0;
 
-  // Animation
-  static const int defaultAnimationDuration = 300;
-
   // Image
   static const double defaultImageQuality = 0.8;
   static const int maxImageSize = 5 * 1024 * 1024; // 5MB

@@ -21,10 +21,6 @@ class SplashController {
 
       logger.info('Splash sequence completed');
 
-      // Navigate to login page
-      if (context.mounted) {
-        Navigator.of(context).pushReplacementNamed('/login');
-      }
     } catch (e, stackTrace) {
       logger.error('Error during splash sequence', e, stackTrace);
     }
