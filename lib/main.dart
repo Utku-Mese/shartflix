@@ -8,8 +8,7 @@ import 'core/services/localization_service.dart';
 import 'core/widgets/auth_wrapper.dart';
 import 'features/auth/presentation/pages/login_page.dart';
 import 'features/auth/presentation/pages/register_page.dart';
-import 'features/auth/presentation/pages/profile_page.dart';
-import 'features/auth/presentation/pages/photo_upload_page.dart';
+import 'features/profile/profile.dart';
 import 'features/movies/presentation/pages/home_page.dart';
 
 void main() async {

@@ -39,8 +39,7 @@ class _ProfilePageState extends State<ProfilePage> {
         backgroundColor: const Color(0xFF000000),
         body: SafeArea(
           child: BlocConsumer<AuthBloc, AuthState>(
-            listener: (context, state) {
-            },
+            listener: (context, state) {},
             builder: (context, authState) {
               return CustomScrollView(
                 slivers: [
