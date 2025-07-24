@@ -293,6 +293,30 @@ class MovieRepositoryImpl implements MovieRepository {
     }
   }
 
+  @override
+  Future<Result<bool, Failure>> toggleFavorite(int movieId) async {
+    try {
+      _logger.debug('Toggling favorite status for movie - id: $movieId');
+
+      final response = await _apiService.toggleFavorite(movieId);
+
+      if (response.isSuccess) {
+        _logger.debug('Movie favorite status toggled successfully');
+        return Result.ok(true);
+      } else {
+        final message = response.response.message;
+        _logger.debug('Toggle favorite failed: $message');
+        return Result.err(ServerFailure(message));
+      }
+    } on DioException catch (e) {
+      _logger.error('Toggle favorite dio error', e, StackTrace.current);
+      return Result.err(_handleDioError(e));
+    } catch (e) {
+      _logger.error('Toggle favorite unexpected error', e, StackTrace.current);
+      return Result.err(ServerFailure('Unexpected error occurred'));
+    }
+  }
+
   Failure _handleDioError(DioException error) {
     switch (error.type) {
       case DioExceptionType.connectionTimeout:

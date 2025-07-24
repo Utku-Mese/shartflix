@@ -53,6 +53,13 @@ sealed class Result<T, E> {
         Ok(value: final value) => ok(value),
         Err(error: final error) => err(error),
       };
+
+  /// Alias for `when` method - commonly used in functional programming
+  U fold<U>(
+    U Function(T) onOk,
+    U Function(E) onErr,
+  ) =>
+      when(ok: onOk, err: onErr);
 }
 
 /// Successful result containing a value

@@ -12,11 +12,11 @@ class LocalizationService {
   LocalizationService(this._prefs, this._logger);
 
   static const List<Locale> supportedLocales = [
-    Locale('en', 'US'),
     Locale('tr', 'TR'),
+    Locale('en', 'US'),
   ];
 
-  static const Locale defaultLocale = Locale('en', 'US');
+  static const Locale defaultLocale = Locale('tr', 'TR');
 
   Future<Locale> getCurrentLocale() async {
     try {

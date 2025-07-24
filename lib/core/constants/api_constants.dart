@@ -30,6 +30,8 @@ class ApiConstants {
   static String addToFavorites(int movieId) => '/movies/$movieId/favorite';
   static String removeFromFavorites(int movieId) =>
       '/movies/$movieId/unfavorite';
+  static String toggleFavorite(int movieId) =>
+      '/movies/$movieId/toggle-favorite';
   static String addToWatchLater(int movieId) => '/movies/$movieId/watch-later';
   static String removeFromWatchLater(int movieId) =>
       '/movies/$movieId/remove-watch-later';

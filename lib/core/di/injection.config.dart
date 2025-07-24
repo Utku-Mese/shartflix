@@ -18,8 +18,12 @@ import 'package:shartflix/core/di/core_module.dart' as _i1006;
 import 'package:shartflix/core/di/network_module.dart' as _i408;
 import 'package:shartflix/core/network/api_client.dart' as _i325;
 import 'package:shartflix/core/network/services/auth_api_service.dart' as _i102;
+import 'package:shartflix/core/network/services/auth_api_service_new.dart'
+    as _i524;
 import 'package:shartflix/core/network/services/movie_api_service.dart'
     as _i421;
+import 'package:shartflix/core/network/services/movie_api_service_new.dart'
+    as _i796;
 import 'package:shartflix/core/services/localization_service.dart' as _i1013;
 import 'package:shartflix/core/services/logger_service.dart' as _i12;
 import 'package:shartflix/core/services/secure_storage_service.dart' as _i313;
@@ -28,10 +32,22 @@ import 'package:shartflix/features/auth/data/repositories/auth_repository_impl.d
     as _i689;
 import 'package:shartflix/features/auth/domain/repositories/auth_repository.dart'
     as _i291;
+import 'package:shartflix/features/auth/domain/usecases/login_usecase.dart'
+    as _i539;
+import 'package:shartflix/features/auth/domain/usecases/register_usecase.dart'
+    as _i1049;
+import 'package:shartflix/features/auth/presentation/bloc/auth_bloc.dart'
+    as _i359;
 import 'package:shartflix/features/movies/data/repositories/movie_repository_impl.dart'
     as _i343;
 import 'package:shartflix/features/movies/domain/repositories/movie_repository.dart'
     as _i1003;
+import 'package:shartflix/features/movies/domain/usecases/favorite_usecases.dart'
+    as _i198;
+import 'package:shartflix/features/movies/domain/usecases/get_featured_movies_usecase.dart'
+    as _i124;
+import 'package:shartflix/features/movies/domain/usecases/get_movies_usecase.dart'
+    as _i854;
 
 extension GetItInjectableX on _i174.GetIt {
 // initializes the registration of main-scope dependencies inside of GetIt
@@ -54,6 +70,10 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i558.FlutterSecureStorage>(
         () => coreModule.provideSecureStorage());
     gh.lazySingleton<_i12.LoggerService>(() => _i12.LoggerService());
+    gh.factory<_i796.MovieApiService>(
+        () => _i796.MovieApiService(gh<_i361.Dio>()));
+    gh.factory<_i524.AuthApiService>(
+        () => _i524.AuthApiService(gh<_i361.Dio>()));
     gh.lazySingleton<_i1013.LocalizationService>(
         () => _i1013.LocalizationService(
               gh<_i460.SharedPreferences>(),
@@ -81,10 +101,29 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i421.MovieApiService>(),
           gh<_i12.LoggerService>(),
         ));
+    gh.factory<_i854.GetMoviesUseCase>(
+        () => _i854.GetMoviesUseCase(gh<_i1003.MovieRepository>()));
+    gh.factory<_i124.GetFeaturedMoviesUseCase>(
+        () => _i124.GetFeaturedMoviesUseCase(gh<_i1003.MovieRepository>()));
+    gh.factory<_i198.AddToFavoritesUseCase>(
+        () => _i198.AddToFavoritesUseCase(gh<_i1003.MovieRepository>()));
+    gh.factory<_i198.RemoveFromFavoritesUseCase>(
+        () => _i198.RemoveFromFavoritesUseCase(gh<_i1003.MovieRepository>()));
+    gh.factory<_i198.GetFavoriteMoviesUseCase>(
+        () => _i198.GetFavoriteMoviesUseCase(gh<_i1003.MovieRepository>()));
     gh.lazySingleton<_i291.AuthRepository>(() => _i689.AuthRepositoryImpl(
           gh<_i102.AuthApiService>(),
           gh<_i313.SecureStorageService>(),
           gh<_i12.LoggerService>(),
+        ));
+    gh.factory<_i1049.RegisterUseCase>(
+        () => _i1049.RegisterUseCase(gh<_i291.AuthRepository>()));
+    gh.factory<_i539.LoginUseCase>(
+        () => _i539.LoginUseCase(gh<_i291.AuthRepository>()));
+    gh.factory<_i359.AuthBloc>(() => _i359.AuthBloc(
+          gh<_i539.LoginUseCase>(),
+          gh<_i1049.RegisterUseCase>(),
+          gh<_i313.SecureStorageService>(),
         ));
     return this;
   }

@@ -116,4 +116,12 @@ class MovieApiService {
       (json) => FavoriteActionData.fromJson(json as Map<String, dynamic>),
     );
   }
+
+  Future<ApiResponse<FavoriteActionData>> toggleFavorite(int movieId) async {
+    final response = await _dio.post(ApiConstants.toggleFavorite(movieId));
+    return ApiResponse.fromJson(
+      response.data,
+      (json) => FavoriteActionData.fromJson(json as Map<String, dynamic>),
+    );
+  }
 }

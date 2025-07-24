@@ -35,6 +35,12 @@ class AppColors {
 
   // Background Colors
   static const Color background = Color(0xFF090909);
+  static const Color cardBackground = Color(0xFF1A1A1A);
+  static const Color surfaceBackground = Color(0xFF1C1C1C);
+
+  // Border Colors
+  static const Color borderColor = Color(0xFF333333);
+  static const Color borderFocused = Color(0xFF555555);
 
   // Text Colors
   static const Color textPrimary = Color(0xFFFFFFFF);

@@ -29,4 +29,6 @@ abstract class MovieRepository {
   Future<Result<bool, Failure>> addToWatchLater(int movieId);
 
   Future<Result<bool, Failure>> removeFromWatchLater(int movieId);
+
+  Future<Result<bool, Failure>> toggleFavorite(int movieId);
 }

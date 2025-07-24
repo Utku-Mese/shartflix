@@ -44,6 +44,7 @@ dependencies:
   # UI & Animation
   flutter_native_splash: ^2.4.1
   lottie: ^3.1.2
+  flutter_svg: ^2.2.0
 
 dev_dependencies:
   flutter_test:
@@ -64,3 +65,30 @@ flutter:
     - assets/images/
     - assets/animations/
     - assets/icons/
+
+  fonts:
+    - family: EuclidCircularA
+      fonts:
+        - asset: assets/fonts/Euclid Circular A Regular.ttf
+        - asset: assets/fonts/Euclid Circular A Bold.ttf
+          weight: 700
+        - asset: assets/fonts/Euclid Circular A Italic.ttf
+          style: italic
+        - asset: assets/fonts/Euclid Circular A Light.ttf
+          weight: 300
+        - asset: assets/fonts/Euclid Circular A Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Euclid Circular A SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/Euclid Circular A Bold Italic.ttf
+          weight: 700
+          style: italic
+        - asset: assets/fonts/Euclid Circular A Light Italic.ttf
+          weight: 300
+          style: italic
+        - asset: assets/fonts/Euclid Circular A Medium Italic.ttf
+          weight: 500
+          style: italic
+        - asset: assets/fonts/Euclid Circular A SemiBold Italic.ttf
+          weight: 600
+          style: italic

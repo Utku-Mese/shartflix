@@ -10,17 +10,92 @@
     "description": "Login button text"
   },
   
-  "register": "Register",
+  "register": "Register!",
   "@register": {
     "description": "Register button text"
   },
   
-  "email": "Email",
+  "email": "E-mail",
   "@email": {
     "description": "Email field label"
   },
   
+  "emailAddress": "Email Address",
+  "@emailAddress": {
+    "description": "Email address field label"
+  },
+  
   "password": "Password",
+  "@password": {
+    "description": "Password field label"
+  },
+  
+  "name": "Full Name",
+  "@name": {
+    "description": "Name field label"
+  },
+  
+  "fullName": "Full Name",
+  "@fullName": {
+    "description": "Full name field label"
+  },
+  
+  "confirmPassword": "Confirm Password",
+  "@confirmPassword": {
+    "description": "Confirm password field label"
+  },
+  
+  "forgotPassword": "Forgot password?",
+  "@forgotPassword": {
+    "description": "Forgot password link text"
+  },
+  
+  "dontHaveAccount": "Don't have an account? ",
+  "@dontHaveAccount": {
+    "description": "Text before register link"
+  },
+  
+  "alreadyHaveAccount": "Already have an account? ",
+  "@alreadyHaveAccount": {
+    "description": "Text before login link"
+  },
+  
+  "welcome": "Welcome",
+  "@welcome": {
+    "description": "Welcome text"
+  },
+  
+  "hello": "Hello",
+  "@hello": {
+    "description": "Hello greeting"
+  },
+  
+  "subtitle": "Tempus varius a vitae interdum id\ntortor elementum tristique eleifend at.",
+  "@subtitle": {
+    "description": "Subtitle text"
+  },
+  
+  "uploadPhotos": "Upload Your Photos",
+  "@uploadPhotos": {
+    "description": "Upload photos title"
+  },
+  
+  "uploadSubtitle": "Resources out incentivize\nrelaxation floor loss cc.",
+  "@uploadSubtitle": {
+    "description": "Upload photos subtitle"
+  },
+  
+  "continueButton": "Continue",
+  "@continueButton": {
+    "description": "Continue button text"
+  },
+  
+  "termsConditions": "I have read and accept the user agreement. Please\ncontinue by reading this agreement.",
+  "@termsConditions": {
+    "description": "Terms and conditions text"
+  },
+  
+  "home": "Home",
   "@password": {
     "description": "Password field label"
   },
@@ -140,6 +215,16 @@
     "description": "Email validation error message"
   },
   
+  "emailRequired": "Email address is required",
+  "@emailRequired": {
+    "description": "Email required validation error"
+  },
+  
+  "emailInvalid": "Please enter a valid email address",
+  "@emailInvalid": {
+    "description": "Email invalid validation error"
+  },
+  
   "passwordValidationError": "Password must be at least 6 characters",
   "@passwordValidationError": {
     "description": "Password validation error message"
@@ -148,6 +233,11 @@
   "nameValidationError": "Name must be at least 2 characters",
   "@nameValidationError": {
     "description": "Name validation error message"
+  },
+  
+  "fullNameRequired": "Full name is required",
+  "@fullNameRequired": {
+    "description": "Full name required validation error"
   },
   
   "passwordsDoNotMatch": "Passwords do not match",
