@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_svg/svg.dart';
 import '../bloc/auth_bloc.dart';
 import '../bloc/auth_event.dart';
 import '../bloc/auth_state.dart';
@@ -41,7 +42,7 @@ class _RegisterPageState extends State<RegisterPage> {
       child: Scaffold(
         backgroundColor: AppColors.background,
         body: SafeArea(
-          child: Padding(
+          child: SingleChildScrollView(
             padding: const EdgeInsets.all(24.0),
             child: BlocConsumer<AuthBloc, AuthState>(
               listener: (context, state) {
@@ -61,231 +62,272 @@ class _RegisterPageState extends State<RegisterPage> {
 
                 return Form(
                   key: _formKey,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      const Spacer(),
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(
+                      minHeight: MediaQuery.of(context).size.height -
+                          MediaQuery.of(context).padding.top -
+                          MediaQuery.of(context).padding.bottom -
+                          48,
+                    ),
+                    child: IntrinsicHeight(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          const SizedBox(height: 40),
 
-                      // Title
-                      Text(
-                        l10n.welcome,
-                        style: TextStyle(
-                          color: AppColors.textPrimary,
-                          fontSize: 32,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-
-                      const SizedBox(height: 8),
-
-                      // Subtitle
-                      Text(
-                        l10n.subtitle,
-                        style: TextStyle(
-                          color: AppColors.textSecondary,
-                          fontSize: 16,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-
-                      const SizedBox(height: 48),
-
-                      // First Name Field
-                      _buildInputField(
-                        controller: _firstNameController,
-                        hintText: l10n.fullName,
-                        icon: Icons.person_outlined,
-                        validator: (value) {
-                          if (value?.isEmpty ?? true) {
-                            return l10n.fullNameRequired;
-                          }
-                          return null;
-                        },
-                      ),
-
-                      const SizedBox(height: 16),
-
-                      // Email Field
-                      _buildInputField(
-                        controller: _emailController,
-                        hintText: l10n.emailAddress,
-                        icon: Icons.email_outlined,
-                        validator: (value) {
-                          if (value?.isEmpty ?? true) {
-                            return l10n.emailRequired;
-                          }
-                          if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
-                              .hasMatch(value!)) {
-                            return l10n.emailInvalid;
-                          }
-                          return null;
-                        },
-                      ),
-
-                      const SizedBox(height: 16),
-
-                      // Password Field
-                      _buildInputField(
-                        controller: _passwordController,
-                        hintText: l10n.password,
-                        icon: Icons.lock_outlined,
-                        isPassword: true,
-                        isPasswordVisible: _isPasswordVisible,
-                        onVisibilityToggle: () {
-                          setState(() {
-                            _isPasswordVisible = !_isPasswordVisible;
-                          });
-                        },
-                        validator: (value) {
-                          if (value?.isEmpty ?? true) {
-                            return l10n.passwordValidationError;
-                          }
-                          if (value!.length < 6) {
-                            return l10n.passwordValidationError;
-                          }
-                          return null;
-                        },
-                      ),
-
-                      const SizedBox(height: 16),
-
-                      // Confirm Password Field
-                      _buildInputField(
-                        controller: _confirmPasswordController,
-                        hintText: l10n.confirmPassword,
-                        icon: Icons.lock_outlined,
-                        isPassword: true,
-                        isPasswordVisible: _isConfirmPasswordVisible,
-                        onVisibilityToggle: () {
-                          setState(() {
-                            _isConfirmPasswordVisible =
-                                !_isConfirmPasswordVisible;
-                          });
-                        },
-                        validator: (value) {
-                          if (value?.isEmpty ?? true) {
-                            return l10n.passwordsDoNotMatch;
-                          }
-                          if (value != _passwordController.text) {
-                            return l10n.passwordsDoNotMatch;
-                          }
-                          return null;
-                        },
-                      ),
-
-                      const SizedBox(height: 16),
-
-                      // Terms
-                      Text(
-                        l10n.termsConditions,
-                        style: TextStyle(
-                          color: AppColors.textSecondary,
-                          fontSize: 12,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-
-                      const SizedBox(height: 32),
-
-                      // Register Button
-                      SizedBox(
-                        height: 56,
-                        child: ElevatedButton(
-                          onPressed:
-                              state is AuthLoading ? null : _onRegisterPressed,
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColors.primary,
-                            foregroundColor: AppColors.textPrimary,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(16),
+                          // Title
+                          Text(
+                            l10n.welcome,
+                            style: TextStyle(
+                              color: AppColors.textPrimary,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w600,
                             ),
-                            elevation: 0,
+                            textAlign: TextAlign.center,
                           ),
-                          child: state is AuthLoading
-                              ? CircularProgressIndicator(
-                                  color: AppColors.textPrimary)
-                              : Text(
-                                  l10n.register,
-                                  style: const TextStyle(
-                                    fontSize: 16,
+
+                          const SizedBox(height: 8),
+
+                          // Subtitle
+                          Text(
+                            l10n.subtitle,
+                            style: TextStyle(
+                              color: AppColors.textPrimary,
+                              fontSize: 13,
+                              fontWeight: FontWeight.w400,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+
+                          const SizedBox(height: 48),
+
+                          // First Name Field
+                          _buildInputField(
+                            controller: _firstNameController,
+                            hintText: l10n.fullName,
+                            icon: SvgPicture.asset(
+                              'assets/icons/person.svg',
+                              color: AppColors.white,
+                            ),
+                            validator: (value) {
+                              if (value?.isEmpty ?? true) {
+                                return l10n.fullNameRequired;
+                              }
+                              return null;
+                            },
+                          ),
+
+                          const SizedBox(height: 16),
+
+                          // Email Field
+                          _buildInputField(
+                            controller: _emailController,
+                            hintText: l10n.emailAddress,
+                            icon: SvgPicture.asset(
+                              'assets/icons/mail.svg',
+                              color: AppColors.white,
+                            ),
+                            validator: (value) {
+                              if (value?.isEmpty ?? true) {
+                                return l10n.emailRequired;
+                              }
+                              if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
+                                  .hasMatch(value!)) {
+                                return l10n.emailInvalid;
+                              }
+                              return null;
+                            },
+                          ),
+
+                          const SizedBox(height: 16),
+
+                          // Password Field
+                          _buildInputField(
+                            controller: _passwordController,
+                            hintText: l10n.password,
+                            icon: SvgPicture.asset(
+                              'assets/icons/password.svg',
+                              color: AppColors.white,
+                            ),
+                            isPassword: true,
+                            isPasswordVisible: _isPasswordVisible,
+                            onVisibilityToggle: () {
+                              setState(() {
+                                _isPasswordVisible = !_isPasswordVisible;
+                              });
+                            },
+                            validator: (value) {
+                              if (value?.isEmpty ?? true) {
+                                return l10n.passwordValidationError;
+                              }
+                              if (value!.length < 6) {
+                                return l10n.passwordValidationError;
+                              }
+                              return null;
+                            },
+                          ),
+
+                          const SizedBox(height: 16),
+
+                          // Confirm Password Field
+                          _buildInputField(
+                            controller: _confirmPasswordController,
+                            hintText: l10n.confirmPassword,
+                            icon: SvgPicture.asset(
+                              'assets/icons/password.svg',
+                              color: AppColors.white,
+                            ),
+                            isPassword: true,
+                            isPasswordVisible: _isConfirmPasswordVisible,
+                            onVisibilityToggle: () {
+                              setState(() {
+                                _isConfirmPasswordVisible =
+                                    !_isConfirmPasswordVisible;
+                              });
+                            },
+                            validator: (value) {
+                              if (value?.isEmpty ?? true) {
+                                return l10n.passwordsDoNotMatch;
+                              }
+                              if (value != _passwordController.text) {
+                                return l10n.passwordsDoNotMatch;
+                              }
+                              return null;
+                            },
+                          ),
+
+                          const SizedBox(height: 16),
+
+                          // Terms
+                          Center(
+                            child: RichText(
+                              textAlign: TextAlign.center,
+                              text: TextSpan(
+                                style: TextStyle(
+                                  color: AppColors.textSecondary,
+                                  fontSize: 12,
+                                ),
+                                children: [
+                                  const TextSpan(text: 'Kullanıcı '),
+                                  WidgetSpan(
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        // TODO: Open terms and conditions
+                                      },
+                                      child: Text(
+                                        'sözleşmesini',
+                                        style: TextStyle(
+                                          color: AppColors.textSecondary,
+                                          fontSize: 12,
+                                          decoration: TextDecoration.underline,
+                                          decorationColor:
+                                              AppColors.textSecondary,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  const TextSpan(
+                                      text:
+                                          ' okudum ve kabul ediyorum. Bu\nsözleşmeyi okuyarak devam ediniz lütfen.'),
+                                ],
+                              ),
+                            ),
+                          ),
+
+                          const SizedBox(height: 32),
+
+                          // Register Button
+                          SizedBox(
+                            height: 56,
+                            child: ElevatedButton(
+                              onPressed: state is AuthLoading
+                                  ? null
+                                  : _onRegisterPressed,
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: AppColors.primary,
+                                foregroundColor: AppColors.white,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(18),
+                                ),
+                                elevation: 0,
+                              ),
+                              child: state is AuthLoading
+                                  ? CircularProgressIndicator(
+                                      color: AppColors.white)
+                                  : Text(
+                                      l10n.register,
+                                      style: const TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                            ),
+                          ),
+
+                          const SizedBox(height: 48),
+
+                          // Social Login Buttons
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              _buildSocialButton(
+                                onPressed: () {
+                                  // TODO: Google Login
+                                },
+                                child:
+                                    SvgPicture.asset('assets/icons/google.svg'),
+                              ),
+                              const SizedBox(width: 8.44),
+                              _buildSocialButton(
+                                onPressed: () {
+                                  // TODO: Apple Login
+                                },
+                                child:
+                                    SvgPicture.asset('assets/icons/apple.svg'),
+                              ),
+                              const SizedBox(width: 8.44),
+                              _buildSocialButton(
+                                onPressed: () {
+                                  // TODO: Facebook Login
+                                },
+                                child: SvgPicture.asset(
+                                    'assets/icons/facebook.svg'),
+                              ),
+                            ],
+                          ),
+
+                          const SizedBox(height: 40),
+
+                          // Login Link
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                l10n.alreadyHaveAccount,
+                                style:
+                                    TextStyle(color: AppColors.textSecondary),
+                              ),
+                              TextButton(
+                                style: TextButton.styleFrom(
+                                  padding: EdgeInsets.zero,
+                                ),
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Text(
+                                  l10n.login,
+                                  style: TextStyle(
+                                    color: AppColors.white,
                                     fontWeight: FontWeight.w600,
                                   ),
                                 ),
-                        ),
-                      ),
-
-                      const SizedBox(height: 48),
-
-                      // Social Login Buttons
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          _buildSocialButton(
-                            onPressed: () {
-                              // TODO: Google Login
-                            },
-                            child: Text(
-                              'G',
-                              style: TextStyle(
-                                color: AppColors.textPrimary,
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
                               ),
-                            ),
-                          ),
-                          _buildSocialButton(
-                            onPressed: () {
-                              // TODO: Apple Login
-                            },
-                            child: Icon(
-                              Icons.apple,
-                              color: AppColors.textPrimary,
-                              size: 24,
-                            ),
-                          ),
-                          _buildSocialButton(
-                            onPressed: () {
-                              // TODO: Facebook Login
-                            },
-                            child: Text(
-                              'f',
-                              style: TextStyle(
-                                color: AppColors.textPrimary,
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
+                            ],
                           ),
                         ],
                       ),
-
-                      const Spacer(),
-
-                      // Login Link
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            l10n.alreadyHaveAccount,
-                            style: TextStyle(color: AppColors.textSecondary),
-                          ),
-                          TextButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            child: Text(
-                              l10n.login,
-                              style: TextStyle(
-                                color: AppColors.textPrimary,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
+                    ),
                   ),
                 );
               },
@@ -299,7 +341,7 @@ class _RegisterPageState extends State<RegisterPage> {
   Widget _buildInputField({
     required TextEditingController controller,
     required String hintText,
-    required IconData icon,
+    required Widget icon,
     bool isPassword = false,
     bool isPasswordVisible = false,
     VoidCallback? onVisibilityToggle,
@@ -308,7 +350,7 @@ class _RegisterPageState extends State<RegisterPage> {
     return Container(
       decoration: BoxDecoration(
         color: AppColors.cardBackground,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(18),
         border: Border.all(
           color: AppColors.borderColor,
           width: 1,
@@ -317,22 +359,37 @@ class _RegisterPageState extends State<RegisterPage> {
       child: TextFormField(
         controller: controller,
         obscureText: isPassword && !isPasswordVisible,
-        style: TextStyle(color: AppColors.textPrimary),
+        style: TextStyle(color: AppColors.textTertiary),
         validator: validator,
         decoration: InputDecoration(
+          fillColor: AppColors.cardBackground,
           hintText: hintText,
-          hintStyle: TextStyle(color: AppColors.textSecondary),
-          prefixIcon: Icon(icon, color: AppColors.textSecondary),
+          hintStyle: TextStyle(color: AppColors.textTertiary),
+          prefixIcon: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: icon,
+          ),
           suffixIcon: isPassword
               ? IconButton(
                   icon: Icon(
                     isPasswordVisible ? Icons.visibility : Icons.visibility_off,
-                    color: AppColors.textSecondary,
+                    color: AppColors.textTertiary,
                   ),
                   onPressed: onVisibilityToggle,
                 )
               : null,
-          border: InputBorder.none,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(18),
+            borderSide: BorderSide.none,
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(18),
+            borderSide: BorderSide.none,
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(18),
+            borderSide: BorderSide.none,
+          ),
           contentPadding:
               const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
         ),
@@ -345,13 +402,13 @@ class _RegisterPageState extends State<RegisterPage> {
     required Widget child,
   }) {
     return Container(
-      width: 56,
-      height: 56,
+      width: 60,
+      height: 60,
       decoration: BoxDecoration(
-        color: AppColors.cardBackground,
+        color: AppColors.grey900,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: AppColors.borderColor,
+          color: AppColors.grey700,
           width: 1,
         ),
       ),

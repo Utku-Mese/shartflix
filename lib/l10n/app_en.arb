@@ -10,7 +10,7 @@
     "description": "Login button text"
   },
   
-  "register": "Register!",
+  "register": "Register Now",
   "@register": {
     "description": "Register button text"
   },
