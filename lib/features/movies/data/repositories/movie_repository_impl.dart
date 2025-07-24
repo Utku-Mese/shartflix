@@ -131,6 +131,13 @@ class MovieRepositoryImpl implements MovieRepository {
           }
         }
 
+        // Handle token-related errors as authentication failures regardless of status code
+        if (message.contains('TOKEN_UNAVAILABLE') ||
+            message.contains('TOKEN_EXPIRED') ||
+            message.contains('INVALID_TOKEN')) {
+          return AuthFailure(message: message);
+        }
+
         switch (statusCode) {
           case 400:
             return ValidationFailure(message);

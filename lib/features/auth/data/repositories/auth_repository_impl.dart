@@ -41,7 +41,10 @@ class AuthRepositoryImpl implements AuthRepository {
       if (response.isSuccess && response.data != null) {
         final user = response.data!.toEntity();
 
-        // Store auth data (token will be handled by response info if provided)
+        // Store auth token separately for API requests
+        await _secureStorage.saveToken(response.data!.token);
+
+        // Store complete user data
         await _secureStorage.saveUserData(jsonEncode(response.data!.toJson()));
 
         _logger.logAuth('Login successful', user.email);
@@ -81,7 +84,10 @@ class AuthRepositoryImpl implements AuthRepository {
       if (response.isSuccess && response.data != null) {
         final user = response.data!.toEntity();
 
-        // Store auth data
+        // Store auth token separately for API requests
+        await _secureStorage.saveToken(response.data!.token);
+
+        // Store complete user data
         await _secureStorage.saveUserData(jsonEncode(response.data!.toJson()));
 
         _logger.logAuth('Registration successful', user.email);
@@ -226,6 +232,13 @@ class AuthRepositoryImpl implements AuthRepository {
           else if (responseData['message'] != null) {
             message = responseData['message'];
           }
+        }
+
+        // Handle token-related errors as authentication failures regardless of status code
+        if (message.contains('TOKEN_UNAVAILABLE') ||
+            message.contains('TOKEN_EXPIRED') ||
+            message.contains('INVALID_TOKEN')) {
+          return AuthFailure(message: message);
         }
 
         switch (statusCode) {

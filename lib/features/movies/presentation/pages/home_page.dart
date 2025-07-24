@@ -39,12 +39,23 @@ class _HomePageState extends State<HomePage> {
           child: BlocConsumer<MovieBloc, MovieState>(
             listener: (context, state) {
               if (state is MovieError) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(state.message),
-                    backgroundColor: AppColors.error,
-                  ),
-                );
+                // Check if it's an authentication error
+                if (state.message.contains('TOKEN_UNAVAILABLE') ||
+                    state.message.contains('TOKEN_EXPIRED') ||
+                    state.message.contains('INVALID_TOKEN') ||
+                    state.message.contains('Authentication failed') ||
+                    state.message.contains('Access denied')) {
+                  // Redirect to login
+                  Navigator.pushReplacementNamed(context, '/login');
+                } else {
+                  // Show error message
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(state.message),
+                      backgroundColor: AppColors.error,
+                    ),
+                  );
+                }
               } else if (state is MovieFavoriteUpdated) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
