@@ -1,7 +1,6 @@
 class ApiConstants {
   // Base URLs
-  static const String baseUrl = 'https://nodelabs.flutter.com.tr/api';
-  static const String baseImageUrl = 'https://nodelabs.flutter.com.tr';
+  static const String baseUrl = 'https://caseapi.servicelabs.tech';
 
   // Headers
   static const String authorization = 'Authorization';
@@ -9,32 +8,15 @@ class ApiConstants {
   static const String contentType = 'application/json';
 
   // Auth endpoints
-  static const String login = '/login';
-  static const String register = '/register';
-  static const String forgotPassword = '/password/forgot';
-  static const String uploadPhoto = '/upload/profile/photo';
-
-  // User endpoints
-  static const String profile = '/profile';
-  static const String changePassword = '/profile/change-password';
+  static const String login = '/user/login';
+  static const String register = '/user/register';
+  static const String uploadPhoto = '/user/upload_photo';
+  static const String profile = '/user/profile';
 
   // Movie endpoints
-  static const String movies = '/movies';
-  static const String featured = '/movies/featured';
-  static const String trending = '/movies/trending';
-  static const String favorites = '/favorites';
-  static const String watchLater = '/watch-later';
-
-  // Movie detail endpoints
-  static String movieDetail(int movieId) => '/movies/$movieId';
-  static String addToFavorites(int movieId) => '/movies/$movieId/favorite';
-  static String removeFromFavorites(int movieId) =>
-      '/movies/$movieId/unfavorite';
-  static String toggleFavorite(int movieId) =>
-      '/movies/$movieId/toggle-favorite';
-  static String addToWatchLater(int movieId) => '/movies/$movieId/watch-later';
-  static String removeFromWatchLater(int movieId) =>
-      '/movies/$movieId/remove-watch-later';
+  static const String movies = '/movie/list';
+  static const String favorites = '/movie/favorites';
+  static String addToFavorites(int favoriteId) => '/movie/favorite/$favoriteId';
 
   // Query parameters
   static const String page = 'page';

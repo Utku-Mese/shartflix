@@ -25,7 +25,6 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     _movieBloc = getIt<MovieBloc>();
     _movieBloc.add(const LoadMovies());
-    _movieBloc.add(LoadFeaturedMovies());
   }
 
   @override

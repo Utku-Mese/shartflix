@@ -27,8 +27,6 @@ class SearchMovies extends MovieEvent {
   List<Object?> get props => [query];
 }
 
-class LoadFeaturedMovies extends MovieEvent {}
-
 class ToggleMovieFavorite extends MovieEvent {
   final int movieId;
 

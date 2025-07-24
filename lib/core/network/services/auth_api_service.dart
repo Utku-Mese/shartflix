@@ -31,17 +31,6 @@ class AuthApiService {
     );
   }
 
-  Future<ApiResponse<dynamic>> forgotPassword(
-      Map<String, dynamic> request) async {
-    final response = await _dio.post(
-      ApiConstants.forgotPassword,
-      data: request,
-    );
-    return ApiResponse.fromJson(
-      response.data,
-      (json) => json,
-    );
-  }
 
   Future<ApiResponse<UserModel>> getProfile() async {
     final response = await _dio.get(ApiConstants.profile);
@@ -51,17 +40,6 @@ class AuthApiService {
     );
   }
 
-  Future<ApiResponse<dynamic>> changePassword(
-      Map<String, dynamic> request) async {
-    final response = await _dio.post(
-      ApiConstants.changePassword,
-      data: request,
-    );
-    return ApiResponse.fromJson(
-      response.data,
-      (json) => json,
-    );
-  }
 
   Future<ApiResponse<UploadPhotoResponse>> uploadProfilePhoto(
       FormData formData) async {

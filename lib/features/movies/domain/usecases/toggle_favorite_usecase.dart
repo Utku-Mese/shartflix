@@ -1,6 +1,5 @@
 import 'package:injectable/injectable.dart';
 import '../../../../core/utils/result.dart';
-import '../entities/movie.dart';
 import '../repositories/movie_repository.dart';
 
 @injectable

@@ -14,7 +14,7 @@ class ConnectivityService {
   Future<bool> hasInternetConnection() async {
     try {
       final connectivityResult = await _connectivity.checkConnectivity();
-      
+
       if (connectivityResult.contains(ConnectivityResult.none)) {
         _logger.warning('No connectivity detected');
         return false;
@@ -26,7 +26,7 @@ class ConnectivityService {
         _logger.info('Internet connection verified');
         return true;
       }
-      
+
       _logger.warning('DNS lookup failed - no internet');
       return false;
     } catch (e) {
@@ -47,7 +47,7 @@ class ConnectivityService {
   }
 
   /// Stream of connectivity changes
-  Stream<List<ConnectivityResult>> get connectivityStream => 
+  Stream<List<ConnectivityResult>> get connectivityStream =>
       _connectivity.onConnectivityChanged;
 
   /// Check specific API endpoint connectivity
@@ -58,7 +58,7 @@ class ConnectivityService {
         _logger.info('API server reachable');
         return true;
       }
-      
+
       _logger.warning('API server unreachable');
       return false;
     } catch (e) {

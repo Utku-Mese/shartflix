@@ -101,32 +101,6 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<Result<bool, Failure>> forgotPassword({
-    required String email,
-  }) async {
-    try {
-      _logger.logAuth('Attempting forgot password', email);
-
-      final response = await _apiService.forgotPassword({'email': email});
-
-      if (response.isSuccess) {
-        _logger.logAuth('Forgot password successful', email);
-        return Result.ok(true);
-      } else {
-        final message = response.response.message;
-        _logger.logAuth('Forgot password failed: $message', email);
-        return Result.err(ServerFailure(message));
-      }
-    } on DioException catch (e) {
-      _logger.error('Forgot password dio error', e, StackTrace.current);
-      return Result.err(_handleDioError(e));
-    } catch (e) {
-      _logger.error('Forgot password unexpected error', e, StackTrace.current);
-      return Result.err(ServerFailure('Unexpected error occurred'));
-    }
-  }
-
-  @override
   Future<Result<User, Failure>> getProfile() async {
     try {
       _logger.logAuth('Fetching profile', null);
@@ -151,36 +125,6 @@ class AuthRepositoryImpl implements AuthRepository {
       return Result.err(_handleDioError(e));
     } catch (e) {
       _logger.error('Profile fetch unexpected error', e, StackTrace.current);
-      return Result.err(ServerFailure('Unexpected error occurred'));
-    }
-  }
-
-  @override
-  Future<Result<bool, Failure>> changePassword({
-    required String currentPassword,
-    required String newPassword,
-  }) async {
-    try {
-      _logger.logAuth('Attempting password change', null);
-
-      final response = await _apiService.changePassword({
-        'current_password': currentPassword,
-        'new_password': newPassword,
-      });
-
-      if (response.isSuccess) {
-        _logger.logAuth('Password change successful', null);
-        return Result.ok(true);
-      } else {
-        final message = response.response.message;
-        _logger.logAuth('Password change failed: $message', null);
-        return Result.err(ServerFailure(message));
-      }
-    } on DioException catch (e) {
-      _logger.error('Password change dio error', e, StackTrace.current);
-      return Result.err(_handleDioError(e));
-    } catch (e) {
-      _logger.error('Password change unexpected error', e, StackTrace.current);
       return Result.err(ServerFailure('Unexpected error occurred'));
     }
   }

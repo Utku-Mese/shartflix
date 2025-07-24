@@ -8,27 +8,9 @@ abstract class MovieRepository {
     String? search,
   });
 
-  Future<Result<List<Movie>, Failure>> getFeaturedMovies();
-
-  Future<Result<List<Movie>, Failure>> getTrendingMovies();
-
-  Future<Result<Movie, Failure>> getMovieDetail(int movieId);
-
   Future<Result<List<Movie>, Failure>> getFavoriteMovies({
     int page = 1,
   });
-
-  Future<Result<List<Movie>, Failure>> getWatchLaterMovies({
-    int page = 1,
-  });
-
-  Future<Result<bool, Failure>> addToFavorites(int movieId);
-
-  Future<Result<bool, Failure>> removeFromFavorites(int movieId);
-
-  Future<Result<bool, Failure>> addToWatchLater(int movieId);
-
-  Future<Result<bool, Failure>> removeFromWatchLater(int movieId);
 
   Future<Result<bool, Failure>> toggleFavorite(int movieId);
 }

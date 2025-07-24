@@ -4,25 +4,13 @@ import '../entities/movie.dart';
 import '../repositories/movie_repository.dart';
 
 @injectable
-class AddToFavoritesUseCase {
+class ToggleFavoriteUseCase {
   final MovieRepository _movieRepository;
 
-  AddToFavoritesUseCase(this._movieRepository);
+  ToggleFavoriteUseCase(this._movieRepository);
 
   Future<Result<bool, String>> call(int movieId) async {
-    final result = await _movieRepository.addToFavorites(movieId);
-    return result.mapErr((failure) => failure.message);
-  }
-}
-
-@injectable
-class RemoveFromFavoritesUseCase {
-  final MovieRepository _movieRepository;
-
-  RemoveFromFavoritesUseCase(this._movieRepository);
-
-  Future<Result<bool, String>> call(int movieId) async {
-    final result = await _movieRepository.removeFromFavorites(movieId);
+    final result = await _movieRepository.toggleFavorite(movieId);
     return result.mapErr((failure) => failure.message);
   }
 }
@@ -37,4 +25,10 @@ class GetFavoriteMoviesUseCase {
     final result = await _movieRepository.getFavoriteMovies(page: page);
     return result.mapErr((failure) => failure.message);
   }
+}
+
+// Legacy alias for backward compatibility
+@injectable
+class AddToFavoritesUseCase extends ToggleFavoriteUseCase {
+  AddToFavoritesUseCase(super.movieRepository);
 }

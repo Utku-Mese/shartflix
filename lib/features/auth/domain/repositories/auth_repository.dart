@@ -16,16 +16,7 @@ abstract class AuthRepository {
     required String lastName,
   });
 
-  Future<Result<bool, Failure>> forgotPassword({
-    required String email,
-  });
-
   Future<Result<User, Failure>> getProfile();
-
-  Future<Result<bool, Failure>> changePassword({
-    required String currentPassword,
-    required String newPassword,
-  });
 
   Future<Result<String, Failure>> uploadProfilePhoto({
     required MultipartFile photo,
