@@ -4,6 +4,7 @@
   
   "login": "Giriş Yap",
   "register": "Şimdi Kayıt Ol",
+  "registerTextButton" : "Kayit Ol!",
   "email": "E-posta",
   "emailAddress": "E-posta Adresi",
   "password": "Şifre",
