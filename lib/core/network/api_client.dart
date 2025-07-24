@@ -3,14 +3,16 @@ import 'package:injectable/injectable.dart';
 import '../constants/api_constants.dart';
 import '../services/logger_service.dart';
 import '../services/secure_storage_service.dart';
+import '../services/connectivity_service.dart';
 
 @injectable
 class ApiClient {
   final Dio _dio;
   final SecureStorageService _secureStorage;
   final LoggerService _logger;
+  final ConnectivityService _connectivity;
 
-  ApiClient(this._dio, this._secureStorage, this._logger) {
+  ApiClient(this._dio, this._secureStorage, this._logger, this._connectivity) {
     _setupInterceptors();
   }
 
@@ -23,6 +25,19 @@ class ApiClient {
     _dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (options, handler) async {
+          // Check internet connectivity first
+          final hasConnection = await _connectivity.hasInternetConnection();
+          if (!hasConnection) {
+            handler.reject(
+              DioException(
+                requestOptions: options,
+                error: 'No internet connection available',
+                type: DioExceptionType.connectionError,
+              ),
+            );
+            return;
+          }
+
           final token = await _secureStorage.getToken();
           if (token != null) {
             options.headers[ApiConstants.authorization] =
@@ -61,6 +76,22 @@ class ApiClient {
             _secureStorage.clearAuthData();
             _logger.logAuth('Token invalidated due to 401 error', null);
           }
+
+          // Handle connectivity errors with user-friendly messages
+          if (error.type == DioExceptionType.connectionError ||
+              error.type == DioExceptionType.connectionTimeout ||
+              error.type == DioExceptionType.receiveTimeout ||
+              error.type == DioExceptionType.sendTimeout) {
+            // Create a more user-friendly error
+            final connectivityError = DioException(
+              requestOptions: error.requestOptions,
+              error: 'İnternet bağlantısı kontrol ediniz',
+              type: DioExceptionType.connectionError,
+            );
+            handler.next(connectivityError);
+            return;
+          }
+
           handler.next(error);
         },
       ),

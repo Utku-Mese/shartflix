@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 
 @module
 abstract class CoreModule {
@@ -21,4 +22,7 @@ abstract class CoreModule {
           accessibility: KeychainAccessibility.first_unlock_this_device,
         ),
       );
+
+  @lazySingleton
+  Connectivity provideConnectivity() => Connectivity();
 }

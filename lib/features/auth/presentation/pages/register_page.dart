@@ -265,7 +265,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             ),
                           ),
 
-                          const SizedBox(height: 48),
+                          const SizedBox(height: 36),
 
                           // Social Login Buttons
                           Row(
@@ -297,7 +297,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             ],
                           ),
 
-                          const SizedBox(height: 40),
+                          const SizedBox(height: 32),
 
                           // Login Link
                           Row(

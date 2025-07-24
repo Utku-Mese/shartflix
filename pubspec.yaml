@@ -19,6 +19,7 @@ dependencies:
   # Network
   dio: ^5.7.0
   json_annotation: ^4.9.0
+  connectivity_plus: ^6.0.5
 
   # UI Components
   cached_network_image: ^3.4.1
