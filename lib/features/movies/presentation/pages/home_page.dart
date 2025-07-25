@@ -99,23 +99,23 @@ class _HomePageState extends State<HomePage> with RouteAware {
                     ),
                   );
                 }
-              } else if (state is MovieFavoriteUpdated) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(
-                      state.isSuccess
-                          ? (state.message ?? 'Film favorilere eklendi!')
-                          : (state.message ?? 'Bir hata oluştu'),
-                    ),
-                    backgroundColor:
-                        state.isSuccess ? AppColors.primary : Colors.red,
-                    duration: const Duration(seconds: 2),
-                    behavior: SnackBarBehavior.floating,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                );
+                // } else if (state is MovieFavoriteUpdated) {
+                //   ScaffoldMessenger.of(context).showSnackBar(
+                //     SnackBar(
+                //       content: Text(
+                //         state.isSuccess
+                //             ? (state.message ?? 'Film favorilere eklendi!')
+                //             : (state.message ?? 'Bir hata oluştu'),
+                //       ),
+                //       backgroundColor:
+                //           state.isSuccess ? AppColors.primary : Colors.red,
+                //       duration: const Duration(seconds: 2),
+                //       behavior: SnackBarBehavior.floating,
+                //       shape: RoundedRectangleBorder(
+                //         borderRadius: BorderRadius.circular(10),
+                //       ),
+                //     ),
+                //   );
               }
             },
             builder: (context, state) {
@@ -129,6 +129,21 @@ class _HomePageState extends State<HomePage> with RouteAware {
 
               if (state is MovieLoaded) {
                 return _buildContent(state);
+              }
+
+              if (state is MovieFavoriteUpdated) {
+                // Favori durumu güncellendiğinde, önceki MovieLoaded state'ini koru
+                final previousState = context.read<MovieBloc>().state;
+                if (previousState is MovieLoaded) {
+                  return _buildContent(previousState);
+                }
+                // Eğer önceki state MovieLoaded değilse, filmleri yeniden yükle
+                context.read<MovieBloc>().add(const LoadMovies());
+                return Center(
+                  child: CircularProgressIndicator(
+                    color: AppColors.primary,
+                  ),
+                );
               }
 
               return Center(

@@ -5,7 +5,7 @@ import '../../domain/usecases/favorite_usecases.dart';
 import 'movie_event.dart';
 import 'movie_state.dart';
 
-@injectable
+@singleton
 class MovieBloc extends Bloc<MovieEvent, MovieState> {
   final GetMoviesUseCase _getMoviesUseCase;
   final AddToFavoritesUseCase _addToFavoritesUseCase;

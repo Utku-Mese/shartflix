@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../constants/app_colors.dart';
+import '../di/injection.dart';
+import '../../features/movies/presentation/bloc/movie_bloc.dart';
+import '../../features/movies/presentation/bloc/movie_event.dart';
 import '../../features/movies/presentation/pages/home_page.dart';
 import '../../features/movies/presentation/pages/discover_page.dart';
 import '../../features/profile/presentation/pages/profile_page.dart';
@@ -21,18 +25,15 @@ class MainLayout extends StatefulWidget {
 class _MainLayoutState extends State<MainLayout> {
   late int _currentIndex;
   late PageController _pageController;
-
-  final List<Widget> _pages = [
-    const HomePage(),
-    const DiscoverPage(),
-    const ProfilePage(),
-  ];
+  late MovieBloc _movieBloc;
 
   @override
   void initState() {
     super.initState();
     _currentIndex = widget.initialIndex;
     _pageController = PageController(initialPage: _currentIndex);
+    _movieBloc = getIt<MovieBloc>();
+    _movieBloc.add(const LoadMovies());
   }
 
   @override
@@ -56,18 +57,25 @@ class _MainLayoutState extends State<MainLayout> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
 
-    return Scaffold(
-      backgroundColor: AppColors.background,
-      body: PageView(
-        controller: _pageController,
-        onPageChanged: (index) {
-          setState(() {
-            _currentIndex = index;
-          });
-        },
-        children: _pages,
+    return BlocProvider<MovieBloc>.value(
+      value: _movieBloc,
+      child: Scaffold(
+        backgroundColor: AppColors.background,
+        body: PageView(
+          controller: _pageController,
+          onPageChanged: (index) {
+            setState(() {
+              _currentIndex = index;
+            });
+          },
+          children: const [
+            HomePage(),
+            DiscoverPage(),
+            ProfilePage(),
+          ],
+        ),
+        bottomNavigationBar: _buildBottomNavigationBar(l10n),
       ),
-      bottomNavigationBar: _buildBottomNavigationBar(l10n),
     );
   }
 

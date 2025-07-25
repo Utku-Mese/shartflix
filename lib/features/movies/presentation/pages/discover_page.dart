@@ -86,6 +86,21 @@ class _DiscoverPageState extends State<DiscoverPage> {
                 return _buildDiscoverContent(state);
               }
 
+              if (state is MovieFavoriteUpdated) {
+                // Favori durumu güncellendiğinde, önceki MovieLoaded state'ini koru
+                final previousState = context.read<MovieBloc>().state;
+                if (previousState is MovieLoaded) {
+                  return _buildDiscoverContent(previousState);
+                }
+                // Eğer önceki state MovieLoaded değilse, filmleri yeniden yükle
+                context.read<MovieBloc>().add(const LoadMovies());
+                return Center(
+                  child: CircularProgressIndicator(
+                    color: AppColors.primary,
+                  ),
+                );
+              }
+
               return Center(
                 child: Text(
                   l10n.errorOccurred,
