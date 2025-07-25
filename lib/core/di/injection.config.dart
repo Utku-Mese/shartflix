@@ -25,6 +25,7 @@ import 'package:shartflix/core/network/services/movie_api_service.dart'
 import 'package:shartflix/core/network/services/profile_api_service.dart'
     as _i1055;
 import 'package:shartflix/core/services/connectivity_service.dart' as _i505;
+import 'package:shartflix/core/services/firebase_service.dart' as _i409;
 import 'package:shartflix/core/services/localization_service.dart' as _i1013;
 import 'package:shartflix/core/services/logger_service.dart' as _i12;
 import 'package:shartflix/core/services/secure_storage_service.dart' as _i313;
@@ -79,6 +80,7 @@ extension GetItInjectableX on _i174.GetIt {
       () => coreModule.provideSharedPreferences(),
       preResolve: true,
     );
+    gh.singleton<_i409.FirebaseService>(() => _i409.FirebaseService());
     gh.lazySingleton<_i361.Dio>(() => coreModule.provideDio());
     gh.lazySingleton<_i558.FlutterSecureStorage>(
         () => coreModule.provideSecureStorage());

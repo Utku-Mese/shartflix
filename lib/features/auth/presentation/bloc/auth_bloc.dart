@@ -5,6 +5,7 @@ import '../../domain/usecases/login_usecase.dart';
 import '../../domain/usecases/register_usecase.dart';
 import '../../data/models/user_model.dart';
 import '../../../../core/services/secure_storage_service.dart';
+import '../../../../core/services/firebase_service.dart';
 import 'auth_event.dart';
 import 'auth_state.dart';
 
@@ -35,14 +36,35 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       final result = await _loginUseCase.call(event.email, event.password);
 
       if (!isClosed) {
-        result.fold(
-          (user) async {
-            // Store auth token if available in user model
-            // await _storageService.write('auth_token', user.token);
+        if (result.isOk) {
+          final user = result.okOrNull!;
+
+          // Store auth token if available in user model
+          // await _storageService.write('auth_token', user.token);
+
+          // Firebase Analytics - Login eventi
+          await FirebaseService.logLogin('email');
+          await FirebaseService.setUserProperties(
+            userId: user.id,
+            userType: 'regular',
+          );
+
+          if (!emit.isDone && !isClosed) {
             emit(AuthAuthenticated(user));
-          },
-          (error) => emit(AuthError(error)),
-        );
+          }
+        } else {
+          final error = result.errOrNull!;
+
+          // Firebase Crashlytics - Login hatası
+          FirebaseService.recordError(
+            exception: Exception('Login failed: $error'),
+            reason: 'User login attempt failed',
+          );
+
+          if (!emit.isDone && !isClosed) {
+            emit(AuthError(error));
+          }
+        }
       }
     } catch (e) {
       if (!isClosed) {
@@ -67,14 +89,35 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       );
 
       if (!isClosed) {
-        result.fold(
-          (user) async {
-            // Store auth token if available in user model
-            // await _storageService.write('auth_token', user.token);
+        if (result.isOk) {
+          final user = result.okOrNull!;
+
+          // Store auth token if available in user model
+          // await _storageService.write('auth_token', user.token);
+
+          // Firebase Analytics - Sign up eventi
+          await FirebaseService.logSignUp('email');
+          await FirebaseService.setUserProperties(
+            userId: user.id,
+            userType: 'regular',
+          );
+
+          if (!emit.isDone && !isClosed) {
             emit(AuthAuthenticated(user));
-          },
-          (error) => emit(AuthError(error)),
-        );
+          }
+        } else {
+          final error = result.errOrNull!;
+
+          // Firebase Crashlytics - Register hatası
+          FirebaseService.recordError(
+            exception: Exception('Registration failed: $error'),
+            reason: 'User registration attempt failed',
+          );
+
+          if (!emit.isDone && !isClosed) {
+            emit(AuthError(error));
+          }
+        }
       }
     } catch (e) {
       if (!isClosed) {

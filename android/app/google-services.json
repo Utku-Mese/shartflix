@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "745682564401",
+    "project_id": "shartflix-bf1fc",
+    "storage_bucket": "shartflix-bf1fc.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:745682564401:android:d46e75be8dbfa247182c10",
+        "android_client_info": {
+          "package_name": "com.nodelabs.shartflix"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBg5IPAl5_8mnkez8gREIi36JGAdB8SthU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

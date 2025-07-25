@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'core/di/injection.dart';
 import 'core/services/logger_service.dart';
 import 'core/services/theme_service.dart';
+import 'core/services/firebase_service.dart';
 import 'core/widgets/auth_wrapper.dart';
 import 'core/widgets/main_layout.dart';
 import 'core/bloc/app_settings_bloc.dart';
@@ -16,12 +18,22 @@ import 'features/settings/presentation/pages/settings_page.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Initialize dependency injection
+  // Initialize dependency injection (Firebase dahil)
   await configureDependencies();
 
   // Initialize logger
   final logger = getIt<LoggerService>();
   logger.info('Shartflix App Starting...');
+
+  // Firebase Analytics - Uygulama başlatma eventi
+  await FirebaseService.logEvent(
+    name: 'app_open',
+    parameters: {
+      'platform': 'flutter',
+      'app_version': '1.0.0',
+      'debug_mode': kDebugMode ? 1 : 0,
+    },
+  );
 
   runApp(const ShartflixApp());
 }
