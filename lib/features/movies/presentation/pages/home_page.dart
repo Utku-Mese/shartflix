@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_svg/svg.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../bloc/movie_bloc.dart';
 import '../bloc/movie_event.dart';
@@ -20,7 +21,7 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage> with RouteAware {
   late MovieBloc _movieBloc;
   int _currentIndex = 0;
   late ScrollController _scrollController;
@@ -32,6 +33,19 @@ class _HomePageState extends State<HomePage> {
     _scrollController = ScrollController();
     _scrollController.addListener(_onScroll);
     _movieBloc.add(const LoadMovies());
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Reset navigation state when coming back to this page
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        setState(() {
+          _currentIndex = 0;
+        });
+      }
+    });
   }
 
   @override
@@ -405,6 +419,7 @@ class _HomePageState extends State<HomePage> {
 
   Widget _buildBottomNavigationBar(AppLocalizations l10n) {
     return Container(
+      height: 80,
       decoration: BoxDecoration(
         color: AppColors.background,
         border: Border(
@@ -414,74 +429,104 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       ),
-      child: BottomNavigationBar(
-        backgroundColor: Colors.transparent,
-        selectedItemColor: AppColors.textPrimary,
-        unselectedItemColor: AppColors.textSecondary,
-        currentIndex: _currentIndex,
-        type: BottomNavigationBarType.fixed,
-        elevation: 0,
-        onTap: (index) {
-          setState(() {
-            _currentIndex = index;
-          });
-
-          if (index == 1) {
-            Navigator.pushNamed(context, '/profile');
-          }
-        },
-        items: [
-          BottomNavigationBarItem(
-            icon: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              decoration: BoxDecoration(
-                color: _currentIndex == 0
-                    ? AppColors.background
-                    : Colors.transparent,
-                borderRadius: BorderRadius.circular(20),
+      child: Row(
+        children: [
+          Expanded(
+            child: _buildNavItem(
+              icon: SvgPicture.asset(
+                'assets/icons/home_icon.svg',
+                width: 24,
+                height: 24,
               ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Icon(Icons.home_outlined),
-                  if (_currentIndex == 0) ...[
-                    const SizedBox(width: 8),
-                    Text(
-                      l10n.home,
-                      style: const TextStyle(fontSize: 12),
-                    ),
-                  ],
-                ],
-              ),
+              label: l10n.home,
+              isSelected: _currentIndex == 0,
+              onTap: () {
+                setState(() {
+                  _currentIndex = 0;
+                });
+              },
             ),
-            label: '',
           ),
-          BottomNavigationBarItem(
-            icon: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              decoration: BoxDecoration(
+          Expanded(
+            child: _buildNavItem(
+              icon: Icon(
+                Icons.explore_outlined,
+                size: 24,
                 color: _currentIndex == 1
-                    ? AppColors.cardBackground
-                    : Colors.transparent,
-                borderRadius: BorderRadius.circular(20),
+                    ? AppColors.textPrimary
+                    : AppColors.textSecondary,
               ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Icon(Icons.person_outline),
-                  if (_currentIndex == 1) ...[
-                    const SizedBox(width: 8),
-                    Text(
-                      l10n.profile,
-                      style: TextStyle(fontSize: 12),
-                    ),
-                  ],
-                ],
-              ),
+              label: 'Keşfet',
+              isSelected: _currentIndex == 1,
+              onTap: () {
+                setState(() {
+                  _currentIndex = 1;
+                });
+                Navigator.pushNamed(context, '/discover');
+              },
             ),
-            label: '',
+          ),
+          Expanded(
+            child: _buildNavItem(
+              icon: SvgPicture.asset(
+                'assets/icons/profile_icon.svg',
+                width: 24,
+                height: 24,
+              ),
+              label: l10n.profile,
+              isSelected: _currentIndex == 2,
+              onTap: () {
+                setState(() {
+                  _currentIndex = 2;
+                });
+                Navigator.pushNamed(context, '/profile');
+              },
+            ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildNavItem({
+    required Widget icon,
+    required String label,
+    required bool isSelected,
+    required VoidCallback onTap,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        decoration: BoxDecoration(
+          color: isSelected ? AppColors.cardBackground : Colors.transparent,
+          borderRadius: BorderRadius.circular(25),
+          border: Border.all(
+            color: isSelected
+                ? AppColors.borderColor
+                : AppColors.borderColor.withOpacity(0.3),
+            width: 1,
+          ),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            icon,
+            const SizedBox(width: 8),
+            Text(
+              label,
+              style: TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.w500,
+                color: isSelected
+                    ? AppColors.textPrimary
+                    : AppColors.textSecondary,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

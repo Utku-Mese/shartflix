@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import '../../../auth/presentation/bloc/auth_bloc.dart';
 import '../../../auth/presentation/bloc/auth_state.dart';
 import '../bloc/profile_bloc.dart';
@@ -22,7 +23,7 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   late AuthBloc _authBloc;
   late ProfileBloc _profileBloc;
-  int _currentIndex = 1;
+  final int _currentIndex = 1;
 
   @override
   void initState() {
@@ -188,7 +189,7 @@ class _ProfilePageState extends State<ProfilePage> {
             },
           ),
         ),
-        bottomNavigationBar: _buildBottomNavigationBar(),
+        //bottomNavigationBar: _buildBottomNavigationBar(),
       ),
     );
   }
@@ -229,86 +230,117 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  Widget _buildBottomNavigationBar() {
-    return Container(
-      decoration: const BoxDecoration(
-        color: Color(0xFF000000),
-        border: Border(
-          top: BorderSide(
-            color: Color(0xFF333333),
-            width: 0.5,
-          ),
-        ),
-      ),
-      child: BottomNavigationBar(
-        backgroundColor: Colors.transparent,
-        selectedItemColor: Colors.white,
-        unselectedItemColor: Colors.white54,
-        currentIndex: _currentIndex,
-        type: BottomNavigationBarType.fixed,
-        elevation: 0,
-        onTap: (index) {
-          setState(() {
-            _currentIndex = index;
-          });
+  // Widget _buildBottomNavigationBar() {
+  //   return Container(
+  //     height: 80,
+  //     decoration: BoxDecoration(
+  //       color: AppColors.background,
+  //       border: Border(
+  //         top: BorderSide(
+  //           color: AppColors.borderColor,
+  //           width: 0.5,
+  //         ),
+  //       ),
+  //     ),
+  //     child: Row(
+  //       children: [
+  //         Expanded(
+  //           child: _buildNavItem(
+  //             icon: SvgPicture.asset(
+  //               'assets/icons/home_icon.svg',
+  //               width: 24,
+  //               height: 24,
+  //             ),
+  //             label: 'Anasayfa',
+  //             isSelected: _currentIndex == 0,
+  //             onTap: () {
+  //               setState(() {
+  //                 _currentIndex = 0;
+  //               });
+  //               Navigator.pushReplacementNamed(context, '/');
+  //             },
+  //           ),
+  //         ),
+  //         Expanded(
+  //           child: _buildNavItem(
+  //             icon: Icon(
+  //               Icons.explore_outlined,
+  //               size: 24,
+  //               color: _currentIndex == 1
+  //                   ? AppColors.textPrimary
+  //                   : AppColors.textSecondary,
+  //             ),
+  //             label: 'Keşfet',
+  //             isSelected: _currentIndex == 1,
+  //             onTap: () {
+  //               setState(() {
+  //                 _currentIndex = 1;
+  //               });
+  //               Navigator.pushReplacementNamed(context, '/discover');
+  //             },
+  //           ),
+  //         ),
+  //         Expanded(
+  //           child: _buildNavItem(
+  //             icon: SvgPicture.asset(
+  //               'assets/icons/profile_icon.svg',
+  //               width: 24,
+  //               height: 24,
+  //             ),
+  //             label: 'Profil',
+  //             isSelected: _currentIndex == 2,
+  //             onTap: () {
+  //               setState(() {
+  //                 _currentIndex = 2;
+  //               });
+  //             },
+  //           ),
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
 
-          if (index == 0) {
-            Navigator.pop(context);
-          }
-        },
-        items: [
-          BottomNavigationBarItem(
-            icon: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              decoration: BoxDecoration(
-                color: _currentIndex == 0
-                    ? const Color(0xFF1A1A1A)
-                    : Colors.transparent,
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Icon(Icons.home_outlined),
-                  if (_currentIndex == 0) ...[
-                    const SizedBox(width: 8),
-                    const Text(
-                      'Anasayfa',
-                      style: TextStyle(fontSize: 12),
-                    ),
-                  ],
-                ],
-              ),
-            ),
-            label: '',
-          ),
-          BottomNavigationBarItem(
-            icon: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              decoration: BoxDecoration(
-                color: _currentIndex == 1
-                    ? const Color(0xFF1A1A1A)
-                    : Colors.transparent,
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Icon(Icons.person_outline),
-                  if (_currentIndex == 1) ...[
-                    const SizedBox(width: 8),
-                    const Text(
-                      'Profil',
-                      style: TextStyle(fontSize: 12),
-                    ),
-                  ],
-                ],
-              ),
-            ),
-            label: '',
-          ),
-        ],
-      ),
-    );
-  }
+  // Widget _buildNavItem({
+  //   required Widget icon,
+  //   required String label,
+  //   required bool isSelected,
+  //   required VoidCallback onTap,
+  // }) {
+  //   return GestureDetector(
+  //     onTap: onTap,
+  //     child: Container(
+  //       margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+  //       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+  //       decoration: BoxDecoration(
+  //         color: isSelected ? AppColors.cardBackground : Colors.transparent,
+  //         borderRadius: BorderRadius.circular(25),
+  //         border: Border.all(
+  //           color: isSelected
+  //               ? AppColors.borderColor
+  //               : AppColors.borderColor.withOpacity(0.3),
+  //           width: 1,
+  //         ),
+  //       ),
+  //       child: Row(
+  //         mainAxisAlignment: MainAxisAlignment.center,
+  //         mainAxisSize: MainAxisSize.max,
+  //         children: [
+  //           icon,
+  //           const SizedBox(width: 8),
+  //           Text(
+  //             label,
+  //             style: TextStyle(
+  //               fontSize: 12,
+  //               fontWeight: FontWeight.w500,
+  //               color: isSelected
+  //                   ? AppColors.textPrimary
+  //                   : AppColors.textSecondary,
+  //             ),
+  //           ),
+  //         ],
+  //       ),
+  //     ),
+  //   );
+  // }
 }

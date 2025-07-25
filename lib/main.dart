@@ -13,6 +13,7 @@ import 'features/auth/presentation/pages/login_page.dart';
 import 'features/auth/presentation/pages/register_page.dart';
 import 'features/profile/profile.dart';
 import 'features/movies/presentation/pages/home_page.dart';
+import 'features/movies/presentation/pages/discover_page.dart';
 import 'features/settings/presentation/pages/settings_page.dart';
 
 void main() async {
@@ -85,6 +86,7 @@ class _ShartflixAppState extends State<ShartflixApp> {
               '/login': (context) => const LoginPage(),
               '/register': (context) => const RegisterPage(),
               '/home': (context) => const HomePage(),
+              '/discover': (context) => const DiscoverPage(),
               '/profile': (context) => const ProfilePage(),
               '/photo-upload': (context) => const PhotoUploadPage(),
               '/settings': (context) => const SettingsPage(),
