@@ -18,6 +18,17 @@ class AuthWrapper extends StatefulWidget {
 class _AuthWrapperState extends State<AuthWrapper> {
   bool _showSplash = true;
 
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    // Singleton AuthBloc'u dispose etmeyin
+    super.dispose();
+  }
+
   void _onSplashComplete() {
     if (mounted) {
       setState(() {
@@ -30,7 +41,10 @@ class _AuthWrapperState extends State<AuthWrapper> {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => getIt<AuthBloc>()..add(CheckAuthStatus()),
-      child: BlocBuilder<AuthBloc, AuthState>(
+      child: BlocConsumer<AuthBloc, AuthState>(
+        listener: (context, state) {
+          // State değişikliklerini dinle ama ekstra aksiyon alma
+        },
         builder: (context, state) {
           // Always show splash first
           if (_showSplash) {

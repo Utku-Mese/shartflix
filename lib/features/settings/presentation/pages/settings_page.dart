@@ -3,10 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/di/injection.dart';
-import '../../../../core/services/secure_storage_service.dart';
 import '../../../../core/bloc/app_settings_bloc.dart';
 import '../../../../core/bloc/app_settings_event.dart';
 import '../../../../core/bloc/app_settings_state.dart';
+import '../../../auth/presentation/bloc/auth_bloc.dart';
+import '../../../auth/presentation/bloc/auth_event.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -57,8 +58,6 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   Future<void> _logout() async {
-    final secureStorage = getIt<SecureStorageService>();
-
     // Show confirmation dialog
     final confirmed = await showDialog<bool>(
       context: context,
@@ -92,14 +91,15 @@ class _SettingsPageState extends State<SettingsPage> {
     );
 
     if (confirmed == true) {
-      // Clear all stored data
-      await secureStorage.deleteAll();
+      // AuthBloc üzerinden logout işlemini gerçekleştir
+      final authBloc = getIt<AuthBloc>();
+      authBloc.add(LogoutRequested());
 
       if (mounted) {
-        // Navigate to login page
+        // AuthWrapper otomatik olarak LoginPage'e yönlendirecek
         Navigator.pushNamedAndRemoveUntil(
           context,
-          '/login',
+          '/',
           (route) => false,
         );
       }

@@ -8,7 +8,7 @@ import '../../../../core/services/secure_storage_service.dart';
 import 'auth_event.dart';
 import 'auth_state.dart';
 
-@injectable
+@singleton
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final LoginUseCase _loginUseCase;
   final RegisterUseCase _registerUseCase;

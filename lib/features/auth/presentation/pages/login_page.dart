@@ -5,9 +5,9 @@ import 'package:flutter_svg/svg.dart';
 import '../bloc/auth_bloc.dart';
 import '../bloc/auth_event.dart';
 import '../bloc/auth_state.dart';
-import '../../../../core/di/injection.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../../shared/shared.dart';
+import 'register_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -30,159 +30,157 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => getIt<AuthBloc>(),
-      child: Builder(
-        builder: (context) {
-          return Scaffold(
-            backgroundColor: AppColors.background,
-            body: SafeArea(
-              child: Padding(
-                padding: const EdgeInsets.all(24.0),
-                child: BlocConsumer<AuthBloc, AuthState>(
-                  listener: (context, state) {
-                    if (state is AuthError) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(state.message),
-                          backgroundColor: Colors.red,
-                        ),
-                      );
-                    }
-                  },
-                  builder: (context, state) {
-                    final l10n = AppLocalizations.of(context);
+    return Scaffold(
+      backgroundColor: AppColors.background,
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(24.0),
+          child: BlocConsumer<AuthBloc, AuthState>(
+            listener: (context, state) {
+              if (state is AuthError) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(state.message),
+                    backgroundColor: Colors.red,
+                  ),
+                );
+              }
+              // AuthAuthenticated durumunda MainLayout'a yönlendirme AuthWrapper tarafından otomatik olarak yapılıyor
+            },
+            builder: (context, state) {
+              final l10n = AppLocalizations.of(context);
 
-                    return Form(
-                      key: _formKey,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          const Spacer(flex: 2),
+              return Form(
+                key: _formKey,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    const Spacer(flex: 2),
 
-                          // Header
-                          AuthHeader(
-                            title: l10n?.hello ?? 'Merhabalar',
-                            subtitle: l10n?.subtitle ??
-                                'Tempus varius a vitae interdum id\ntortor elementum tristique eleifend at.',
-                          ),
+                    // Header
+                    AuthHeader(
+                      title: l10n?.hello ?? 'Merhabalar',
+                      subtitle: l10n?.subtitle ??
+                          'Tempus varius a vitae interdum id\ntortor elementum tristique eleifend at.',
+                    ),
 
-                          const SizedBox(height: 48),
+                    const SizedBox(height: 48),
 
-                          // Email Field
-                          CustomTextField(
-                            controller: _emailController,
-                            hintText: l10n?.email ?? 'E-mail',
-                            prefixIcon: SvgPicture.asset(
-                              'assets/icons/mail.svg',
-                              color: AppColors.white,
-                            ),
-                            keyboardType: TextInputType.emailAddress,
-                            validator: (value) {
-                              if (value?.isEmpty ?? true) {
-                                return l10n?.emailValidationError ??
-                                    'Please enter a valid email address';
-                              }
-                              if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
-                                  .hasMatch(value!)) {
-                                return l10n?.emailValidationError ??
-                                    'Please enter a valid email address';
-                              }
-                              return null;
-                            },
-                          ),
-
-                          const SizedBox(height: 16),
-
-                          // Password Field
-                          CustomTextField(
-                            controller: _passwordController,
-                            hintText: l10n?.password ?? 'Password',
-                            prefixIcon: SvgPicture.asset(
-                              'assets/icons/password.svg',
-                              color: AppColors.white,
-                            ),
-                            isPassword: true,
-                            validator: (value) {
-                              if (value?.isEmpty ?? true) {
-                                return l10n?.passwordValidationError ??
-                                    'Password must be at least 6 characters';
-                              }
-                              if (value!.length < 6) {
-                                return l10n?.passwordValidationError ??
-                                    'Password must be at least 6 characters';
-                              }
-                              return null;
-                            },
-                          ),
-
-                          const SizedBox(height: 16),
-
-                          // Forgot Password
-                          Align(
-                            alignment: Alignment.centerLeft,
-                            child: TextButton(
-                              onPressed: () {
-                                // TODO: Implement forgot password
-                              },
-                              child: Text(
-                                l10n?.forgotPassword ?? 'Forgot Password',
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  color: AppColors.textPrimary,
-                                  fontWeight: FontWeight.w400,
-                                  decoration: TextDecoration.underline,
-                                  decorationColor: AppColors.textPrimary,
-                                ),
-                              ),
-                            ),
-                          ),
-
-                          const SizedBox(height: 20),
-
-                          // Login Button
-                          PrimaryButton(
-                            text: l10n?.login ?? 'Login',
-                            onPressed: () => _onLoginPressed(context),
-                            isLoading: state is AuthLoading,
-                          ),
-
-                          const SizedBox(height: 48),
-
-                          // Social Login Buttons
-                          SocialLoginRow(
-                            onGooglePressed: () {
-                              // TODO: Google Login
-                            },
-                            onApplePressed: () {
-                              // TODO: Apple Login
-                            },
-                            onFacebookPressed: () {
-                              // TODO: Facebook Login
-                            },
-                          ),
-
-                          const SizedBox(height: 32),
-
-                          // Register Link
-                          AuthNavigationLink(
-                            text: l10n?.dontHaveAccount ??
-                                'Don\'t have an account? ',
-                            linkText: l10n?.registerTextButton ?? 'Register',
-                            onPressed: () {
-                              Navigator.pushNamed(context, '/register');
-                            },
-                          ),
-                        ],
+                    // Email Field
+                    CustomTextField(
+                      controller: _emailController,
+                      hintText: l10n?.email ?? 'E-mail',
+                      prefixIcon: SvgPicture.asset(
+                        'assets/icons/mail.svg',
+                        color: AppColors.white,
                       ),
-                    );
-                  },
+                      keyboardType: TextInputType.emailAddress,
+                      validator: (value) {
+                        if (value?.isEmpty ?? true) {
+                          return l10n?.emailValidationError ??
+                              'Please enter a valid email address';
+                        }
+                        if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
+                            .hasMatch(value!)) {
+                          return l10n?.emailValidationError ??
+                              'Please enter a valid email address';
+                        }
+                        return null;
+                      },
+                    ),
+
+                    const SizedBox(height: 16),
+
+                    // Password Field
+                    CustomTextField(
+                      controller: _passwordController,
+                      hintText: l10n?.password ?? 'Password',
+                      prefixIcon: SvgPicture.asset(
+                        'assets/icons/password.svg',
+                        color: AppColors.white,
+                      ),
+                      isPassword: true,
+                      validator: (value) {
+                        if (value?.isEmpty ?? true) {
+                          return l10n?.passwordValidationError ??
+                              'Password must be at least 6 characters';
+                        }
+                        if (value!.length < 6) {
+                          return l10n?.passwordValidationError ??
+                              'Password must be at least 6 characters';
+                        }
+                        return null;
+                      },
+                    ),
+
+                    const SizedBox(height: 16),
+
+                    // Forgot Password
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: TextButton(
+                        onPressed: () {
+                          // TODO: Implement forgot password
+                        },
+                        child: Text(
+                          l10n?.forgotPassword ?? 'Forgot Password',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: AppColors.textPrimary,
+                            fontWeight: FontWeight.w400,
+                            decoration: TextDecoration.underline,
+                            decorationColor: AppColors.textPrimary,
+                          ),
+                        ),
+                      ),
+                    ),
+
+                    const SizedBox(height: 20),
+
+                    // Login Button
+                    PrimaryButton(
+                      text: l10n?.login ?? 'Login',
+                      onPressed: () => _onLoginPressed(context),
+                      isLoading: state is AuthLoading,
+                    ),
+
+                    const SizedBox(height: 48),
+
+                    // Social Login Buttons
+                    SocialLoginRow(
+                      onGooglePressed: () {
+                        // TODO: Google Login
+                      },
+                      onApplePressed: () {
+                        // TODO: Apple Login
+                      },
+                      onFacebookPressed: () {
+                        // TODO: Facebook Login
+                      },
+                    ),
+
+                    const SizedBox(height: 32),
+
+                    // Register Link
+                    AuthNavigationLink(
+                      text: l10n?.dontHaveAccount ?? 'Don\'t have an account? ',
+                      linkText: l10n?.registerTextButton ?? 'Register',
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const RegisterPage(),
+                          ),
+                        );
+                      },
+                    ),
+                  ],
                 ),
-              ),
-            ),
-          );
-        },
+              );
+            },
+          ),
+        ),
       ),
     );
   }

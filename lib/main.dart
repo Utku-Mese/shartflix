@@ -10,8 +10,6 @@ import 'core/widgets/main_layout.dart';
 import 'core/bloc/app_settings_bloc.dart';
 import 'core/bloc/app_settings_event.dart';
 import 'core/bloc/app_settings_state.dart';
-import 'features/auth/presentation/pages/login_page.dart';
-import 'features/auth/presentation/pages/register_page.dart';
 import 'features/profile/profile.dart';
 import 'features/settings/presentation/pages/settings_page.dart';
 
@@ -83,8 +81,6 @@ class _ShartflixAppState extends State<ShartflixApp> {
             initialRoute: '/',
             routes: {
               '/': (context) => const AuthWrapper(),
-              '/login': (context) => const LoginPage(),
-              '/register': (context) => const RegisterPage(),
               '/home': (context) => const MainLayout(initialIndex: 0),
               '/discover': (context) => const MainLayout(initialIndex: 1),
               '/profile': (context) => const MainLayout(initialIndex: 2),

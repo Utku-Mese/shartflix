@@ -164,7 +164,7 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i854.GetMoviesUseCase>(),
           gh<_i198.AddToFavoritesUseCase>(),
         ));
-    gh.factory<_i359.AuthBloc>(() => _i359.AuthBloc(
+    gh.singleton<_i359.AuthBloc>(() => _i359.AuthBloc(
           gh<_i539.LoginUseCase>(),
           gh<_i1049.RegisterUseCase>(),
           gh<_i313.SecureStorageService>(),
