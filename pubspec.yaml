@@ -66,6 +66,7 @@ flutter:
     - assets/images/
     - assets/animations/
     - assets/icons/
+    - assets/images/bonus/
 
   fonts:
     - family: EuclidCircularA
