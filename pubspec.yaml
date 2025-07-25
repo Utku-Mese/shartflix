@@ -33,6 +33,7 @@ dependencies:
   # Security & Storage
   flutter_secure_storage: ^9.2.2
   shared_preferences: ^2.3.2
+  package_info_plus: ^8.0.2
 
   # Localization
   flutter_localizations:

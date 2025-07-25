@@ -15,6 +15,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart' as _i558;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 import 'package:shared_preferences/shared_preferences.dart' as _i460;
+import 'package:shartflix/core/bloc/app_settings_bloc.dart' as _i853;
 import 'package:shartflix/core/di/core_module.dart' as _i1006;
 import 'package:shartflix/core/di/network_module.dart' as _i408;
 import 'package:shartflix/core/network/api_client.dart' as _i325;
@@ -119,6 +120,12 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i12.LoggerService>(),
           gh<_i505.ConnectivityService>(),
         ));
+    gh.singleton<_i853.AppSettingsBloc>(() => _i853.AppSettingsBloc(
+          gh<_i32.ThemeService>(),
+          gh<_i1013.LocalizationService>(),
+          gh<_i313.SecureStorageService>(),
+          gh<_i12.LoggerService>(),
+        ));
     gh.factory<_i783.UploadPhotoUseCase>(() =>
         coreModule.provideUploadPhotoUseCase(gh<_i454.ProfileRepository>()));
     gh.factory<_i471.ProfileBloc>(() => coreModule.provideProfileBloc(
@@ -134,14 +141,14 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i421.MovieApiService>(),
           gh<_i12.LoggerService>(),
         ));
+    gh.factory<_i908.ToggleFavoriteUseCase>(
+        () => _i908.ToggleFavoriteUseCase(gh<_i1003.MovieRepository>()));
     gh.factory<_i854.GetMoviesUseCase>(
         () => _i854.GetMoviesUseCase(gh<_i1003.MovieRepository>()));
     gh.factory<_i198.ToggleFavoriteUseCase>(
         () => _i198.ToggleFavoriteUseCase(gh<_i1003.MovieRepository>()));
     gh.factory<_i198.GetFavoriteMoviesUseCase>(
         () => _i198.GetFavoriteMoviesUseCase(gh<_i1003.MovieRepository>()));
-    gh.factory<_i908.ToggleFavoriteUseCase>(
-        () => _i908.ToggleFavoriteUseCase(gh<_i1003.MovieRepository>()));
     gh.lazySingleton<_i291.AuthRepository>(() => _i689.AuthRepositoryImpl(
           gh<_i102.AuthApiService>(),
           gh<_i313.SecureStorageService>(),

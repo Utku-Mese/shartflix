@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'core/di/injection.dart';
 import 'core/services/logger_service.dart';
 import 'core/services/theme_service.dart';
-import 'core/services/localization_service.dart';
 import 'core/widgets/auth_wrapper.dart';
+import 'core/bloc/app_settings_bloc.dart';
+import 'core/bloc/app_settings_event.dart';
+import 'core/bloc/app_settings_state.dart';
 import 'features/auth/presentation/pages/login_page.dart';
 import 'features/auth/presentation/pages/register_page.dart';
 import 'features/profile/profile.dart';
 import 'features/movies/presentation/pages/home_page.dart';
+import 'features/settings/presentation/pages/settings_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -33,64 +37,62 @@ class ShartflixApp extends StatefulWidget {
 
 class _ShartflixAppState extends State<ShartflixApp> {
   late final ThemeService _themeService;
-  late final LocalizationService _localizationService;
-  late final LoggerService _logger;
-
-  AppThemeMode _currentThemeMode = AppThemeMode.dark;
-  Locale _currentLocale = const Locale('tr', 'TR');
+  late final AppSettingsBloc _appSettingsBloc;
 
   @override
   void initState() {
     super.initState();
     _themeService = getIt<ThemeService>();
-    _localizationService = getIt<LocalizationService>();
-    _logger = getIt<LoggerService>();
-    _initializeApp();
+    _appSettingsBloc = getIt<AppSettingsBloc>();
+    _appSettingsBloc.add(const LoadAppSettings());
   }
 
-  Future<void> _initializeApp() async {
-    try {
-      // Load saved theme mode
-      final themeMode = await _themeService.getCurrentThemeMode();
-
-      // Load saved locale
-      final locale = await _localizationService.getCurrentLocale();
-
-      setState(() {
-        _currentThemeMode = themeMode;
-        _currentLocale = locale;
-      });
-
-      _logger.info('App initialized successfully');
-      _logger.debug('Theme: $_currentThemeMode, Locale: $_currentLocale');
-    } catch (e, stackTrace) {
-      _logger.error('Failed to initialize app', e, stackTrace);
-    }
+  @override
+  void dispose() {
+    _appSettingsBloc.close();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Shartflix',
-      theme: _themeService.getThemeData(
-          _currentThemeMode, MediaQuery.platformBrightnessOf(context)),
-      locale: _currentLocale,
-      localizationsDelegates: const [
-        AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      supportedLocales: AppLocalizations.supportedLocales,
-      home: const AuthWrapper(),
-      routes: {
-        '/login': (context) => const LoginPage(),
-        '/register': (context) => const RegisterPage(),
-        '/home': (context) => const HomePage(),
-        '/profile': (context) => const ProfilePage(),
-        '/photo-upload': (context) => const PhotoUploadPage(),
-      },
-      debugShowCheckedModeBanner: false,
+    return BlocProvider.value(
+      value: _appSettingsBloc,
+      child: BlocBuilder<AppSettingsBloc, AppSettingsState>(
+        builder: (context, state) {
+          // Default values
+          AppThemeMode themeMode = AppThemeMode.dark;
+          Locale locale = const Locale('tr', 'TR');
+
+          if (state is AppSettingsLoaded) {
+            themeMode = state.themeMode;
+            locale = state.locale;
+          }
+
+          return MaterialApp(
+            title: 'Shartflix',
+            theme: _themeService.getThemeData(
+                themeMode, MediaQuery.platformBrightnessOf(context)),
+            locale: locale,
+            localizationsDelegates: const [
+              AppLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            supportedLocales: AppLocalizations.supportedLocales,
+            home: const AuthWrapper(),
+            routes: {
+              '/login': (context) => const LoginPage(),
+              '/register': (context) => const RegisterPage(),
+              '/home': (context) => const HomePage(),
+              '/profile': (context) => const ProfilePage(),
+              '/photo-upload': (context) => const PhotoUploadPage(),
+              '/settings': (context) => const SettingsPage(),
+            },
+            debugShowCheckedModeBanner: false,
+          );
+        },
+      ),
     );
   }
 }

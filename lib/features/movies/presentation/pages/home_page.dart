@@ -45,7 +45,7 @@ class _HomePageState extends State<HomePage> {
             IconButton(
               icon: const Icon(Icons.settings),
               onPressed: () {
-                // ToDO Navigate to settings page
+                Navigator.pushNamed(context, '/settings');
               },
             ),
           ],
