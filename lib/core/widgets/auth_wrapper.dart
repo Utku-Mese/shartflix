@@ -8,8 +8,23 @@ import '../../features/auth/presentation/pages/login_page.dart';
 import 'main_layout.dart';
 import '../di/injection.dart';
 
-class AuthWrapper extends StatelessWidget {
+class AuthWrapper extends StatefulWidget {
   const AuthWrapper({super.key});
+
+  @override
+  State<AuthWrapper> createState() => _AuthWrapperState();
+}
+
+class _AuthWrapperState extends State<AuthWrapper> {
+  bool _showSplash = true;
+
+  void _onSplashComplete() {
+    if (mounted) {
+      setState(() {
+        _showSplash = false;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -17,14 +32,18 @@ class AuthWrapper extends StatelessWidget {
       create: (context) => getIt<AuthBloc>()..add(CheckAuthStatus()),
       child: BlocBuilder<AuthBloc, AuthState>(
         builder: (context, state) {
-          if (state is AuthInitial) {
-            return const SplashPage();
-          } else if (state is AuthAuthenticated) {
+          // Always show splash first
+          if (_showSplash) {
+            return SplashPage(onComplete: _onSplashComplete);
+          }
+
+          // After splash, determine which page to show
+          if (state is AuthAuthenticated) {
             return const MainLayout();
           } else if (state is AuthUnauthenticated) {
             return const LoginPage();
           } else if (state is AuthLoading) {
-            return const SplashPage();
+            return const LoginPage(); // Show login while loading
           } else if (state is AuthError) {
             return const LoginPage();
           }

@@ -3,7 +3,9 @@ import '../controllers/splash_controller.dart';
 import '../widgets/splash_logo.dart';
 
 class SplashPage extends StatefulWidget {
-  const SplashPage({super.key});
+  final VoidCallback? onComplete;
+
+  const SplashPage({super.key, this.onComplete});
 
   @override
   State<SplashPage> createState() => _SplashPageState();
@@ -34,6 +36,7 @@ class _SplashPageState extends State<SplashPage>
     SplashController.startSplashSequence(
       context: context,
       animationController: _animationController,
+      onComplete: widget.onComplete,
     );
   }
 

@@ -3,12 +3,13 @@ import '../../../../core/di/injection.dart';
 import '../../../../core/services/logger_service.dart';
 
 class SplashController {
-  static const Duration _splashDuration = Duration(seconds: 5);
+  static const Duration _splashDuration = Duration(seconds: 3);
   static const Duration _animationDuration = Duration(milliseconds: 2000);
 
   static Future<void> startSplashSequence({
     required BuildContext context,
     required AnimationController animationController,
+    VoidCallback? onComplete,
   }) async {
     final logger = getIt<LoggerService>();
 
@@ -21,8 +22,12 @@ class SplashController {
 
       logger.info('Splash sequence completed');
 
+      // Call completion callback if provided
+      onComplete?.call();
     } catch (e, stackTrace) {
       logger.error('Error during splash sequence', e, stackTrace);
+      // Even on error, call completion callback
+      onComplete?.call();
     }
   }
 
