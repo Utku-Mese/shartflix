@@ -5,7 +5,6 @@ import 'package:flutter_svg/svg.dart';
 import '../bloc/auth_bloc.dart';
 import '../bloc/auth_event.dart';
 import '../bloc/auth_state.dart';
-import '../../../../core/constants/app_colors.dart';
 import '../../../../core/di/injection.dart';
 import '../../../../shared/shared.dart';
 
@@ -36,10 +35,12 @@ class _RegisterPageState extends State<RegisterPage> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return BlocProvider(
       create: (context) => getIt<AuthBloc>(),
       child: Scaffold(
-        backgroundColor: AppColors.background,
+        backgroundColor: theme.scaffoldBackgroundColor,
         body: SafeArea(
           child: SingleChildScrollView(
             padding: const EdgeInsets.all(24.0),
@@ -83,7 +84,10 @@ class _RegisterPageState extends State<RegisterPage> {
                           hintText: l10n.fullName,
                           prefixIcon: SvgPicture.asset(
                             'assets/icons/person.svg',
-                            color: AppColors.white,
+                            colorFilter: ColorFilter.mode(
+                              theme.colorScheme.onSurface,
+                              BlendMode.srcIn,
+                            ),
                           ),
                           validator: (value) {
                             if (value?.isEmpty ?? true) {
@@ -101,7 +105,10 @@ class _RegisterPageState extends State<RegisterPage> {
                           hintText: l10n.emailAddress,
                           prefixIcon: SvgPicture.asset(
                             'assets/icons/mail.svg',
-                            color: AppColors.white,
+                            colorFilter: ColorFilter.mode(
+                              theme.colorScheme.onSurface,
+                              BlendMode.srcIn,
+                            ),
                           ),
                           keyboardType: TextInputType.emailAddress,
                           validator: (value) {
@@ -124,7 +131,10 @@ class _RegisterPageState extends State<RegisterPage> {
                           hintText: l10n.password,
                           prefixIcon: SvgPicture.asset(
                             'assets/icons/password.svg',
-                            color: AppColors.white,
+                            colorFilter: ColorFilter.mode(
+                              theme.colorScheme.onSurface,
+                              BlendMode.srcIn,
+                            ),
                           ),
                           isPassword: true,
                           validator: (value) {
@@ -146,7 +156,10 @@ class _RegisterPageState extends State<RegisterPage> {
                           hintText: l10n.confirmPassword,
                           prefixIcon: SvgPicture.asset(
                             'assets/icons/password.svg',
-                            color: AppColors.white,
+                            colorFilter: ColorFilter.mode(
+                              theme.colorScheme.onSurface,
+                              BlendMode.srcIn,
+                            ),
                           ),
                           isPassword: true,
                           validator: (value) {

@@ -6,27 +6,29 @@ class AppTheme {
     return ThemeData(
       useMaterial3: true,
       brightness: Brightness.light,
-      primaryColor: AppColors.secondary,
-      scaffoldBackgroundColor: AppColors.white,
+      primaryColor: AppColors.primary,
+      scaffoldBackgroundColor: AppColors.lightBackground,
       fontFamily: 'EuclidCircularA',
       colorScheme: const ColorScheme.light(
-        primary: AppColors.secondary,
-        surface: AppColors.grey100,
+        primary: AppColors.primary,
+        secondary: AppColors.primary,
+        surface: AppColors.lightCardBackground,
         error: AppColors.error,
         onPrimary: AppColors.white,
         onSecondary: AppColors.white,
-        onSurface: AppColors.black,
+        onSurface: AppColors.lightTextPrimary,
         onError: AppColors.white,
       ),
       appBarTheme: const AppBarTheme(
-        backgroundColor: AppColors.white,
-        foregroundColor: AppColors.black,
+        backgroundColor: AppColors.lightBackground,
+        foregroundColor: AppColors.lightTextPrimary,
         elevation: 0,
         centerTitle: true,
+        surfaceTintColor: Colors.transparent,
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
-          backgroundColor: AppColors.secondary,
+          backgroundColor: AppColors.primary,
           foregroundColor: AppColors.white,
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
           shape: RoundedRectangleBorder(
@@ -36,8 +38,8 @@ class AppTheme {
       ),
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
-          foregroundColor: AppColors.secondary,
-          side: const BorderSide(color: AppColors.secondary),
+          foregroundColor: AppColors.primary,
+          side: const BorderSide(color: AppColors.primary),
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8),
@@ -46,44 +48,46 @@ class AppTheme {
       ),
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
-          foregroundColor: AppColors.secondary,
+          foregroundColor: AppColors.primary,
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         ),
       ),
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
-        fillColor: AppColors.grey100,
+        fillColor: AppColors.lightCardBackground,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: AppColors.grey400),
+          borderSide: const BorderSide(color: AppColors.lightBorderColor),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: AppColors.grey400),
+          borderSide: const BorderSide(color: AppColors.lightBorderColor),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: AppColors.secondary, width: 2),
+          borderSide: const BorderSide(color: AppColors.primary, width: 2),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
           borderSide: const BorderSide(color: AppColors.error),
         ),
-        labelStyle: const TextStyle(color: AppColors.grey700),
-        hintStyle: const TextStyle(color: AppColors.grey500),
+        labelStyle: const TextStyle(color: AppColors.lightTextSecondary),
+        hintStyle: const TextStyle(color: AppColors.lightTextTertiary),
       ),
       cardTheme: CardTheme(
-        color: AppColors.white,
-        elevation: 4,
+        color: AppColors.lightCardBackground,
+        elevation: 2,
+        shadowColor: AppColors.lightTextTertiary.withOpacity(0.1),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
         ),
       ),
       bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-        backgroundColor: AppColors.white,
-        selectedItemColor: AppColors.secondary,
-        unselectedItemColor: AppColors.grey500,
+        backgroundColor: AppColors.lightBackground,
+        selectedItemColor: AppColors.primary,
+        unselectedItemColor: AppColors.lightTextTertiary,
         type: BottomNavigationBarType.fixed,
+        elevation: 8,
       ),
     );
   }
@@ -93,26 +97,28 @@ class AppTheme {
       useMaterial3: true,
       brightness: Brightness.dark,
       primaryColor: AppColors.primary,
-      scaffoldBackgroundColor: AppColors.background,
+      scaffoldBackgroundColor: AppColors.darkBackground,
       fontFamily: 'EuclidCircularA',
       colorScheme: const ColorScheme.dark(
-        primary: AppColors.secondary,
-        secondary: AppColors.secondaryLight,
+        primary: AppColors.primary,
+        secondary: AppColors.primary,
+        surface: AppColors.darkCardBackground,
         error: AppColors.error,
         onPrimary: AppColors.white,
         onSecondary: AppColors.white,
-        onSurface: AppColors.textPrimary,
+        onSurface: AppColors.darkTextPrimary,
         onError: AppColors.white,
       ),
       appBarTheme: const AppBarTheme(
-        backgroundColor: AppColors.primary,
-        foregroundColor: AppColors.white,
+        backgroundColor: AppColors.darkBackground,
+        foregroundColor: AppColors.darkTextPrimary,
         elevation: 0,
         centerTitle: true,
+        surfaceTintColor: Colors.transparent,
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
-          backgroundColor: AppColors.secondary,
+          backgroundColor: AppColors.primary,
           foregroundColor: AppColors.white,
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
           shape: RoundedRectangleBorder(
@@ -122,8 +128,8 @@ class AppTheme {
       ),
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
-          foregroundColor: AppColors.secondary,
-          side: const BorderSide(color: AppColors.secondary),
+          foregroundColor: AppColors.primary,
+          side: const BorderSide(color: AppColors.primary),
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8),
@@ -132,44 +138,46 @@ class AppTheme {
       ),
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
-          foregroundColor: AppColors.secondary,
+          foregroundColor: AppColors.primary,
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         ),
       ),
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
-        fillColor: AppColors.secondary,
+        fillColor: AppColors.darkCardBackground,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: AppColors.grey600),
+          borderSide: const BorderSide(color: AppColors.darkBorderColor),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: AppColors.grey600),
+          borderSide: const BorderSide(color: AppColors.darkBorderColor),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: AppColors.secondary, width: 2),
+          borderSide: const BorderSide(color: AppColors.primary, width: 2),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
           borderSide: const BorderSide(color: AppColors.error),
         ),
-        labelStyle: const TextStyle(color: AppColors.textSecondary),
-        hintStyle: const TextStyle(color: AppColors.textTertiary),
+        labelStyle: const TextStyle(color: AppColors.darkTextSecondary),
+        hintStyle: const TextStyle(color: AppColors.darkTextTertiary),
       ),
       cardTheme: CardTheme(
-        color: AppColors.secondary,
+        color: AppColors.darkCardBackground,
         elevation: 4,
+        shadowColor: AppColors.black.withOpacity(0.3),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
         ),
       ),
       bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-        backgroundColor: AppColors.primary,
-        selectedItemColor: AppColors.secondary,
-        unselectedItemColor: AppColors.textSecondary,
+        backgroundColor: AppColors.darkCardBackground,
+        selectedItemColor: AppColors.primary,
+        unselectedItemColor: AppColors.darkTextSecondary,
         type: BottomNavigationBarType.fixed,
+        elevation: 8,
       ),
     );
   }

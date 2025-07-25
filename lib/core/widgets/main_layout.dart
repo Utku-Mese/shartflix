@@ -56,11 +56,12 @@ class _MainLayoutState extends State<MainLayout> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final theme = Theme.of(context);
 
     return BlocProvider<MovieBloc>.value(
       value: _movieBloc,
       child: Scaffold(
-        backgroundColor: AppColors.background,
+        backgroundColor: theme.scaffoldBackgroundColor,
         body: PageView(
           controller: _pageController,
           onPageChanged: (index) {
@@ -80,13 +81,15 @@ class _MainLayoutState extends State<MainLayout> {
   }
 
   Widget _buildBottomNavigationBar(AppLocalizations l10n) {
+    final theme = Theme.of(context);
+
     return Container(
       height: 80,
       decoration: BoxDecoration(
-        color: AppColors.background,
+        color: theme.scaffoldBackgroundColor,
         border: Border(
           top: BorderSide(
-            color: AppColors.borderColor,
+            color: theme.colorScheme.onSurface.withOpacity(0.1),
             width: 0.5,
           ),
         ),
@@ -154,18 +157,20 @@ class _MainLayoutState extends State<MainLayout> {
     required bool isSelected,
     required VoidCallback onTap,
   }) {
+    final theme = Theme.of(context);
+
     return GestureDetector(
       onTap: onTap,
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
         padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 8),
         decoration: BoxDecoration(
-          color: isSelected ? AppColors.cardBackground : Colors.transparent,
+          color: isSelected ? theme.colorScheme.primary : Colors.transparent,
           borderRadius: BorderRadius.circular(25),
           border: Border.all(
             color: isSelected
-                ? AppColors.borderColor
-                : AppColors.borderColor.withOpacity(0.3),
+                ? theme.colorScheme.primary
+                : theme.colorScheme.onSurface.withOpacity(0.3),
             width: 1,
           ),
         ),

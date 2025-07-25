@@ -28,17 +28,33 @@ class AppColors {
   static const Color error = Color(0xFFF44336);
   static const Color info = Color(0xFF2196F3);
 
-  // Background Colors
-  static const Color background = Color(0xFF090909);
-  static const Color cardBackground = Color(0xFF1A1A1A);
-  static const Color surfaceBackground = Color(0xFF1C1C1C);
+  // Dark Theme Colors (Current default)
+  static const Color darkBackground = Color(0xFF090909);
+  static const Color darkCardBackground = Color(0xFF1A1A1A);
+  static const Color darkSurfaceBackground = Color(0xFF1C1C1C);
+  static const Color darkBorderColor = Color(0xFF333333);
+  static const Color darkBorderFocused = Color(0xFF555555);
+  static const Color darkTextPrimary = Color(0xFFFFFFFF);
+  static const Color darkTextSecondary = Color(0xFFB0B0B0);
+  static const Color darkTextTertiary = Color(0xFF808080);
 
-  // Border Colors
-  static const Color borderColor = Color(0xFF333333);
-  static const Color borderFocused = Color(0xFF555555);
+  // Light Theme Colors
+  static const Color lightBackground = Color(0xFFFFFFFF);
+  static const Color lightCardBackground = Color(0xFFF8F9FA);
+  static const Color lightSurfaceBackground = Color(0xFFFAFAFA);
+  static const Color lightBorderColor = Color(0xFFE0E0E0);
+  static const Color lightBorderFocused = Color(0xFFBDBDBD);
+  static const Color lightTextPrimary = Color(0xFF212121);
+  static const Color lightTextSecondary = Color(0xFF616161);
+  static const Color lightTextTertiary = Color(0xFF9E9E9E);
 
-  // Text Colors
-  static const Color textPrimary = Color(0xFFFFFFFF);
-  static const Color textSecondary = Color(0xFFB0B0B0);
-  static const Color textTertiary = Color(0xFF808080);
+  // Backward compatibility (default to dark theme)
+  static const Color background = darkBackground;
+  static const Color cardBackground = darkCardBackground;
+  static const Color surfaceBackground = darkSurfaceBackground;
+  static const Color borderColor = darkBorderColor;
+  static const Color borderFocused = darkBorderFocused;
+  static const Color textPrimary = darkTextPrimary;
+  static const Color textSecondary = darkTextSecondary;
+  static const Color textTertiary = darkTextTertiary;
 }

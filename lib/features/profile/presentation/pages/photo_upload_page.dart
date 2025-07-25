@@ -30,13 +30,14 @@ class _PhotoUploadPageState extends State<PhotoUploadPage> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final theme = Theme.of(context);
 
     return BlocProvider.value(
       value: _profileBloc,
       child: Scaffold(
-        backgroundColor: AppColors.background,
+        backgroundColor: theme.scaffoldBackgroundColor,
         appBar: AppBar(
-          backgroundColor: AppColors.background,
+          backgroundColor: theme.scaffoldBackgroundColor,
           elevation: 0,
           leading: IconButton(
             onPressed: () {
@@ -46,22 +47,21 @@ class _PhotoUploadPageState extends State<PhotoUploadPage> {
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: AppColors.cardBackground,
+                color: theme.colorScheme.surface,
                 border: Border.all(
-                  color: AppColors.borderColor,
+                  color: theme.colorScheme.onSurface.withOpacity(0.2),
                   width: 1,
                 ),
               ),
               child: Icon(
                 Icons.arrow_back,
-                color: AppColors.textPrimary,
+                color: theme.colorScheme.onSurface,
               ),
             ),
           ),
           title: Text(
             l10n.profileDetails,
             style: TextStyle(
-              color: AppColors.textPrimary,
               fontSize: 18,
               fontWeight: FontWeight.w600,
             ),
@@ -102,7 +102,6 @@ class _PhotoUploadPageState extends State<PhotoUploadPage> {
                       Text(
                         l10n.uploadYourPhotos,
                         style: const TextStyle(
-                          color: Colors.white,
                           fontSize: 24,
                           fontWeight: FontWeight.w600,
                         ),
@@ -117,7 +116,6 @@ class _PhotoUploadPageState extends State<PhotoUploadPage> {
                         child: Text(
                           l10n.selectProfilePhoto,
                           style: TextStyle(
-                            color: Colors.white.withOpacity(0.7),
                             fontSize: 16,
                           ),
                           textAlign: TextAlign.center,
@@ -134,7 +132,7 @@ class _PhotoUploadPageState extends State<PhotoUploadPage> {
                           height: 200,
                           margin: const EdgeInsets.symmetric(horizontal: 80),
                           decoration: BoxDecoration(
-                            color: const Color(0xFF1A1A1A),
+                            color: theme.colorScheme.surface,
                             borderRadius: BorderRadius.circular(31),
                             border: Border.all(
                               color: const Color(0xFF333333),
@@ -155,9 +153,9 @@ class _PhotoUploadPageState extends State<PhotoUploadPage> {
                                         fit: BoxFit.cover,
                                       ),
                                     )
-                                  : const Icon(
+                                  : Icon(
                                       Icons.add,
-                                      color: Colors.white54,
+                                      color: theme.colorScheme.onSurface,
                                       size: 48,
                                     ),
                         ),

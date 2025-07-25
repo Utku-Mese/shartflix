@@ -15,12 +15,13 @@ class AuthHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Column(
       children: [
         Text(
           title,
           style: TextStyle(
-            color: AppColors.textPrimary,
+            color: theme.colorScheme.onSurface,
             fontSize: 18,
             fontWeight: FontWeight.w600,
           ),
@@ -30,7 +31,7 @@ class AuthHeader extends StatelessWidget {
         Text(
           subtitle,
           style: TextStyle(
-            color: AppColors.textPrimary,
+            color: theme.colorScheme.onSurface.withOpacity(0.6),
             fontSize: 13,
             fontWeight: FontWeight.w400,
           ),

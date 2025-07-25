@@ -41,6 +41,7 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final theme = Theme.of(context);
 
     return BlocListener<MovieBloc, MovieState>(
       listener: (context, state) {
@@ -90,7 +91,7 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
         }
       },
       child: Scaffold(
-        backgroundColor: AppColors.background,
+        backgroundColor: theme.scaffoldBackgroundColor,
         body: CustomScrollView(
           slivers: [
             _buildAppBar(),
@@ -116,9 +117,9 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
   }
 
   Widget _buildAppBar() {
+    final theme = Theme.of(context);
     return SliverAppBar(
-      backgroundColor: AppColors.background,
-      foregroundColor: AppColors.textPrimary,
+      backgroundColor: theme.scaffoldBackgroundColor,
       elevation: 0,
       pinned: true,
       expandedHeight: 60,
@@ -129,7 +130,6 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
       title: Text(
         _currentMovie.title,
         style: TextStyle(
-          color: AppColors.textPrimary,
           fontSize: 20,
           fontWeight: FontWeight.bold,
         ),
@@ -237,6 +237,8 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
 
   Widget _buildMovieInfo() {
     final l10n = AppLocalizations.of(context)!;
+    final theme = Theme.of(context);
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
@@ -250,7 +252,6 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
                 child: Text(
                   _currentMovie.title,
                   style: TextStyle(
-                    color: AppColors.textPrimary,
                     fontSize: 28,
                     fontWeight: FontWeight.bold,
                   ),
@@ -309,7 +310,6 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
           Text(
             l10n.plot,
             style: TextStyle(
-              color: AppColors.textPrimary,
               fontSize: 20,
               fontWeight: FontWeight.bold,
             ),
@@ -318,7 +318,6 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
           Text(
             _currentMovie.plot,
             style: TextStyle(
-              color: AppColors.textSecondary,
               fontSize: 16,
               height: 1.5,
             ),
@@ -338,7 +337,6 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
           Text(
             l10n.cast,
             style: TextStyle(
-              color: AppColors.textPrimary,
               fontSize: 20,
               fontWeight: FontWeight.bold,
             ),
@@ -347,7 +345,6 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
           Text(
             _currentMovie.actors,
             style: TextStyle(
-              color: AppColors.textSecondary,
               fontSize: 16,
               height: 1.4,
             ),
@@ -367,7 +364,6 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
           Text(
             l10n.details,
             style: TextStyle(
-              color: AppColors.textPrimary,
               fontSize: 20,
               fontWeight: FontWeight.bold,
             ),
@@ -398,7 +394,6 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
           Text(
             l10n.ratings,
             style: TextStyle(
-              color: AppColors.textPrimary,
               fontSize: 20,
               fontWeight: FontWeight.bold,
             ),
@@ -429,7 +424,6 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
           Text(
             '${_currentMovie.imdbVotes} ${l10n.votes}',
             style: TextStyle(
-              color: AppColors.textSecondary,
               fontSize: 14,
             ),
           ),
@@ -440,10 +434,12 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
 
   Widget _buildRatingCard(
       String title, String rating, String maxRating, Color color) {
+    final theme = Theme.of(context);
+
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColors.cardBackground,
+        color: theme.cardColor,
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
           color: AppColors.borderColor,
@@ -455,7 +451,6 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
           Text(
             title,
             style: TextStyle(
-              color: AppColors.textSecondary,
               fontSize: 14,
               fontWeight: FontWeight.w500,
             ),
@@ -475,8 +470,8 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
                 TextSpan(
                   text: '/$maxRating',
                   style: TextStyle(
-                    color: AppColors.textSecondary,
                     fontSize: 16,
+                    color: theme.colorScheme.onSurface.withOpacity(0.6),
                   ),
                 ),
               ],
@@ -488,6 +483,8 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
   }
 
   Widget _buildInfoRow(String label, String value, IconData icon) {
+    final theme = Theme.of(context);
+
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -504,16 +501,15 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
               Text(
                 label,
                 style: TextStyle(
-                  color: AppColors.textSecondary,
                   fontSize: 14,
                   fontWeight: FontWeight.w500,
+                  color: theme.colorScheme.onSurface.withOpacity(0.6),
                 ),
               ),
               const SizedBox(height: 4),
               Text(
                 value,
                 style: TextStyle(
-                  color: AppColors.textPrimary,
                   fontSize: 16,
                 ),
               ),
@@ -525,13 +521,15 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
   }
 
   Widget _buildInfoChip(String text, IconData icon) {
+    final theme = Theme.of(context);
+
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: BoxDecoration(
-        color: AppColors.cardBackground,
+        color: theme.cardColor,
         borderRadius: BorderRadius.circular(20),
         border: Border.all(
-          color: AppColors.borderColor,
+          color: theme.colorScheme.onSurface.withOpacity(0.3),
           width: 1,
         ),
       ),
@@ -547,7 +545,6 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
           Text(
             text,
             style: TextStyle(
-              color: AppColors.textPrimary,
               fontSize: 14,
               fontWeight: FontWeight.w500,
             ),

@@ -38,15 +38,17 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final theme = Theme.of(context);
+
     return MultiBlocProvider(
       providers: [
         BlocProvider<AuthBloc>.value(value: _authBloc),
         BlocProvider<ProfileBloc>.value(value: _profileBloc),
       ],
       child: Scaffold(
-        backgroundColor: AppColors.background,
+        backgroundColor: theme.scaffoldBackgroundColor,
         appBar: AppBar(
-          backgroundColor: AppColors.background,
+          backgroundColor: theme.scaffoldBackgroundColor,
           elevation: 0,
           // leading: IconButton(
           //   onPressed: () {
@@ -71,7 +73,6 @@ class _ProfilePageState extends State<ProfilePage> {
           title: Text(
             l10n.profileDetails,
             style: TextStyle(
-              color: AppColors.textPrimary,
               fontSize: 18,
               fontWeight: FontWeight.w600,
             ),
@@ -145,7 +146,6 @@ class _ProfilePageState extends State<ProfilePage> {
                           Text(
                             'Bir hata oluştu',
                             style: TextStyle(
-                              color: AppColors.textPrimary,
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
                             ),
@@ -154,7 +154,6 @@ class _ProfilePageState extends State<ProfilePage> {
                           Text(
                             profileState.message,
                             style: TextStyle(
-                              color: AppColors.textSecondary,
                               fontSize: 14,
                             ),
                             textAlign: TextAlign.center,
@@ -166,7 +165,6 @@ class _ProfilePageState extends State<ProfilePage> {
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: AppColors.primary,
-                              foregroundColor: AppColors.textPrimary,
                             ),
                             child: const Text('Tekrar Dene'),
                           ),
@@ -182,7 +180,6 @@ class _ProfilePageState extends State<ProfilePage> {
                   return Center(
                     child: Text(
                       'Profil yükleniyor...',
-                      style: TextStyle(color: AppColors.textPrimary),
                     ),
                   );
                 },
@@ -236,7 +233,7 @@ class _ProfilePageState extends State<ProfilePage> {
   //   return Container(
   //     height: 80,
   //     decoration: BoxDecoration(
-  //       color: AppColors.background,
+  //       color: theme.scaffoldBackgroundColor,
   //       border: Border(
   //         top: BorderSide(
   //           color: AppColors.borderColor,

@@ -60,16 +60,21 @@ class _HomePageState extends State<HomePage> with RouteAware {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final theme = Theme.of(context);
 
     return BlocProvider<MovieBloc>.value(
       value: _movieBloc,
       child: Scaffold(
-        backgroundColor: AppColors.background,
+        backgroundColor: theme.scaffoldBackgroundColor,
         appBar: AppBar(
-          title: Text(l10n.home),
+          title: Text(
+            l10n.home,
+            style: TextStyle(
+              fontWeight: FontWeight.w500,
+            ),
+          ),
           centerTitle: true,
-          backgroundColor: AppColors.background,
-          foregroundColor: AppColors.textPrimary,
+          backgroundColor: theme.scaffoldBackgroundColor,
           actions: [
             IconButton(
               icon: const Icon(Icons.settings),
@@ -161,12 +166,13 @@ class _HomePageState extends State<HomePage> with RouteAware {
   }
 
   Widget _buildContent(MovieLoaded state) {
+    final theme = Theme.of(context);
     return RefreshIndicator(
       onRefresh: () async {
         _movieBloc.add(const LoadMovies(isRefresh: true));
       },
       color: AppColors.primary,
-      backgroundColor: AppColors.cardBackground,
+      backgroundColor: theme.colorScheme.surface,
       child: CustomScrollView(
         controller: _scrollController,
         slivers: [
@@ -238,6 +244,7 @@ class _HomePageState extends State<HomePage> with RouteAware {
 
   Widget _buildFeaturedSection(Movie movie) {
     final l10n = AppLocalizations.of(context)!;
+    final theme = Theme.of(context);
 
     return SizedBox(
       height: 500,
@@ -315,8 +322,8 @@ class _HomePageState extends State<HomePage> with RouteAware {
                 end: Alignment.bottomCenter,
                 colors: [
                   Colors.transparent,
-                  Colors.black.withOpacity(0.7),
-                  Colors.black,
+                  theme.scaffoldBackgroundColor.withOpacity(0.7),
+                  theme.scaffoldBackgroundColor,
                 ],
                 stops: const [0.0, 0.7, 1.0],
               ),
@@ -336,8 +343,8 @@ class _HomePageState extends State<HomePage> with RouteAware {
                   // Movie Title
                   Text(
                     movie.title,
-                    style: const TextStyle(
-                      color: Colors.white,
+                    style: TextStyle(
+                      color: theme.colorScheme.onSurface,
                       fontSize: 28,
                       fontWeight: FontWeight.bold,
                     ),
@@ -393,7 +400,7 @@ class _HomePageState extends State<HomePage> with RouteAware {
                         child: Text(
                           l10n.seeMore,
                           style: TextStyle(
-                            color: Colors.white.withOpacity(0.8),
+                            color: theme.colorScheme.onSurface,
                             fontSize: 14,
                             decoration: TextDecoration.underline,
                           ),
@@ -408,7 +415,7 @@ class _HomePageState extends State<HomePage> with RouteAware {
                   Text(
                     movie.plot,
                     style: TextStyle(
-                      color: Colors.white.withOpacity(0.8),
+                      color: theme.colorScheme.onSurface.withOpacity(0.8),
                       fontSize: 14,
                       height: 1.4,
                     ),

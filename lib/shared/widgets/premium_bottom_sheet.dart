@@ -8,16 +8,17 @@ class PremiumBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final theme = Theme.of(context);
 
     return Container(
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
         gradient: RadialGradient(
           center: Alignment.topCenter,
           radius: 0.7,
           colors: [
             Color(0xFFE50914),
-            Color(0xFF000000),
+            theme.scaffoldBackgroundColor,
           ],
         ),
       ),
@@ -57,8 +58,8 @@ class PremiumBottomSheet extends StatelessWidget {
                   center: Alignment.center,
                   radius: 0.6,
                   colors: [
-                    AppColors.white.withOpacity(0.15),
-                    AppColors.white.withOpacity(0.07),
+                    theme.colorScheme.onSurface.withOpacity(0.15),
+                    theme.colorScheme.onSurface.withOpacity(0.07),
                   ],
                 ),
                 borderRadius: BorderRadius.circular(24),
@@ -228,7 +229,6 @@ class PremiumBottomSheet extends StatelessWidget {
           label,
           textAlign: TextAlign.center,
           style: const TextStyle(
-            color: Colors.white,
             fontSize: 12,
             fontWeight: FontWeight.w500,
           ),

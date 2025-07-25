@@ -55,12 +55,14 @@ class MovieCard extends StatelessWidget {
         ),
         child: style == MovieCardStyle.home
             ? _buildHomeStyleCard()
-            : _buildProfileStyleCard(),
+            : _buildProfileStyleCard(context),
       ),
     );
   }
 
-  Widget _buildProfileStyleCard() {
+  Widget _buildProfileStyleCard(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -86,7 +88,7 @@ class MovieCard extends StatelessWidget {
             Text(
               movie.title,
               style: TextStyle(
-                color: AppColors.textPrimary,
+                color: theme.colorScheme.onSurface,
                 fontSize: 16,
                 fontWeight: FontWeight.w600,
               ),
@@ -100,7 +102,7 @@ class MovieCard extends StatelessWidget {
             Text(
               movie.director,
               style: TextStyle(
-                color: AppColors.textSecondary,
+                color: theme.colorScheme.onSurface.withOpacity(0.8),
                 fontSize: 14,
               ),
               maxLines: 1,

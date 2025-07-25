@@ -39,11 +39,12 @@ class _DiscoverPageState extends State<DiscoverPage> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final theme = Theme.of(context);
 
     return BlocProvider<MovieBloc>.value(
       value: _movieBloc,
       child: Scaffold(
-        backgroundColor: AppColors.background,
+        backgroundColor: theme.scaffoldBackgroundColor,
         body: SafeArea(
           child: BlocConsumer<MovieBloc, MovieState>(
             listener: (context, state) {
@@ -145,6 +146,8 @@ class _DiscoverPageState extends State<DiscoverPage> {
   }
 
   Widget _buildMovieCard(Movie movie, int movieIndex) {
+    final theme = Theme.of(context);
+
     final l10n = AppLocalizations.of(context)!;
     return Stack(
       children: [
@@ -205,10 +208,10 @@ class _DiscoverPageState extends State<DiscoverPage> {
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
               colors: [
-                Colors.black.withOpacity(0.3),
+                theme.scaffoldBackgroundColor.withOpacity(0.3),
                 Colors.transparent,
                 Colors.transparent,
-                Colors.black.withOpacity(0.8),
+                theme.scaffoldBackgroundColor.withOpacity(0.8),
               ],
               stops: const [0.0, 0.3, 0.7, 1.0],
             ),

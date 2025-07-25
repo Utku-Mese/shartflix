@@ -115,6 +115,7 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final theme = Theme.of(context);
 
     return BlocBuilder<AppSettingsBloc, AppSettingsState>(
       builder: (context, state) {
@@ -125,12 +126,11 @@ class _SettingsPageState extends State<SettingsPage> {
         }
 
         return Scaffold(
-          backgroundColor: AppColors.background,
+          backgroundColor: theme.scaffoldBackgroundColor,
           appBar: AppBar(
             title: Text(l10n.settings),
             centerTitle: true,
-            backgroundColor: AppColors.background,
-            foregroundColor: AppColors.textPrimary,
+            backgroundColor: theme.scaffoldBackgroundColor,
             leading: IconButton(
               icon: const Icon(Icons.arrow_back),
               onPressed: () => Navigator.pop(context),
@@ -170,12 +170,14 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   Widget _buildSectionHeader(String title) {
+    final theme = Theme.of(context);
+
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
       child: Text(
         title,
         style: TextStyle(
-          color: AppColors.textPrimary,
+          color: theme.colorScheme.onSurface,
           fontSize: 18,
           fontWeight: FontWeight.w600,
         ),
@@ -184,12 +186,14 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   Widget _buildThemeCard(AppLocalizations l10n) {
+    final theme = Theme.of(context);
+
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.cardBackground,
+        color: theme.cardColor,
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
-          color: AppColors.borderColor,
+          color: theme.colorScheme.onSurface.withOpacity(0.1),
           width: 1,
         ),
       ),
@@ -198,11 +202,11 @@ class _SettingsPageState extends State<SettingsPage> {
           ListTile(
             leading: Icon(
               Icons.light_mode,
-              color: AppColors.textPrimary,
+              color: theme.colorScheme.onSurface,
             ),
             title: Text(
               l10n.lightTheme,
-              style: TextStyle(color: AppColors.textPrimary),
+              style: TextStyle(color: theme.colorScheme.onSurface),
             ),
             trailing: Radio<bool>(
               value: false,
@@ -213,18 +217,18 @@ class _SettingsPageState extends State<SettingsPage> {
             onTap: () => _saveTheme(false),
           ),
           Divider(
-            color: AppColors.borderColor,
+            color: theme.colorScheme.onSurface.withOpacity(0.1),
             height: 1,
             indent: 56,
           ),
           ListTile(
             leading: Icon(
               Icons.dark_mode,
-              color: AppColors.textPrimary,
+              color: theme.colorScheme.onSurface,
             ),
             title: Text(
               l10n.darkTheme,
-              style: TextStyle(color: AppColors.textPrimary),
+              style: TextStyle(color: theme.colorScheme.onSurface),
             ),
             trailing: Radio<bool>(
               value: true,
@@ -240,12 +244,14 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   Widget _buildLanguageCard(AppLocalizations l10n) {
+    final theme = Theme.of(context);
+
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.cardBackground,
+        color: theme.cardColor,
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
-          color: AppColors.borderColor,
+          color: theme.colorScheme.onSurface.withOpacity(0.1),
           width: 1,
         ),
       ),
@@ -258,7 +264,7 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
             title: Text(
               l10n.turkish,
-              style: TextStyle(color: AppColors.textPrimary),
+              style: TextStyle(color: theme.colorScheme.onSurface),
             ),
             trailing: Radio<String>(
               value: 'tr',
@@ -269,7 +275,7 @@ class _SettingsPageState extends State<SettingsPage> {
             onTap: () => _saveLanguage('tr'),
           ),
           Divider(
-            color: AppColors.borderColor,
+            color: theme.colorScheme.onSurface.withOpacity(0.1),
             height: 1,
             indent: 56,
           ),
@@ -280,7 +286,7 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
             title: Text(
               l10n.english,
-              style: TextStyle(color: AppColors.textPrimary),
+              style: TextStyle(color: theme.colorScheme.onSurface),
             ),
             trailing: Radio<String>(
               value: 'en',
@@ -296,12 +302,14 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   Widget _buildAppInfoCard(AppLocalizations l10n) {
+    final theme = Theme.of(context);
+
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.cardBackground,
+        color: theme.cardColor,
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
-          color: AppColors.borderColor,
+          color: theme.colorScheme.onSurface.withOpacity(0.1),
           width: 1,
         ),
       ),
@@ -310,34 +318,34 @@ class _SettingsPageState extends State<SettingsPage> {
           ListTile(
             leading: Icon(
               Icons.info_outline,
-              color: AppColors.textPrimary,
+              color: theme.colorScheme.onSurface,
             ),
             title: Text(
               l10n.version,
-              style: TextStyle(color: AppColors.textPrimary),
+              style: TextStyle(color: theme.colorScheme.onSurface),
             ),
             trailing: Text(
               _appVersion.isEmpty ? '1.0.0' : _appVersion,
-              style: TextStyle(color: AppColors.textSecondary),
+              style: TextStyle(color: theme.colorScheme.onSurface),
             ),
           ),
           Divider(
-            color: AppColors.borderColor,
+            color: theme.colorScheme.onSurface.withOpacity(0.1),
             height: 1,
             indent: 56,
           ),
           ListTile(
             leading: Icon(
               Icons.privacy_tip_outlined,
-              color: AppColors.textPrimary,
+              color: theme.colorScheme.onSurface,
             ),
             title: Text(
               l10n.privacyPolicy,
-              style: TextStyle(color: AppColors.textPrimary),
+              style: TextStyle(color: theme.colorScheme.onSurface),
             ),
             trailing: Icon(
               Icons.arrow_forward_ios,
-              color: AppColors.textSecondary,
+              color: theme.colorScheme.onSurface,
               size: 16,
             ),
             onTap: () {
@@ -345,22 +353,22 @@ class _SettingsPageState extends State<SettingsPage> {
             },
           ),
           Divider(
-            color: AppColors.borderColor,
+            color: theme.colorScheme.onSurface.withOpacity(0.1),
             height: 1,
             indent: 56,
           ),
           ListTile(
             leading: Icon(
               Icons.description_outlined,
-              color: AppColors.textPrimary,
+              color: theme.colorScheme.onSurface,
             ),
             title: Text(
               l10n.termsOfService,
-              style: TextStyle(color: AppColors.textPrimary),
+              style: TextStyle(color: theme.colorScheme.onSurface),
             ),
             trailing: Icon(
               Icons.arrow_forward_ios,
-              color: AppColors.textSecondary,
+              color: theme.colorScheme.onSurface,
               size: 16,
             ),
             onTap: () {
@@ -373,12 +381,14 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   Widget _buildLogoutCard(AppLocalizations l10n) {
+    final theme = Theme.of(context);
+
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.cardBackground,
+        color: theme.cardColor,
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
-          color: AppColors.borderColor,
+          color: theme.colorScheme.onSurface.withOpacity(0.1),
           width: 1,
         ),
       ),

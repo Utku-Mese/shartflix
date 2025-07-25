@@ -5,7 +5,6 @@ import 'package:flutter_svg/svg.dart';
 import '../bloc/auth_bloc.dart';
 import '../bloc/auth_event.dart';
 import '../bloc/auth_state.dart';
-import '../../../../core/constants/app_colors.dart';
 import '../../../../shared/shared.dart';
 import 'register_page.dart';
 
@@ -30,8 +29,11 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: theme.scaffoldBackgroundColor,
+      resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(24.0),
@@ -73,7 +75,10 @@ class _LoginPageState extends State<LoginPage> {
                       hintText: l10n?.email ?? 'E-mail',
                       prefixIcon: SvgPicture.asset(
                         'assets/icons/mail.svg',
-                        color: AppColors.white,
+                        colorFilter: ColorFilter.mode(
+                          theme.colorScheme.onSurface,
+                          BlendMode.srcIn,
+                        ),
                       ),
                       keyboardType: TextInputType.emailAddress,
                       validator: (value) {
@@ -98,7 +103,10 @@ class _LoginPageState extends State<LoginPage> {
                       hintText: l10n?.password ?? 'Password',
                       prefixIcon: SvgPicture.asset(
                         'assets/icons/password.svg',
-                        color: AppColors.white,
+                        colorFilter: ColorFilter.mode(
+                          theme.colorScheme.onSurface,
+                          BlendMode.srcIn,
+                        ),
                       ),
                       isPassword: true,
                       validator: (value) {
@@ -127,10 +135,11 @@ class _LoginPageState extends State<LoginPage> {
                           l10n?.forgotPassword ?? 'Forgot Password',
                           style: TextStyle(
                             fontSize: 12,
-                            color: AppColors.textPrimary,
+                            color: theme.colorScheme.onSurface.withOpacity(0.7),
                             fontWeight: FontWeight.w400,
                             decoration: TextDecoration.underline,
-                            decorationColor: AppColors.textPrimary,
+                            decorationColor:
+                                theme.colorScheme.onSurface.withOpacity(0.7),
                           ),
                         ),
                       ),

@@ -82,7 +82,6 @@ class ProfileHeader extends StatelessWidget {
               ? '${profile.name.substring(0, 8)}...'
               : profile.name,
           style: TextStyle(
-            color: AppColors.textPrimary,
             fontSize: 20,
             fontWeight: FontWeight.w600,
           ),
@@ -91,7 +90,6 @@ class ProfileHeader extends StatelessWidget {
         Text(
           'ID: ${profile.id.substring(0, 8)}...',
           style: TextStyle(
-            color: AppColors.textSecondary,
             fontSize: 14,
           ),
         ),
