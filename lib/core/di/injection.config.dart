@@ -21,6 +21,8 @@ import 'package:shartflix/core/network/api_client.dart' as _i325;
 import 'package:shartflix/core/network/services/auth_api_service.dart' as _i102;
 import 'package:shartflix/core/network/services/movie_api_service.dart'
     as _i421;
+import 'package:shartflix/core/network/services/profile_api_service.dart'
+    as _i1055;
 import 'package:shartflix/core/services/connectivity_service.dart' as _i505;
 import 'package:shartflix/core/services/localization_service.dart' as _i1013;
 import 'package:shartflix/core/services/logger_service.dart' as _i12;
@@ -44,8 +46,18 @@ import 'package:shartflix/features/movies/domain/usecases/favorite_usecases.dart
     as _i198;
 import 'package:shartflix/features/movies/domain/usecases/get_movies_usecase.dart'
     as _i854;
+import 'package:shartflix/features/movies/domain/usecases/toggle_favorite_usecase.dart'
+    as _i908;
 import 'package:shartflix/features/movies/presentation/bloc/movie_bloc.dart'
     as _i418;
+import 'package:shartflix/features/profile/domain/repositories/profile_repository.dart'
+    as _i454;
+import 'package:shartflix/features/profile/domain/usecases/get_favorite_movies_usecase.dart'
+    as _i853;
+import 'package:shartflix/features/profile/domain/usecases/get_profile_usecase.dart'
+    as _i303;
+import 'package:shartflix/features/profile/presentation/bloc/profile_bloc.dart'
+    as _i471;
 
 extension GetItInjectableX on _i174.GetIt {
 // initializes the registration of main-scope dependencies inside of GetIt
@@ -70,6 +82,8 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i895.Connectivity>(
         () => coreModule.provideConnectivity());
     gh.lazySingleton<_i12.LoggerService>(() => _i12.LoggerService());
+    gh.factory<_i1055.ProfileApiService>(
+        () => coreModule.provideProfileApiService(gh<_i361.Dio>()));
     gh.factory<_i505.ConnectivityService>(() => _i505.ConnectivityService(
           gh<_i895.Connectivity>(),
           gh<_i12.LoggerService>(),
@@ -88,6 +102,19 @@ extension GetItInjectableX on _i174.GetIt {
               gh<_i558.FlutterSecureStorage>(),
               gh<_i12.LoggerService>(),
             ));
+    gh.factory<_i454.ProfileRepository>(
+        () => coreModule.provideProfileRepository(
+              gh<_i1055.ProfileApiService>(),
+              gh<_i12.LoggerService>(),
+            ));
+    gh.factory<_i853.GetFavoriteMoviesUseCase>(
+        () => _i853.GetFavoriteMoviesUseCase(gh<_i454.ProfileRepository>()));
+    gh.factory<_i303.GetProfileUseCase>(
+        () => _i303.GetProfileUseCase(gh<_i454.ProfileRepository>()));
+    gh.factory<_i471.ProfileBloc>(() => coreModule.provideProfileBloc(
+          gh<_i303.GetProfileUseCase>(),
+          gh<_i853.GetFavoriteMoviesUseCase>(),
+        ));
     gh.factory<_i325.ApiClient>(() => _i325.ApiClient(
           gh<_i361.Dio>(),
           gh<_i313.SecureStorageService>(),
@@ -108,6 +135,8 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i198.ToggleFavoriteUseCase(gh<_i1003.MovieRepository>()));
     gh.factory<_i198.GetFavoriteMoviesUseCase>(
         () => _i198.GetFavoriteMoviesUseCase(gh<_i1003.MovieRepository>()));
+    gh.factory<_i908.ToggleFavoriteUseCase>(
+        () => _i908.ToggleFavoriteUseCase(gh<_i1003.MovieRepository>()));
     gh.lazySingleton<_i291.AuthRepository>(() => _i689.AuthRepositoryImpl(
           gh<_i102.AuthApiService>(),
           gh<_i313.SecureStorageService>(),

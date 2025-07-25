@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:shartflix/core/utils/extensions.dart';
 import 'dart:io';
 import '../../../../core/constants/app_colors.dart';
 
@@ -21,45 +22,53 @@ class _PhotoUploadPageState extends State<PhotoUploadPage> {
 
     return Scaffold(
       backgroundColor: AppColors.background,
+      appBar: AppBar(
+        backgroundColor: AppColors.background,
+        elevation: 0,
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: AppColors.cardBackground,
+              border: Border.all(
+                color: AppColors.borderColor,
+                width: 1,
+              ),
+            ),
+            child: Icon(
+              Icons.arrow_back,
+              color: AppColors.textPrimary,
+            ),
+          ),
+        ),
+        title: Text(
+          'Profil Detayı',
+          style: TextStyle(
+            color: AppColors.textPrimary,
+            fontSize: 18,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        centerTitle: true,
+      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(24.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              // Header
-              Row(
-                children: [
-                  IconButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    icon: const Icon(
-                      Icons.arrow_back,
-                      color: Colors.white,
-                    ),
-                  ),
-                  const SizedBox(width: 16),
-                  const Text(
-                    'Profil Detayı',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              ),
-
-              const Spacer(flex: 2),
-
+              SizedBox(height: 16),
               // Title
               const Text(
                 'Fotoğraflarınızı Yükleyin',
                 style: TextStyle(
                   color: Colors.white,
-                  fontSize: 32,
-                  fontWeight: FontWeight.bold,
+                  fontSize: 24,
+                  fontWeight: FontWeight.w600,
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -67,13 +76,16 @@ class _PhotoUploadPageState extends State<PhotoUploadPage> {
               const SizedBox(height: 16),
 
               // Subtitle
-              Text(
-                'Resources out incentivize\\nrelaxation floor loss cc.',
-                style: TextStyle(
-                  color: Colors.white.withOpacity(0.7),
-                  fontSize: 16,
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 48.0),
+                child: Text(
+                  'Resources out incentivize relaxation floor loss cc.',
+                  style: TextStyle(
+                    color: Colors.white.withOpacity(0.7),
+                    fontSize: 16,
+                  ),
+                  textAlign: TextAlign.center,
                 ),
-                textAlign: TextAlign.center,
               ),
 
               const Spacer(),
@@ -87,7 +99,7 @@ class _PhotoUploadPageState extends State<PhotoUploadPage> {
                   margin: const EdgeInsets.symmetric(horizontal: 80),
                   decoration: BoxDecoration(
                     color: const Color(0xFF1A1A1A),
-                    borderRadius: BorderRadius.circular(24),
+                    borderRadius: BorderRadius.circular(31),
                     border: Border.all(
                       color: const Color(0xFF333333),
                       width: 2,

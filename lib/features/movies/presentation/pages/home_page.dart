@@ -8,6 +8,7 @@ import '../bloc/movie_event.dart';
 import '../bloc/movie_state.dart';
 import '../../domain/entities/movie.dart';
 import '../../../../core/di/injection.dart';
+import '../../../../shared/widgets/movie_card.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -35,6 +36,20 @@ class _HomePageState extends State<HomePage> {
       value: _movieBloc,
       child: Scaffold(
         backgroundColor: AppColors.background,
+        appBar: AppBar(
+          title: Text(l10n.home),
+          centerTitle: true,
+          backgroundColor: AppColors.background,
+          foregroundColor: AppColors.textPrimary,
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.settings),
+              onPressed: () {
+                // ToDO Navigate to settings page
+              },
+            ),
+          ],
+        ),
         body: SafeArea(
           child: BlocConsumer<MovieBloc, MovieState>(
             listener: (context, state) {
@@ -114,7 +129,13 @@ class _HomePageState extends State<HomePage> {
             delegate: SliverChildBuilderDelegate(
               (context, index) {
                 if (index < state.movies.length) {
-                  return _buildMovieCard(state.movies[index]);
+                  return MovieCard(
+                    movie: state.movies[index],
+                    style: MovieCardStyle.home,
+                    onTap: () {
+                      // TODO: Navigate to movie detail
+                    },
+                  );
                 } else if (!state.hasReachedMax) {
                   // Load more trigger
                   _movieBloc.add(LoadMoreMovies());
@@ -296,83 +317,6 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _buildMovieCard(Movie movie) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(16),
-        color: const Color(0xFF1A1A1A),
-      ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Movie Poster
-            Expanded(
-              flex: 3,
-              child: SizedBox(
-                width: double.infinity,
-                child: CachedNetworkImage(
-                  imageUrl: movie.poster,
-                  fit: BoxFit.cover,
-                  placeholder: (context, url) => Container(
-                    color: const Color(0xFF2A2A2A),
-                    child: const Center(
-                      child: CircularProgressIndicator(
-                        color: Color(0xFFE53E3E),
-                      ),
-                    ),
-                  ),
-                  errorWidget: (context, url, error) => Container(
-                    color: const Color(0xFF2A2A2A),
-                    child: const Icon(
-                      Icons.movie,
-                      color: Colors.white54,
-                      size: 32,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-
-            // Movie Info
-            Expanded(
-              flex: 1,
-              child: Padding(
-                padding: const EdgeInsets.all(12),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      movie.title,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                      ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    Text(
-                      movie.director,
-                      style: TextStyle(
-                        color: Colors.white.withOpacity(0.7),
-                        fontSize: 12,
-                      ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
       ),
     );
   }

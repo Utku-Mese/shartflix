@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import '../../../auth/presentation/bloc/auth_bloc.dart';
 import '../../../auth/presentation/bloc/auth_event.dart';
 import '../../../auth/presentation/bloc/auth_state.dart';
-import '../../../movies/presentation/bloc/movie_bloc.dart';
-import '../../../movies/presentation/bloc/movie_state.dart';
-import '../../../movies/domain/entities/movie.dart';
+import '../bloc/profile_bloc.dart';
+import '../bloc/profile_event.dart';
+import '../bloc/profile_state.dart';
 import '../../../../core/di/injection.dart';
+import '../../../../core/constants/app_colors.dart';
+import '../../../../shared/widgets/profile_header.dart';
+import '../../../../shared/widgets/profile_actions.dart';
+import '../../../../shared/widgets/section_header.dart';
+import '../../../../shared/widgets/favorite_movies_grid.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -18,14 +22,17 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   late AuthBloc _authBloc;
-  late MovieBloc _movieBloc;
+  late ProfileBloc _profileBloc;
   int _currentIndex = 1;
 
   @override
   void initState() {
     super.initState();
     _authBloc = getIt<AuthBloc>();
-    _movieBloc = getIt<MovieBloc>();
+    _profileBloc = getIt<ProfileBloc>();
+
+    // Load profile data when page initializes
+    _profileBloc.add(LoadProfile());
   }
 
   @override
@@ -33,29 +40,140 @@ class _ProfilePageState extends State<ProfilePage> {
     return MultiBlocProvider(
       providers: [
         BlocProvider<AuthBloc>.value(value: _authBloc),
-        BlocProvider<MovieBloc>.value(value: _movieBloc),
+        BlocProvider<ProfileBloc>.value(value: _profileBloc),
       ],
       child: Scaffold(
-        backgroundColor: const Color(0xFF000000),
+        backgroundColor: AppColors.background,
+        appBar: AppBar(
+          backgroundColor: AppColors.background,
+          elevation: 0,
+          leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: AppColors.cardBackground,
+                border: Border.all(
+                  color: AppColors.borderColor,
+                  width: 1,
+                ),
+              ),
+              child: Icon(
+                Icons.arrow_back,
+                color: AppColors.textPrimary,
+              ),
+            ),
+          ),
+          title: Text(
+            'Profil Detayı',
+            style: TextStyle(
+              color: AppColors.textPrimary,
+              fontSize: 18,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          centerTitle: true,
+          actions: [
+            Container(
+              margin: const EdgeInsets.only(right: 4),
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+              decoration: BoxDecoration(
+                color: AppColors.primary,
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.diamond_outlined,
+                    color: AppColors.textPrimary,
+                    size: 16,
+                  ),
+                  const SizedBox(width: 8),
+                  Text(
+                    'Sınırlı Teklif',
+                    style: TextStyle(
+                      color: AppColors.textPrimary,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
         body: SafeArea(
           child: BlocConsumer<AuthBloc, AuthState>(
             listener: (context, state) {},
             builder: (context, authState) {
-              return CustomScrollView(
-                slivers: [
-                  // Profile Header
-                  SliverToBoxAdapter(
-                    child: _buildProfileHeader(),
-                  ),
+              return BlocBuilder<ProfileBloc, ProfileState>(
+                builder: (context, profileState) {
+                  if (profileState is ProfileLoading) {
+                    return Center(
+                      child: CircularProgressIndicator(
+                        color: AppColors.primary,
+                      ),
+                    );
+                  }
 
-                  // Favorite Movies Section
-                  SliverToBoxAdapter(
-                    child: _buildSectionHeader('Beğendiğim Filmler'),
-                  ),
+                  if (profileState is ProfileError) {
+                    return Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.error_outline,
+                            color: AppColors.error,
+                            size: 64,
+                          ),
+                          const SizedBox(height: 16),
+                          Text(
+                            'Bir hata oluştu',
+                            style: TextStyle(
+                              color: AppColors.textPrimary,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            profileState.message,
+                            style: TextStyle(
+                              color: AppColors.textSecondary,
+                              fontSize: 14,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                          const SizedBox(height: 24),
+                          ElevatedButton(
+                            onPressed: () {
+                              _profileBloc.add(RefreshProfile());
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: AppColors.primary,
+                              foregroundColor: AppColors.textPrimary,
+                            ),
+                            child: const Text('Tekrar Dene'),
+                          ),
+                        ],
+                      ),
+                    );
+                  }
 
-                  // Favorite Movies Grid
-                  _buildFavoriteMoviesGrid(),
-                ],
+                  if (profileState is ProfileLoaded) {
+                    return _buildContent(profileState);
+                  }
+
+                  return Center(
+                    child: Text(
+                      'Profil yükleniyor...',
+                      style: TextStyle(color: AppColors.textPrimary),
+                    ),
+                  );
+                },
               );
             },
           ),
@@ -65,328 +183,32 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  Widget _buildProfileHeader() {
-    return Container(
-      padding: const EdgeInsets.all(24),
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              IconButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                icon: const Icon(
-                  Icons.arrow_back,
-                  color: Colors.white,
-                ),
-              ),
-              Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                decoration: BoxDecoration(
-                  color: const Color(0xFFE53E3E),
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: const Text(
-                  'Sınırlı Teklif',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ),
-            ],
-          ),
-
-          const SizedBox(height: 32),
-
-          // Profile Info
-          Row(
-            children: [
-              // Profile Image
-              Container(
-                width: 80,
-                height: 80,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(
-                    color: const Color(0xFF333333),
-                    width: 2,
-                  ),
-                ),
-                child: ClipOval(
-                  child: CachedNetworkImage(
-                    imageUrl:
-                        'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=400&h=400&fit=crop',
-                    fit: BoxFit.cover,
-                    placeholder: (context, url) => Container(
-                      color: const Color(0xFF1A1A1A),
-                      child: const Icon(
-                        Icons.person,
-                        color: Colors.white54,
-                        size: 32,
-                      ),
-                    ),
-                    errorWidget: (context, url, error) => Container(
-                      color: const Color(0xFF1A1A1A),
-                      child: const Icon(
-                        Icons.person,
-                        color: Colors.white54,
-                        size: 32,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-
-              const SizedBox(width: 16),
-
-              // User Info
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'Ayça Aydoğan',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    const Text(
-                      'ID: 245677',
-                      style: TextStyle(
-                        color: Colors.white70,
-                        fontSize: 14,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-
-              // Add Photo Button
-              Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                decoration: BoxDecoration(
-                  color: const Color(0xFFE53E3E),
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: InkWell(
-                  onTap: () {
-                    Navigator.pushNamed(context, '/photo-upload');
-                  },
-                  child: const Text(
-                    'Fotoğraf Ekle',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 12,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-
-          const SizedBox(height: 24),
-
-          // Profile Actions
-          Row(
-            children: [
-              Expanded(
-                child: _buildProfileAction(
-                  icon: Icons.edit_outlined,
-                  label: 'Profili Düzenle',
-                  onTap: () {
-                    // TODO: Navigate to edit profile
-                  },
-                ),
-              ),
-              const SizedBox(width: 16),
-              Expanded(
-                child: _buildProfileAction(
-                  icon: Icons.logout,
-                  label: 'Çıkış Yap',
-                  onTap: () {
-                    _authBloc.add(LogoutRequested());
-                  },
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildProfileAction({
-    required IconData icon,
-    required String label,
-    required VoidCallback onTap,
-  }) {
-    return Container(
-      decoration: BoxDecoration(
-        color: const Color(0xFF1A1A1A),
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: const Color(0xFF333333),
-          width: 1,
-        ),
-      ),
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          onTap: onTap,
-          borderRadius: BorderRadius.circular(16),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 16),
-            child: Column(
-              children: [
-                Icon(
-                  icon,
-                  color: Colors.white,
-                  size: 24,
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  label,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 12,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ],
-            ),
+  Widget _buildContent(ProfileLoaded state) {
+    return CustomScrollView(
+      slivers: [
+        // Profile Header
+        SliverToBoxAdapter(
+          child: ProfileHeader(
+            profile: state.profile,
+            onAddPhotoTap: () {
+              Navigator.pushNamed(context, '/photo-upload');
+            },
           ),
         ),
-      ),
-    );
-  }
 
-  Widget _buildSectionHeader(String title) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-      child: Text(
-        title,
-        style: const TextStyle(
-          color: Colors.white,
-          fontSize: 20,
-          fontWeight: FontWeight.bold,
+        // Favorite Movies Section
+        SliverToBoxAdapter(
+          child: SectionHeader(title: 'Beğendiğim Filmler'),
         ),
-      ),
-    );
-  }
 
-  Widget _buildFavoriteMoviesGrid() {
-    return BlocBuilder<MovieBloc, MovieState>(
-      builder: (context, state) {
-        final demoMovies = _getDemoMovies();
-
-        return SliverPadding(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
-          sliver: SliverGrid(
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              childAspectRatio: 0.7,
-              crossAxisSpacing: 16,
-              mainAxisSpacing: 16,
-            ),
-            delegate: SliverChildBuilderDelegate(
-              (context, index) {
-                if (index < demoMovies.length) {
-                  return _buildMovieCard(demoMovies[index]);
-                }
-                return null;
-              },
-              childCount: demoMovies.length,
-            ),
-          ),
-        );
-      },
-    );
-  }
-
-  Widget _buildMovieCard(Movie movie) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(16),
-        color: const Color(0xFF1A1A1A),
-      ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Movie Poster
-            Expanded(
-              flex: 3,
-              child: SizedBox(
-                width: double.infinity,
-                child: CachedNetworkImage(
-                  imageUrl: movie.poster,
-                  fit: BoxFit.cover,
-                  placeholder: (context, url) => Container(
-                    color: const Color(0xFF2A2A2A),
-                    child: const Center(
-                      child: CircularProgressIndicator(
-                        color: Color(0xFFE53E3E),
-                      ),
-                    ),
-                  ),
-                  errorWidget: (context, url, error) => Container(
-                    color: const Color(0xFF2A2A2A),
-                    child: const Icon(
-                      Icons.movie,
-                      color: Colors.white54,
-                      size: 32,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-
-            // Movie Info
-            Expanded(
-              flex: 1,
-              child: Padding(
-                padding: const EdgeInsets.all(12),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      movie.title,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                      ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    Text(
-                      movie.director,
-                      style: TextStyle(
-                        color: Colors.white.withOpacity(0.7),
-                        fontSize: 12,
-                      ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
+        // Favorite Movies Grid
+        FavoriteMoviesGrid(
+          favoriteMovies: state.favoriteMovies,
+          onMovieTap: (movie) {
+            // TODO: Navigate to movie detail
+          },
         ),
-      ),
+      ],
     );
   }
 
@@ -471,64 +293,5 @@ class _ProfilePageState extends State<ProfilePage> {
         ],
       ),
     );
-  }
-
-  List<Movie> _getDemoMovies() {
-    return [
-      const Movie(
-        id: '1',
-        title: 'Aşk, Ekmek, Hayaller',
-        year: '2023',
-        rated: 'PG-13',
-        released: '2023-01-01',
-        runtime: '120 min',
-        genre: 'Romance, Drama',
-        director: 'Adam Yapım',
-        writer: 'Writer 1',
-        actors: 'Actor 1, Actor 2',
-        plot: 'A beautiful romantic story',
-        language: 'Turkish',
-        country: 'Turkey',
-        awards: 'N/A',
-        poster:
-            'https://images.unsplash.com/photo-1489424731084-a5d8b219a5bb?w=400&h=600&fit=crop',
-        metascore: '85',
-        imdbRating: '8.5',
-        imdbVotes: '1000',
-        imdbID: 'tt1234567',
-        type: 'movie',
-        response: 'True',
-        images: [],
-        comingSoon: false,
-        isFavorite: true,
-      ),
-      const Movie(
-        id: '2',
-        title: 'Gece Karanlık',
-        year: '2023',
-        rated: 'R',
-        released: '2023-02-01',
-        runtime: '110 min',
-        genre: 'Thriller, Drama',
-        director: 'Fox Studios',
-        writer: 'Writer 2',
-        actors: 'Actor 3, Actor 4',
-        plot: 'A thrilling dark story',
-        language: 'Turkish',
-        country: 'Turkey',
-        awards: 'N/A',
-        poster:
-            'https://images.unsplash.com/photo-1440404653325-ab127d49abc1?w=400&h=600&fit=crop',
-        metascore: '78',
-        imdbRating: '7.8',
-        imdbVotes: '800',
-        imdbID: 'tt2345678',
-        type: 'movie',
-        response: 'True',
-        images: [],
-        comingSoon: false,
-        isFavorite: true,
-      ),
-    ];
   }
 }
