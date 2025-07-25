@@ -94,8 +94,12 @@ class _SettingsPageState extends State<SettingsPage> {
 
     if (confirmed == true) {
       // AuthBloc üzerinden logout işlemini gerçekleştir
-      final authBloc = getIt<AuthBloc>();
-      authBloc.add(LogoutRequested());
+      try {
+        final authBloc = getIt<AuthBloc>();
+        authBloc.add(LogoutRequested());
+      } catch (e) {
+        debugPrint('Logout error: $e');
+      }
 
       if (mounted) {
         // AuthWrapper otomatik olarak LoginPage'e yönlendirecek

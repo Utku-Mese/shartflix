@@ -29,56 +29,79 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     LoginRequested event,
     Emitter<AuthState> emit,
   ) async {
-    emit(AuthLoading());
+    try {
+      emit(AuthLoading());
 
-    final result = await _loginUseCase.call(event.email, event.password);
+      final result = await _loginUseCase.call(event.email, event.password);
 
-    result.fold(
-      (user) async {
-        // Store auth token if available in user model
-        // await _storageService.write('auth_token', user.token);
-        emit(AuthAuthenticated(user));
-      },
-      (error) => emit(AuthError(error)),
-    );
+      if (!isClosed) {
+        result.fold(
+          (user) async {
+            // Store auth token if available in user model
+            // await _storageService.write('auth_token', user.token);
+            emit(AuthAuthenticated(user));
+          },
+          (error) => emit(AuthError(error)),
+        );
+      }
+    } catch (e) {
+      if (!isClosed) {
+        emit(AuthError('Login failed: ${e.toString()}'));
+      }
+    }
   }
 
   Future<void> _onRegisterRequested(
     RegisterRequested event,
     Emitter<AuthState> emit,
   ) async {
-    emit(AuthLoading());
+    try {
+      emit(AuthLoading());
 
-    final result = await _registerUseCase.call(
-      firstName: event.firstName,
-      lastName: event.lastName,
-      email: event.email,
-      password: event.password,
-      confirmPassword: event.confirmPassword,
-    );
+      final result = await _registerUseCase.call(
+        firstName: event.firstName,
+        lastName: event.lastName,
+        email: event.email,
+        password: event.password,
+        confirmPassword: event.confirmPassword,
+      );
 
-    result.fold(
-      (user) async {
-        // Store auth token if available in user model
-        // await _storageService.write('auth_token', user.token);
-        emit(AuthAuthenticated(user));
-      },
-      (error) => emit(AuthError(error)),
-    );
+      if (!isClosed) {
+        result.fold(
+          (user) async {
+            // Store auth token if available in user model
+            // await _storageService.write('auth_token', user.token);
+            emit(AuthAuthenticated(user));
+          },
+          (error) => emit(AuthError(error)),
+        );
+      }
+    } catch (e) {
+      if (!isClosed) {
+        emit(AuthError('Registration failed: ${e.toString()}'));
+      }
+    }
   }
 
   Future<void> _onLogoutRequested(
     LogoutRequested event,
     Emitter<AuthState> emit,
   ) async {
-    await _storageService.clearAuthData();
-    emit(AuthUnauthenticated());
+    try {
+      await _storageService.clearAuthData();
+      if (!isClosed) emit(AuthUnauthenticated());
+    } catch (e) {
+      if (!isClosed)
+        emit(AuthUnauthenticated()); // Logout her durumda başarılı sayılsın
+    }
   }
 
   Future<void> _onCheckAuthStatus(
     CheckAuthStatus event,
     Emitter<AuthState> emit,
   ) async {
+    if (isClosed) return;
+
     try {
       // Check if token exists
       final hasToken = await _storageService.hasToken();
@@ -93,21 +116,21 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             final userModel = UserModel.fromJson(userJson);
             final user = userModel.toEntity();
 
-            emit(AuthAuthenticated(user));
+            if (!isClosed) emit(AuthAuthenticated(user));
           } catch (e) {
             await _storageService.clearAuthData();
-            emit(AuthUnauthenticated());
+            if (!isClosed) emit(AuthUnauthenticated());
           }
         } else {
           await _storageService.clearAuthData();
-          emit(AuthUnauthenticated());
+          if (!isClosed) emit(AuthUnauthenticated());
         }
       } else {
-        emit(AuthUnauthenticated());
+        if (!isClosed) emit(AuthUnauthenticated());
       }
     } catch (e) {
       await _storageService.clearAuthData();
-      emit(AuthUnauthenticated());
+      if (!isClosed) emit(AuthUnauthenticated());
     }
   }
 }

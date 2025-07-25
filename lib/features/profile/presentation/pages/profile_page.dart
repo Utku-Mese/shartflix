@@ -1,8 +1,5 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../../shared/widgets/premium_bottom_sheet.dart';
 import '../../../auth/presentation/bloc/auth_bloc.dart';
@@ -15,7 +12,6 @@ import '../../../../core/constants/app_colors.dart';
 import '../../../../shared/widgets/profile_header.dart';
 import '../../../../shared/widgets/section_header.dart';
 import '../../../../shared/widgets/favorite_movies_grid.dart';
-import '../../../../shared/widgets/premium_bottom_sheet.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
