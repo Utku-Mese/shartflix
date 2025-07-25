@@ -13,7 +13,7 @@ class FirebaseService {
   static FirebasePerformance? _performance;
 
   static FirebaseAnalytics get analytics => _analytics!;
-  static FirebaseCrashlytics get crashlytics => _crashlytics!;
+  static FirebaseCrashlytics? get crashlytics => _crashlytics;
   static FirebasePerformance get performance => _performance!;
 
   /// Firebase'i başlat
@@ -24,11 +24,15 @@ class FirebaseService {
       );
 
       _analytics = FirebaseAnalytics.instance;
-      _crashlytics = FirebaseCrashlytics.instance;
-      _performance = FirebasePerformance.instance;
 
-      // Crashlytics konfigürasyonu
-      await _configureCrashlytics();
+      // Web'de Crashlytics desteklenmiyor, sadece mobil platformlarda başlat
+      if (!kIsWeb) {
+        _crashlytics = FirebaseCrashlytics.instance;
+        // Crashlytics konfigürasyonu
+        await _configureCrashlytics();
+      }
+
+      _performance = FirebasePerformance.instance;
 
       // Analytics konfigürasyonu
       await _configureAnalytics();
@@ -42,7 +46,8 @@ class FirebaseService {
 
   /// Crashlytics konfigürasyonu
   static Future<void> _configureCrashlytics() async {
-    if (_crashlytics == null) return;
+    // Web'de Crashlytics desteklenmiyor
+    if (kIsWeb || _crashlytics == null) return;
 
     // Debug modda crashlytics'i devre dışı bırak
     if (kDebugMode) {
@@ -159,7 +164,12 @@ class FirebaseService {
     String? reason,
     bool fatal = false,
   }) async {
-    if (_crashlytics == null) return;
+    // Web'de Crashlytics desteklenmiyor
+    if (kIsWeb || _crashlytics == null) {
+      debugPrint('Error recorded (Web): $exception');
+      if (stackTrace != null) debugPrint('Stack trace: $stackTrace');
+      return;
+    }
 
     await _crashlytics!.recordError(
       exception,
@@ -171,7 +181,11 @@ class FirebaseService {
 
   /// Özel log kaydet
   static Future<void> log(String message) async {
-    if (_crashlytics == null) return;
+    // Web'de Crashlytics desteklenmiyor
+    if (kIsWeb || _crashlytics == null) {
+      debugPrint('Crashlytics log (Web): $message');
+      return;
+    }
 
     await _crashlytics!.log(message);
   }
