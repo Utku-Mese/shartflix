@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -9,6 +11,7 @@ import '../bloc/movie_state.dart';
 import '../../domain/entities/movie.dart';
 import '../../../../core/di/injection.dart';
 import '../../../../shared/widgets/movie_card.dart';
+import 'movie_detail_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -20,12 +23,34 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   late MovieBloc _movieBloc;
   int _currentIndex = 0;
+  late ScrollController _scrollController;
 
   @override
   void initState() {
     super.initState();
     _movieBloc = getIt<MovieBloc>();
+    _scrollController = ScrollController();
+    _scrollController.addListener(_onScroll);
     _movieBloc.add(const LoadMovies());
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _onScroll() {
+    if (_isBottom) {
+      _movieBloc.add(LoadMoreMovies());
+    }
+  }
+
+  bool get _isBottom {
+    if (!_scrollController.hasClients) return false;
+    final maxScroll = _scrollController.position.maxScrollExtent;
+    final currentScroll = _scrollController.offset;
+    return currentScroll >= (maxScroll * 0.9);
   }
 
   @override
@@ -73,9 +98,18 @@ class _HomePageState extends State<HomePage> {
               } else if (state is MovieFavoriteUpdated) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-                    content: Text(state.message ?? ''),
+                    content: Text(
+                      state.isSuccess
+                          ? (state.message ?? 'Film favorilere eklendi!')
+                          : (state.message ?? 'Bir hata oluştu'),
+                    ),
                     backgroundColor:
-                        state.isSuccess ? AppColors.success : AppColors.error,
+                        state.isSuccess ? AppColors.primary : Colors.red,
+                    duration: const Duration(seconds: 2),
+                    behavior: SnackBarBehavior.floating,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
                   ),
                 );
               }
@@ -108,49 +142,78 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildContent(MovieLoaded state) {
-    return CustomScrollView(
-      slivers: [
-        // Featured Movie Section
-        if (state.featuredMovies.isNotEmpty)
-          SliverToBoxAdapter(
-            child: _buildFeaturedSection(state.featuredMovies.first),
+    return RefreshIndicator(
+      onRefresh: () async {
+        _movieBloc.add(const LoadMovies(isRefresh: true));
+      },
+      color: AppColors.primary,
+      backgroundColor: AppColors.cardBackground,
+      child: CustomScrollView(
+        controller: _scrollController,
+        slivers: [
+          // Featured Movie Section
+          if (state.movies.isNotEmpty)
+            SliverToBoxAdapter(
+              child: _buildFeaturedSection(
+                  state.movies[Random().nextInt(state.movies.length)]),
+            ),
+
+          // Movies Grid
+          SliverPadding(
+            padding: const EdgeInsets.all(16),
+            sliver: SliverGrid(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                childAspectRatio: 0.7,
+                crossAxisSpacing: 16,
+                mainAxisSpacing: 16,
+              ),
+              delegate: SliverChildBuilderDelegate(
+                (context, index) {
+                  if (index < state.movies.length) {
+                    return MovieCard(
+                      movie: state.movies[index],
+                      style: MovieCardStyle.profile,
+                    );
+                  }
+                  return null;
+                },
+                childCount: state.movies.length,
+              ),
+            ),
           ),
 
-        // Movies Grid
-        SliverPadding(
-          padding: const EdgeInsets.all(16),
-          sliver: SliverGrid(
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              childAspectRatio: 0.7,
-              crossAxisSpacing: 16,
-              mainAxisSpacing: 16,
+          // Loading Indicator at bottom
+          if (!state.hasReachedMax)
+            SliverToBoxAdapter(
+              child: Container(
+                padding: const EdgeInsets.all(16),
+                child: Center(
+                  child: CircularProgressIndicator(
+                    color: AppColors.primary,
+                  ),
+                ),
+              ),
             ),
-            delegate: SliverChildBuilderDelegate(
-              (context, index) {
-                if (index < state.movies.length) {
-                  return MovieCard(
-                    movie: state.movies[index],
-                    style: MovieCardStyle.profile,
-                  );
-                } else if (!state.hasReachedMax) {
-                  // Load more trigger
-                  _movieBloc.add(LoadMoreMovies());
-                  return const Center(
-                    child: CircularProgressIndicator(
-                      color: Color(0xFFE53E3E),
+
+          // End message when all movies are loaded
+          if (state.hasReachedMax && state.movies.isNotEmpty)
+            SliverToBoxAdapter(
+              child: Container(
+                padding: const EdgeInsets.all(16),
+                child: Center(
+                  child: Text(
+                    'Tüm filmler yüklendi',
+                    style: TextStyle(
+                      color: AppColors.textSecondary,
+                      fontSize: 14,
                     ),
-                  );
-                }
-                return null;
-              },
-              childCount: state.hasReachedMax
-                  ? state.movies.length
-                  : state.movies.length + 1,
+                  ),
+                ),
+              ),
             ),
-          ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
@@ -165,7 +228,7 @@ class _HomePageState extends State<HomePage> {
             height: 500,
             width: double.infinity,
             child: CachedNetworkImage(
-              imageUrl: movie.poster,
+              imageUrl: movie.images[Random().nextInt(movie.images.length)],
               fit: BoxFit.cover,
               placeholder: (context, url) => Container(
                 color: const Color(0xFF1A1A1A),
@@ -175,14 +238,50 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
               ),
-              errorWidget: (context, url, error) => Container(
-                color: const Color(0xFF1A1A1A),
-                child: const Icon(
-                  Icons.movie,
-                  color: Colors.white54,
-                  size: 64,
-                ),
-              ),
+              errorWidget: (context, url, error) {
+                // İlk seçenek başarısız olursa alternatif dene
+                String? fallbackUrl;
+                if (movie.images.isNotEmpty && movie.images.length > 4) {
+                  // İlk seçenek images[4] idi, poster'ı dene
+                  fallbackUrl = movie.poster;
+                } else {
+                  // İlk seçenek poster idi, images.first'ü dene
+                  fallbackUrl =
+                      movie.images.isNotEmpty ? movie.images.first : null;
+                }
+
+                if (fallbackUrl != null) {
+                  return CachedNetworkImage(
+                    imageUrl: fallbackUrl,
+                    fit: BoxFit.cover,
+                    placeholder: (context, url) => Container(
+                      color: const Color(0xFF1A1A1A),
+                      child: const Center(
+                        child: CircularProgressIndicator(
+                          color: Color(0xFFE53E3E),
+                        ),
+                      ),
+                    ),
+                    errorWidget: (context, url, error) => Container(
+                      color: const Color(0xFF1A1A1A),
+                      child: const Icon(
+                        Icons.movie,
+                        color: Colors.white54,
+                        size: 64,
+                      ),
+                    ),
+                  );
+                }
+
+                return Container(
+                  color: const Color(0xFF1A1A1A),
+                  child: const Icon(
+                    Icons.movie,
+                    color: Colors.white54,
+                    size: 64,
+                  ),
+                );
+              },
             ),
           ),
 
@@ -258,11 +357,25 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                       const SizedBox(width: 12),
-                      Text(
-                        'Daha Fazlası',
-                        style: TextStyle(
-                          color: Colors.white.withOpacity(0.8),
-                          fontSize: 14,
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => BlocProvider.value(
+                                value: getIt<MovieBloc>(),
+                                child: MovieDetailPage(movie: movie),
+                              ),
+                            ),
+                          );
+                        },
+                        child: Text(
+                          'Daha Fazlası',
+                          style: TextStyle(
+                            color: Colors.white.withOpacity(0.8),
+                            fontSize: 14,
+                            decoration: TextDecoration.underline,
+                          ),
                         ),
                       ),
                     ],
@@ -282,34 +395,6 @@ class _HomePageState extends State<HomePage> {
                     overflow: TextOverflow.ellipsis,
                   ),
                 ],
-              ),
-            ),
-          ),
-
-          // Favorite Button
-          Positioned(
-            bottom: 120,
-            right: 24,
-            child: Container(
-              width: 56,
-              height: 56,
-              decoration: BoxDecoration(
-                color: Colors.black.withOpacity(0.5),
-                shape: BoxShape.circle,
-              ),
-              child: Material(
-                color: Colors.transparent,
-                child: InkWell(
-                  onTap: () {
-                    _movieBloc.add(ToggleMovieFavorite(movie.id));
-                  },
-                  borderRadius: BorderRadius.circular(28),
-                  child: const Icon(
-                    Icons.favorite_outline,
-                    color: Colors.white,
-                    size: 24,
-                  ),
-                ),
               ),
             ),
           ),
@@ -351,7 +436,7 @@ class _HomePageState extends State<HomePage> {
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               decoration: BoxDecoration(
                 color: _currentIndex == 0
-                    ? AppColors.cardBackground
+                    ? AppColors.background
                     : Colors.transparent,
                 borderRadius: BorderRadius.circular(20),
               ),

@@ -37,13 +37,13 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
           emit(currentState.copyWith(
             movies: movies,
             currentPage: 1,
-            hasReachedMax: movies.length < 20,
+            hasReachedMax: movies.length < 5,
           ));
         } else {
           emit(MovieLoaded(
             movies: movies,
             featuredMovies: const [],
-            hasReachedMax: movies.length < 20,
+            hasReachedMax: movies.length < 5,
             currentPage: 1,
           ));
         }
@@ -69,7 +69,7 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
           emit(currentState.copyWith(
             movies: List.from(currentState.movies)..addAll(movies),
             currentPage: nextPage,
-            hasReachedMax: movies.length < 20,
+            hasReachedMax: movies.length < 5,
           ));
         },
         (error) => emit(MovieError(error)),
@@ -95,13 +95,13 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
           emit(currentState.copyWith(
             movies: movies,
             currentPage: 1,
-            hasReachedMax: movies.length < 20,
+            hasReachedMax: movies.length < 5,
           ));
         } else {
           emit(MovieLoaded(
             movies: movies,
             featuredMovies: const [],
-            hasReachedMax: movies.length < 20,
+            hasReachedMax: movies.length < 5,
             currentPage: 1,
           ));
         }

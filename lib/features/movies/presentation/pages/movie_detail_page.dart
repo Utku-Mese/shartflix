@@ -168,14 +168,37 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
                       color: AppColors.primary,
                     ),
                   ),
-                  errorWidget: (context, url, error) => Container(
-                    color: AppColors.cardBackground,
-                    child: Icon(
-                      Icons.movie,
-                      color: AppColors.textSecondary,
-                      size: 64,
-                    ),
-                  ),
+                  errorWidget: (context, url, error) {
+                    // Eğer poster farklıysa fallback olarak kullan
+                    if (_currentMovie.poster != images[index]) {
+                      return CachedNetworkImage(
+                        imageUrl: _currentMovie.poster,
+                        fit: BoxFit.cover,
+                        placeholder: (context, url) => Center(
+                          child: CircularProgressIndicator(
+                            color: AppColors.primary,
+                          ),
+                        ),
+                        errorWidget: (context, url, error) => Container(
+                          color: AppColors.cardBackground,
+                          child: Icon(
+                            Icons.movie,
+                            color: AppColors.textSecondary,
+                            size: 64,
+                          ),
+                        ),
+                      );
+                    }
+
+                    return Container(
+                      color: AppColors.cardBackground,
+                      child: Icon(
+                        Icons.movie,
+                        color: AppColors.textSecondary,
+                        size: 64,
+                      ),
+                    );
+                  },
                 );
               },
             ),

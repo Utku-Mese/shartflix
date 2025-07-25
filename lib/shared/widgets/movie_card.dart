@@ -167,8 +167,13 @@ class MovieCard extends StatelessWidget {
   }
 
   Widget _buildPosterImage() {
+    // Önce poster'ı dene, hata olursa images listesinden kullan
+    String primaryImageUrl = movie.poster;
+    String? fallbackImageUrl =
+        movie.images.isNotEmpty ? movie.images.first : null;
+
     return CachedNetworkImage(
-      imageUrl: movie.poster,
+      imageUrl: primaryImageUrl,
       fit: BoxFit.cover,
       placeholder: (context, url) => Container(
         color: AppColors.cardBackground,
@@ -178,14 +183,41 @@ class MovieCard extends StatelessWidget {
           ),
         ),
       ),
-      errorWidget: (context, url, error) => Container(
-        color: AppColors.cardBackground,
-        child: Icon(
-          Icons.movie,
-          color: AppColors.textSecondary,
-          size: 32,
-        ),
-      ),
+      errorWidget: (context, url, error) {
+        // Eğer fallback image varsa onu dene
+        if (fallbackImageUrl != null && fallbackImageUrl != primaryImageUrl) {
+          return CachedNetworkImage(
+            imageUrl: fallbackImageUrl,
+            fit: BoxFit.cover,
+            placeholder: (context, url) => Container(
+              color: AppColors.cardBackground,
+              child: Center(
+                child: CircularProgressIndicator(
+                  color: AppColors.primary,
+                ),
+              ),
+            ),
+            errorWidget: (context, url, error) => Container(
+              color: AppColors.cardBackground,
+              child: Icon(
+                Icons.movie,
+                color: AppColors.textSecondary,
+                size: 32,
+              ),
+            ),
+          );
+        }
+
+        // Fallback da yoksa veya aynıysa default icon göster
+        return Container(
+          color: AppColors.cardBackground,
+          child: Icon(
+            Icons.movie,
+            color: AppColors.textSecondary,
+            size: 32,
+          ),
+        );
+      },
     );
   }
 }
