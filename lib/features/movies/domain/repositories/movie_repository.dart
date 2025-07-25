@@ -12,5 +12,5 @@ abstract class MovieRepository {
     int page = 1,
   });
 
-  Future<Result<bool, Failure>> toggleFavorite(int movieId);
+  Future<Result<bool, Failure>> toggleFavorite(String movieId);
 }

@@ -82,7 +82,7 @@ class MovieRepositoryImpl implements MovieRepository {
   }
 
   @override
-  Future<Result<bool, Failure>> toggleFavorite(int movieId) async {
+  Future<Result<bool, Failure>> toggleFavorite(String movieId) async {
     try {
       _logger.debug('Toggling favorite status for movie - id: $movieId');
 

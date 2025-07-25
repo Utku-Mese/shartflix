@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import '../../features/movies/domain/entities/movie.dart';
+import '../../features/movies/presentation/pages/movie_detail_page.dart';
+import '../../features/movies/presentation/bloc/movie_bloc.dart';
 import '../../core/constants/app_colors.dart';
+import '../../core/di/injection.dart';
 
 enum MovieCardStyle { profile, home }
 
@@ -28,7 +32,18 @@ class MovieCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTap,
+      onTap: onTap ??
+          () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => BlocProvider.value(
+                  value: getIt<MovieBloc>(),
+                  child: MovieDetailPage(movie: movie),
+                ),
+              ),
+            );
+          },
       child: Container(
         width: width,
         height: height,

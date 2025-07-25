@@ -16,7 +16,8 @@ class ApiConstants {
   // Movie endpoints
   static const String movies = '/movie/list';
   static const String favorites = '/movie/favorites';
-  static String addToFavorites(int favoriteId) => '/movie/favorite/$favoriteId';
+  static String addToFavorites(String favoriteId) =>
+      '/movie/favorite/$favoriteId';
 
   // Query parameters
   static const String page = 'page';

@@ -9,7 +9,7 @@ class ToggleFavoriteUseCase {
 
   ToggleFavoriteUseCase(this._movieRepository);
 
-  Future<Result<bool, String>> call(int movieId) async {
+  Future<Result<bool, String>> call(String movieId) async {
     final result = await _movieRepository.toggleFavorite(movieId);
     return result.mapErr((failure) => failure.message);
   }

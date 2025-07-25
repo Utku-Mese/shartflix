@@ -28,7 +28,7 @@ class SearchMovies extends MovieEvent {
 }
 
 class ToggleMovieFavorite extends MovieEvent {
-  final int movieId;
+  final String movieId;
 
   const ToggleMovieFavorite(this.movieId);
 

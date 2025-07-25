@@ -5,12 +5,10 @@ import 'movie_card.dart';
 
 class FavoriteMoviesGrid extends StatelessWidget {
   final List<Movie> favoriteMovies;
-  final Function(Movie)? onMovieTap;
 
   const FavoriteMoviesGrid({
     super.key,
     required this.favoriteMovies,
-    this.onMovieTap,
   });
 
   @override
@@ -38,7 +36,6 @@ class FavoriteMoviesGrid extends StatelessWidget {
             final movie = displayMovies[index];
             return MovieCard(
               movie: movie,
-              onTap: onMovieTap != null ? () => onMovieTap!(movie) : null,
             );
           },
           childCount: displayMovies.length,

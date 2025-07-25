@@ -87,7 +87,8 @@ class _ProfilePageState extends State<ProfilePage> {
               },
               child: Container(
                 margin: const EdgeInsets.only(right: 4),
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                 decoration: BoxDecoration(
                   color: AppColors.primary,
                   borderRadius: BorderRadius.circular(20),
@@ -223,9 +224,6 @@ class _ProfilePageState extends State<ProfilePage> {
         // Favorite Movies Grid
         FavoriteMoviesGrid(
           favoriteMovies: state.favoriteMovies,
-          onMovieTap: (movie) {
-            // TODO: Navigate to movie detail
-          },
         ),
       ],
     );

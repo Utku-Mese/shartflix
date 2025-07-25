@@ -132,9 +132,6 @@ class _HomePageState extends State<HomePage> {
                   return MovieCard(
                     movie: state.movies[index],
                     style: MovieCardStyle.profile,
-                    onTap: () {
-                      // TODO: Navigate to movie detail
-                    },
                   );
                 } else if (!state.hasReachedMax) {
                   // Load more trigger
@@ -304,7 +301,7 @@ class _HomePageState extends State<HomePage> {
                 color: Colors.transparent,
                 child: InkWell(
                   onTap: () {
-                    _movieBloc.add(ToggleMovieFavorite(int.parse(movie.id)));
+                    _movieBloc.add(ToggleMovieFavorite(movie.id));
                   },
                   borderRadius: BorderRadius.circular(28),
                   child: const Icon(

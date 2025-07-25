@@ -44,7 +44,8 @@ class MovieApiService {
     );
   }
 
-  Future<ApiResponse<FavoriteActionData>> toggleFavorite(int favoriteId) async {
+  Future<ApiResponse<FavoriteActionData>> toggleFavorite(
+      String favoriteId) async {
     final response = await _dio.post(ApiConstants.addToFavorites(favoriteId));
     return ApiResponse.fromJson(
       response.data,
