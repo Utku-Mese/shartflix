@@ -27,4 +27,15 @@ class ProfileApiService {
           .toList(),
     );
   }
+
+  Future<ApiResponse<ProfileModel>> uploadPhoto(FormData formData) async {
+    final response = await _dio.post(
+      ApiConstants.uploadPhoto,
+      data: formData,
+    );
+    return ApiResponse.fromJson(
+      response.data,
+      (json) => ProfileModel.fromJson(json as Map<String, dynamic>),
+    );
+  }
 }

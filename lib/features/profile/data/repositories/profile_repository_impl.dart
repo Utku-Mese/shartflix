@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import '../../../../core/error/failures.dart';
@@ -65,6 +66,36 @@ class ProfileRepositoryImpl implements ProfileRepository {
       return Result.err(_handleDioError(e));
     } catch (e) {
       _logger.error('Favorite movies unexpected error', e, StackTrace.current);
+      return Result.err(ServerFailure('Unexpected error occurred'));
+    }
+  }
+
+  @override
+  Future<Result<Profile, Failure>> uploadPhoto(File photo) async {
+    try {
+      _logger.debug('Uploading photo: ${photo.path}');
+
+      final formData = FormData.fromMap({
+        'file': await MultipartFile.fromFile(photo.path),
+      });
+
+      final response = await _apiService.uploadPhoto(formData);
+
+      if (response.isSuccess && response.data != null) {
+        final profile = response.data!.toEntity();
+        _logger.debug('Photo uploaded successfully: ${profile.photoUrl}');
+        return Result.ok(profile);
+      } else {
+        final message = response.response.message;
+        _logger.error(
+            'Failed to upload photo: $message', null, StackTrace.current);
+        return Result.err(ServerFailure(message));
+      }
+    } on DioException catch (e) {
+      _logger.error('Photo upload dio error', e, StackTrace.current);
+      return Result.err(_handleDioError(e));
+    } catch (e) {
+      _logger.error('Photo upload unexpected error', e, StackTrace.current);
       return Result.err(ServerFailure('Unexpected error occurred'));
     }
   }

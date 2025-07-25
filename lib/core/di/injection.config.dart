@@ -56,6 +56,8 @@ import 'package:shartflix/features/profile/domain/usecases/get_favorite_movies_u
     as _i853;
 import 'package:shartflix/features/profile/domain/usecases/get_profile_usecase.dart'
     as _i303;
+import 'package:shartflix/features/profile/domain/usecases/upload_photo_usecase.dart'
+    as _i783;
 import 'package:shartflix/features/profile/presentation/bloc/profile_bloc.dart'
     as _i471;
 
@@ -111,15 +113,18 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i853.GetFavoriteMoviesUseCase(gh<_i454.ProfileRepository>()));
     gh.factory<_i303.GetProfileUseCase>(
         () => _i303.GetProfileUseCase(gh<_i454.ProfileRepository>()));
-    gh.factory<_i471.ProfileBloc>(() => coreModule.provideProfileBloc(
-          gh<_i303.GetProfileUseCase>(),
-          gh<_i853.GetFavoriteMoviesUseCase>(),
-        ));
     gh.factory<_i325.ApiClient>(() => _i325.ApiClient(
           gh<_i361.Dio>(),
           gh<_i313.SecureStorageService>(),
           gh<_i12.LoggerService>(),
           gh<_i505.ConnectivityService>(),
+        ));
+    gh.factory<_i783.UploadPhotoUseCase>(() =>
+        coreModule.provideUploadPhotoUseCase(gh<_i454.ProfileRepository>()));
+    gh.factory<_i471.ProfileBloc>(() => coreModule.provideProfileBloc(
+          gh<_i303.GetProfileUseCase>(),
+          gh<_i853.GetFavoriteMoviesUseCase>(),
+          gh<_i783.UploadPhotoUseCase>(),
         ));
     gh.lazySingleton<_i102.AuthApiService>(
         () => networkModule.authApiService(gh<_i325.ApiClient>()));

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../auth/presentation/bloc/auth_bloc.dart';
-import '../../../auth/presentation/bloc/auth_event.dart';
 import '../../../auth/presentation/bloc/auth_state.dart';
 import '../bloc/profile_bloc.dart';
 import '../bloc/profile_event.dart';
@@ -9,7 +8,6 @@ import '../bloc/profile_state.dart';
 import '../../../../core/di/injection.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../../shared/widgets/profile_header.dart';
-import '../../../../shared/widgets/profile_actions.dart';
 import '../../../../shared/widgets/section_header.dart';
 import '../../../../shared/widgets/favorite_movies_grid.dart';
 
@@ -190,10 +188,20 @@ class _ProfilePageState extends State<ProfilePage> {
         SliverToBoxAdapter(
           child: ProfileHeader(
             profile: state.profile,
-            onAddPhotoTap: () {
-              Navigator.pushNamed(context, '/photo-upload');
+            onAddPhotoTap: () async {
+              final result =
+                  await Navigator.pushNamed(context, '/photo-upload');
+              if (result == true) {
+                // Photo uploaded successfully, refresh profile
+                _profileBloc.add(RefreshProfile());
+              }
             },
           ),
+        ),
+
+        // Section spacing
+        const SliverToBoxAdapter(
+          child: SizedBox(height: 24),
         ),
 
         // Favorite Movies Section

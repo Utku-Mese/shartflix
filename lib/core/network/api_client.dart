@@ -48,7 +48,7 @@ class ApiClient {
           _logger.logRequest(
             options.method,
             options.uri.toString(),
-            options.data,
+            options.data is FormData ? 'FormData Upload' : options.data,
           );
 
           handler.next(options);
@@ -82,7 +82,6 @@ class ApiClient {
               error.type == DioExceptionType.connectionTimeout ||
               error.type == DioExceptionType.receiveTimeout ||
               error.type == DioExceptionType.sendTimeout) {
-
             final connectivityError = DioException(
               requestOptions: error.requestOptions,
               error: 'İnternet bağlantısı kontrol ediniz',

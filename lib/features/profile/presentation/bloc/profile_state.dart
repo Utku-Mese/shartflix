@@ -44,3 +44,23 @@ class ProfileError extends ProfileState {
   @override
   List<Object?> get props => [message];
 }
+
+class PhotoUploading extends ProfileState {}
+
+class PhotoUploadSuccess extends ProfileState {
+  final Profile updatedProfile;
+
+  const PhotoUploadSuccess(this.updatedProfile);
+
+  @override
+  List<Object?> get props => [updatedProfile];
+}
+
+class PhotoUploadError extends ProfileState {
+  final String message;
+
+  const PhotoUploadError(this.message);
+
+  @override
+  List<Object?> get props => [message];
+}

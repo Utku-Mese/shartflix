@@ -39,8 +39,16 @@ class LoggerService {
   }
 
   // Network logging
-  void logRequest(String method, String url, Map<String, dynamic>? data) {
-    info('$method $url', data);
+  void logRequest(String method, String url, dynamic data) {
+    String logData;
+    if (data is Map<String, dynamic>) {
+      logData = data.toString();
+    } else if (data != null) {
+      logData = data.toString();
+    } else {
+      logData = 'No data';
+    }
+    info('$method $url - Data: $logData');
   }
 
   void logResponse(String method, String url, int statusCode, dynamic data) {

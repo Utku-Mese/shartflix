@@ -131,7 +131,7 @@ class _HomePageState extends State<HomePage> {
                 if (index < state.movies.length) {
                   return MovieCard(
                     movie: state.movies[index],
-                    style: MovieCardStyle.home,
+                    style: MovieCardStyle.profile,
                     onTap: () {
                       // TODO: Navigate to movie detail
                     },

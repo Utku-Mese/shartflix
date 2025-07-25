@@ -2,20 +2,24 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import '../../domain/usecases/get_profile_usecase.dart';
 import '../../domain/usecases/get_favorite_movies_usecase.dart';
+import '../../domain/usecases/upload_photo_usecase.dart';
 import 'profile_event.dart';
 import 'profile_state.dart';
 
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   final GetProfileUseCase _getProfileUseCase;
   final GetFavoriteMoviesUseCase _getFavoriteMoviesUseCase;
+  final UploadPhotoUseCase _uploadPhotoUseCase;
 
   ProfileBloc(
     this._getProfileUseCase,
     this._getFavoriteMoviesUseCase,
+    this._uploadPhotoUseCase,
   ) : super(ProfileInitial()) {
     on<LoadProfile>(_onLoadProfile);
     on<LoadFavoriteMovies>(_onLoadFavoriteMovies);
     on<RefreshProfile>(_onRefreshProfile);
+    on<UploadPhoto>(_onUploadPhoto);
   }
 
   Future<void> _onLoadProfile(
@@ -86,5 +90,33 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   ) async {
     // Trigger a fresh load
     add(LoadProfile());
+  }
+
+  Future<void> _onUploadPhoto(
+    UploadPhoto event,
+    Emitter<ProfileState> emit,
+  ) async {
+    emit(PhotoUploading());
+
+    try {
+      final result = await _uploadPhotoUseCase.call(event.photo);
+
+      if (result.isErr) {
+        emit(PhotoUploadError(result.errOrNull.toString()));
+        return;
+      }
+
+      final updatedProfile = result.okOrNull!;
+
+      if (!emit.isDone) {
+        emit(PhotoUploadSuccess(updatedProfile));
+        // Refresh the profile data
+        add(LoadProfile());
+      }
+    } catch (e) {
+      if (!emit.isDone) {
+        emit(PhotoUploadError(e.toString()));
+      }
+    }
   }
 }

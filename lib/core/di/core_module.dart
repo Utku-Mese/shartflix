@@ -8,6 +8,7 @@ import '../../features/profile/presentation/bloc/profile_bloc.dart';
 import '../../features/profile/domain/repositories/profile_repository.dart';
 import '../../features/profile/domain/usecases/get_profile_usecase.dart';
 import '../../features/profile/domain/usecases/get_favorite_movies_usecase.dart';
+import '../../features/profile/domain/usecases/upload_photo_usecase.dart';
 import '../../features/profile/data/repositories/profile_repository_impl.dart';
 import '../services/logger_service.dart';
 
@@ -39,13 +40,19 @@ abstract class CoreModule {
   ProfileApiService provideProfileApiService(Dio dio) => ProfileApiService(dio);
 
   @injectable
+  UploadPhotoUseCase provideUploadPhotoUseCase(ProfileRepository repository) =>
+      UploadPhotoUseCase(repository);
+
+  @injectable
   ProfileBloc provideProfileBloc(
     GetProfileUseCase getProfileUseCase,
     GetFavoriteMoviesUseCase getFavoriteMoviesUseCase,
+    UploadPhotoUseCase uploadPhotoUseCase,
   ) =>
       ProfileBloc(
         getProfileUseCase,
         getFavoriteMoviesUseCase,
+        uploadPhotoUseCase,
       );
 
   @Injectable(as: ProfileRepository)
