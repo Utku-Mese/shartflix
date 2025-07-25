@@ -47,26 +47,26 @@ class _ProfilePageState extends State<ProfilePage> {
         appBar: AppBar(
           backgroundColor: AppColors.background,
           elevation: 0,
-          leading: IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: Container(
-              padding: const EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: AppColors.cardBackground,
-                border: Border.all(
-                  color: AppColors.borderColor,
-                  width: 1,
-                ),
-              ),
-              child: Icon(
-                Icons.arrow_back,
-                color: AppColors.textPrimary,
-              ),
-            ),
-          ),
+          // leading: IconButton(
+          //   onPressed: () {
+          //     Navigator.pop(context);
+          //   },
+          //   icon: Container(
+          //     padding: const EdgeInsets.all(8),
+          //     decoration: BoxDecoration(
+          //       shape: BoxShape.circle,
+          //       color: AppColors.cardBackground,
+          //       border: Border.all(
+          //         color: AppColors.borderColor,
+          //         width: 1,
+          //       ),
+          //     ),
+          //     child: Icon(
+          //       Icons.arrow_back,
+          //       color: AppColors.textPrimary,
+          //     ),
+          //   ),
+          // ),
           title: Text(
             'Profil Detayı',
             style: TextStyle(

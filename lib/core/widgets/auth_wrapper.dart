@@ -5,7 +5,7 @@ import '../../features/auth/presentation/bloc/auth_event.dart';
 import '../../features/auth/presentation/bloc/auth_state.dart';
 import '../../features/splash/splash.dart';
 import '../../features/auth/presentation/pages/login_page.dart';
-import '../../features/movies/presentation/pages/home_page.dart';
+import 'main_layout.dart';
 import '../di/injection.dart';
 
 class AuthWrapper extends StatelessWidget {
@@ -20,7 +20,7 @@ class AuthWrapper extends StatelessWidget {
           if (state is AuthInitial) {
             return const SplashPage();
           } else if (state is AuthAuthenticated) {
-            return const HomePage();
+            return const MainLayout();
           } else if (state is AuthUnauthenticated) {
             return const LoginPage();
           } else if (state is AuthLoading) {

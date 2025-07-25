@@ -6,14 +6,13 @@ import 'core/di/injection.dart';
 import 'core/services/logger_service.dart';
 import 'core/services/theme_service.dart';
 import 'core/widgets/auth_wrapper.dart';
+import 'core/widgets/main_layout.dart';
 import 'core/bloc/app_settings_bloc.dart';
 import 'core/bloc/app_settings_event.dart';
 import 'core/bloc/app_settings_state.dart';
 import 'features/auth/presentation/pages/login_page.dart';
 import 'features/auth/presentation/pages/register_page.dart';
 import 'features/profile/profile.dart';
-import 'features/movies/presentation/pages/home_page.dart';
-import 'features/movies/presentation/pages/discover_page.dart';
 import 'features/settings/presentation/pages/settings_page.dart';
 
 void main() async {
@@ -81,13 +80,14 @@ class _ShartflixAppState extends State<ShartflixApp> {
               GlobalCupertinoLocalizations.delegate,
             ],
             supportedLocales: AppLocalizations.supportedLocales,
-            home: const AuthWrapper(),
+            initialRoute: '/',
             routes: {
+              '/': (context) => const AuthWrapper(),
               '/login': (context) => const LoginPage(),
               '/register': (context) => const RegisterPage(),
-              '/home': (context) => const HomePage(),
-              '/discover': (context) => const DiscoverPage(),
-              '/profile': (context) => const ProfilePage(),
+              '/home': (context) => const MainLayout(initialIndex: 0),
+              '/discover': (context) => const MainLayout(initialIndex: 1),
+              '/profile': (context) => const MainLayout(initialIndex: 2),
               '/photo-upload': (context) => const PhotoUploadPage(),
               '/settings': (context) => const SettingsPage(),
             },
