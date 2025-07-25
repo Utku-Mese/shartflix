@@ -4,279 +4,412 @@
   "@appTitle": {
     "description": "The title of the application"
   },
-  
   "login": "Login",
   "@login": {
     "description": "Login button text"
   },
-  
   "register": "Register Now",
   "@register": {
     "description": "Register button text"
   },
-
   "registerTextButton": "Register!",
   "@registerTextButton": {
     "description": "Register text button text"
   },
-  
   "email": "E-mail",
   "@email": {
     "description": "Email field label"
   },
-  
   "emailAddress": "Email Address",
   "@emailAddress": {
     "description": "Email address field label"
   },
-  
   "password": "Password",
   "@password": {
     "description": "Password field label"
   },
-  
   "name": "Full Name",
   "@name": {
     "description": "Name field label"
   },
-  
   "fullName": "Full Name",
   "@fullName": {
     "description": "Full name field label"
   },
-  
   "confirmPassword": "Confirm Password",
   "@confirmPassword": {
     "description": "Confirm password field label"
   },
-  
   "forgotPassword": "Forgot password?",
   "@forgotPassword": {
     "description": "Forgot password link text"
   },
-  
   "dontHaveAccount": "Don't have an account? ",
   "@dontHaveAccount": {
     "description": "Text before register link"
   },
-  
   "alreadyHaveAccount": "Already have an account? ",
   "@alreadyHaveAccount": {
     "description": "Text before login link"
   },
-  
   "welcome": "Welcome",
   "@welcome": {
     "description": "Welcome text"
   },
-  
   "hello": "Hello",
   "@hello": {
     "description": "Hello greeting"
   },
-  
   "subtitle": "Tempus varius a vitae interdum id\ntortor elementum tristique eleifend at.",
   "@subtitle": {
     "description": "Subtitle text"
   },
-  
   "uploadPhotos": "Upload Your Photos",
   "@uploadPhotos": {
     "description": "Upload photos title"
   },
-  
   "uploadSubtitle": "Resources out incentivize\nrelaxation floor loss cc.",
   "@uploadSubtitle": {
     "description": "Upload photos subtitle"
   },
-  
   "continueButton": "Continue",
   "@continueButton": {
     "description": "Continue button text"
   },
-  
   "termsConditions": "I have read and accept the user agreement. Please\ncontinue by reading this agreement.",
   "@termsConditions": {
     "description": "Terms and conditions text"
   },
-  
-  "home": "Home",
-  "@password": {
-    "description": "Password field label"
-  },
-  
-  "name": "Name",
-  "@name": {
-    "description": "Name field label"
-  },
-  
-  "confirmPassword": "Confirm Password",
-  "@confirmPassword": {
-    "description": "Confirm password field label"
-  },
-  
-  "forgotPassword": "Forgot Password?",
-  "@forgotPassword": {
-    "description": "Forgot password link text"
-  },
-  
-  "dontHaveAccount": "Don't have an account?",
-  "@dontHaveAccount": {
-    "description": "Text for users who don't have an account"
-  },
-  
-  "alreadyHaveAccount": "Already have an account?",
-  "@alreadyHaveAccount": {
-    "description": "Text for users who already have an account"
-  },
-  
   "home": "Home",
   "@home": {
     "description": "Home page title"
   },
-  
   "profile": "Profile",
   "@profile": {
     "description": "Profile page title"
   },
-  
   "movies": "Movies",
   "@movies": {
     "description": "Movies section title"
   },
-  
   "favorites": "Favorites",
   "@favorites": {
     "description": "Favorites section title"
   },
-  
   "addToFavorites": "Add to Favorites",
   "@addToFavorites": {
     "description": "Add to favorites button text"
   },
-  
   "removeFromFavorites": "Remove from Favorites",
   "@removeFromFavorites": {
     "description": "Remove from favorites button text"
   },
-  
   "loadingMore": "Loading more...",
   "@loadingMore": {
     "description": "Loading more content text"
   },
-  
   "pullToRefresh": "Pull to refresh",
   "@pullToRefresh": {
     "description": "Pull to refresh text"
   },
-  
   "noMoviesFound": "No movies found",
   "@noMoviesFound": {
     "description": "No movies found message"
   },
-  
   "errorOccurred": "An error occurred",
   "@errorOccurred": {
     "description": "Generic error message"
   },
-  
   "tryAgain": "Try Again",
   "@tryAgain": {
     "description": "Try again button text"
   },
-  
   "logout": "Logout",
   "@logout": {
     "description": "Logout button text"
   },
-  
   "addProfilePhoto": "Add Profile Photo",
   "@addProfilePhoto": {
     "description": "Add profile photo button text"
   },
-  
   "camera": "Camera",
   "@camera": {
     "description": "Camera option text"
   },
-  
   "gallery": "Gallery",
   "@gallery": {
     "description": "Gallery option text"
   },
-  
   "cancel": "Cancel",
   "@cancel": {
     "description": "Cancel button text"
   },
-  
   "save": "Save",
   "@save": {
     "description": "Save button text"
   },
-  
   "emailValidationError": "Please enter a valid email address",
   "@emailValidationError": {
     "description": "Email validation error message"
   },
-  
   "emailRequired": "Email address is required",
   "@emailRequired": {
     "description": "Email required validation error"
   },
-  
   "emailInvalid": "Please enter a valid email address",
   "@emailInvalid": {
     "description": "Email invalid validation error"
   },
-  
   "passwordValidationError": "Password must be at least 6 characters",
   "@passwordValidationError": {
     "description": "Password validation error message"
   },
-  
   "nameValidationError": "Name must be at least 2 characters",
   "@nameValidationError": {
     "description": "Name validation error message"
   },
-  
   "fullNameRequired": "Full name is required",
   "@fullNameRequired": {
     "description": "Full name required validation error"
   },
-  
   "passwordsDoNotMatch": "Passwords do not match",
   "@passwordsDoNotMatch": {
     "description": "Password confirmation error message"
   },
-  
   "loginSuccess": "Login successful",
   "@loginSuccess": {
     "description": "Login success message"
   },
-  
   "registerSuccess": "Registration successful",
   "@registerSuccess": {
     "description": "Registration success message"
   },
-  
   "limitedOffer": "Limited Offer",
   "@limitedOffer": {
     "description": "Limited offer title"
   },
-  
   "specialDeal": "Get premium access for just $9.99/month!",
   "@specialDeal": {
     "description": "Special deal description"
   },
-  
   "subscribe": "Subscribe Now",
   "@subscribe": {
     "description": "Subscribe button text"
   },
-  
   "notNow": "Not Now",
   "@notNow": {
     "description": "Not now button text"
+  },
+  "confirmPasswordRequired": "Confirm password is required",
+  "@confirmPasswordRequired": {
+    "description": "Confirm password required error message"
+  },
+  "passwordMismatch": "Passwords do not match",
+  "@passwordMismatch": {
+    "description": "Password mismatch error message"
+  },
+  "loginTextButton": "Login",
+  "@loginTextButton": {
+    "description": "Login text button text"
+  },
+  "settings": "Settings",
+  "@settings": {
+    "description": "Settings page title"
+  },
+  "appearance": "Appearance",
+  "@appearance": {
+    "description": "Appearance section title"
+  },
+  "language": "Language",
+  "@language": {
+    "description": "Language section title"
+  },
+  "applicationInfo": "Application Info",
+  "@applicationInfo": {
+    "description": "Application info section title"
+  },
+  "account": "Account",
+  "@account": {
+    "description": "Account section title"
+  },
+  "privacyPolicy": "Privacy Policy",
+  "@privacyPolicy": {
+    "description": "Privacy policy link"
+  },
+  "termsOfService": "Terms of Service",
+  "@termsOfService": {
+    "description": "Terms of service link"
+  },
+  "logoutConfirmTitle": "Log Out",
+  "@logoutConfirmTitle": {
+    "description": "Logout confirmation dialog title"
+  },
+  "logoutConfirmMessage": "Are you sure you want to log out?",
+  "@logoutConfirmMessage": {
+    "description": "Logout confirmation dialog message"
+  },
+  "discover": "Discover",
+  "@discover": {
+    "description": "Discover page title"
+  },
+  "lightTheme": "Light Theme",
+  "@lightTheme": {
+    "description": "Light theme option"
+  },
+  "darkTheme": "Dark Theme",
+  "@darkTheme": {
+    "description": "Dark theme option"
+  },
+  "turkish": "Turkish",
+  "@turkish": {
+    "description": "Turkish language option"
+  },
+  "english": "English",
+  "@english": {
+    "description": "English language option"
+  },
+  "version": "Version",
+  "@version": {
+    "description": "Version label"
+  },
+  "allMoviesLoaded": "All movies loaded",
+  "@allMoviesLoaded": {
+    "description": "Message when all movies are loaded"
+  },
+  "seeMore": "See More",
+  "@seeMore": {
+    "description": "See more button text"
+  },
+  "explore": "Explore",
+  "@explore": {
+    "description": "Explore page title"
+  },
+  "director": "Director",
+  "@director": {
+    "description": "Director label for movie details"
+  },
+  "profileDetails": "Profile Details",
+  "@profileDetails": {
+    "description": "Title for profile details section"
+  },
+  "addPhoto": "Add Photo",
+  "@addPhoto": {
+    "description": "Button text to add a photo"
+  },
+  "likedMovies": "Liked Movies",
+  "@likedMovies": {
+    "description": "Title for the section showing liked movies"
+  },
+  "uploadYourPhotos": "Upload Your Photos",
+  "@uploadYourPhotos": {
+    "description": "Upload photos title"
+  },
+  "selectProfilePhoto": "Select your profile photo and upload it.",
+  "@selectProfilePhoto": {
+    "description": "Upload photos subtitle"
+  },
+  "photoUploadedSuccessfully": "Photo uploaded successfully!",
+  "@photoUploadedSuccessfully": {
+    "description": "Photo upload success message"
+  },
+  "selectPhoto": "Select Photo",
+  "@selectPhoto": {
+    "description": "Select photo modal title"
+  },
+  "couldNotSelectPhoto": "Could not select photo",
+  "@couldNotSelectPhoto": {
+    "description": "Photo selection error message"
+  },
+  "error": "Error",
+  "@error": {
+    "description": "Error label"
+  },
+  "movieAddedToFavorites": "Movie added to favorites!",
+  "@movieAddedToFavorites": {
+    "description": "Success message when movie is added to favorites"
+  },
+  "movieRemovedFromFavorites": "Movie removed from favorites!",
+  "@movieRemovedFromFavorites": {
+    "description": "Success message when movie is removed from favorites"
+  },
+  "anErrorOccurred": "An error occurred!",
+  "@anErrorOccurred": {
+    "description": "Generic error message"
+  },
+  "plot": "Plot",
+  "@plot": {
+    "description": "Plot section title"
+  },
+  "cast": "Cast",
+  "@cast": {
+    "description": "Cast section title"
+  },
+  "details": "Details",
+  "@details": {
+    "description": "Details section title"
+  },
+  "ratings": "Ratings",
+  "@ratings": {
+    "description": "Ratings section title"
+  },
+  "writer": "Writer",
+  "@writer": {
+    "description": "Writer label"
+  },
+  "country": "Country",
+  "@country": {
+    "description": "Country label"
+  },
+  "awards": "Awards",
+  "@awards": {
+    "description": "Awards label"
+  },
+  "releaseDate": "Release Date",
+  "@releaseDate": {
+    "description": "Release date label"
+  },
+  "votes": "votes",
+  "@votes": {
+    "description": "Votes label"
+  },
+  "tokenPackageDescription": "Choose a token package to earn bonuses\nand unlock new episodes!",
+  "@tokenPackageDescription": {
+    "description": "Description for token packages"
+  },
+  "bonusesYouWillGet": "Bonuses You Will Get",
+  "@bonusesYouWillGet": {
+    "description": "Title for bonuses section"
+  },
+  "premiumAccount": "Premium\nAccount",
+  "@premiumAccount": {
+    "description": "Premium account bonus"
+  },
+  "moreMatches": "More\nMatches",
+  "@moreMatches": {
+    "description": "More matches bonus"
+  },
+  "boost": "Boost",
+  "@boost": {
+    "description": "Boost bonus"
+  },
+  "moreLikes": "More\nLikes",
+  "@moreLikes": {
+    "description": "More likes bonus"
+  },
+  "selectTokenPackage": "Select a token package to unlock",
+  "@selectTokenPackage": {
+    "description": "Instruction to select token package"
+  },
+  "tokens": "Tokens",
+  "@tokens": {
+    "description": "Tokens label"
+  },
+  "perWeek": "Per week",
+  "@perWeek": {
+    "description": "Per week description"
+  },
+  "viewAllTokens": "View All Tokens",
+  "@viewAllTokens": {
+    "description": "Button to view all tokens"
   }
 }

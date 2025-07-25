@@ -119,6 +119,7 @@ class _HomePageState extends State<HomePage> with RouteAware {
               }
             },
             builder: (context, state) {
+              final l10n = AppLocalizations.of(context)!;
               if (state is MovieLoading) {
                 return Center(
                   child: CircularProgressIndicator(
@@ -221,7 +222,7 @@ class _HomePageState extends State<HomePage> with RouteAware {
                 padding: const EdgeInsets.all(16),
                 child: Center(
                   child: Text(
-                    'Tüm filmler yüklendi',
+                    AppLocalizations.of(context)!.allMoviesLoaded,
                     style: TextStyle(
                       color: AppColors.textSecondary,
                       fontSize: 14,
@@ -236,6 +237,8 @@ class _HomePageState extends State<HomePage> with RouteAware {
   }
 
   Widget _buildFeaturedSection(Movie movie) {
+    final l10n = AppLocalizations.of(context)!;
+
     return SizedBox(
       height: 500,
       width: double.infinity,
@@ -388,7 +391,7 @@ class _HomePageState extends State<HomePage> with RouteAware {
                           );
                         },
                         child: Text(
-                          'Daha Fazlası',
+                          l10n.seeMore,
                           style: TextStyle(
                             color: Colors.white.withOpacity(0.8),
                             fontSize: 14,

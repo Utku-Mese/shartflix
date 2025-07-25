@@ -29,7 +29,7 @@ class _PhotoUploadPageState extends State<PhotoUploadPage> {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
+    final l10n = AppLocalizations.of(context)!;
 
     return BlocProvider.value(
       value: _profileBloc,
@@ -59,7 +59,7 @@ class _PhotoUploadPageState extends State<PhotoUploadPage> {
             ),
           ),
           title: Text(
-            'Profil Detayı',
+            l10n.profileDetails,
             style: TextStyle(
               color: AppColors.textPrimary,
               fontSize: 18,
@@ -72,8 +72,8 @@ class _PhotoUploadPageState extends State<PhotoUploadPage> {
           listener: (context, state) {
             if (state is PhotoUploadSuccess) {
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text('Fotoğraf başarıyla yüklendi!'),
+                SnackBar(
+                  content: Text(l10n.photoUploadedSuccessfully),
                   backgroundColor: Colors.green,
                 ),
               );
@@ -81,7 +81,7 @@ class _PhotoUploadPageState extends State<PhotoUploadPage> {
             } else if (state is PhotoUploadError) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
-                  content: Text('Hata: ${state.message}'),
+                  content: Text('${l10n.error}: ${state.message}'),
                   backgroundColor: Colors.red,
                 ),
               );
@@ -99,9 +99,9 @@ class _PhotoUploadPageState extends State<PhotoUploadPage> {
                     children: [
                       SizedBox(height: 16),
                       // Title
-                      const Text(
-                        'Fotoğraflarınızı Yükleyin',
-                        style: TextStyle(
+                      Text(
+                        l10n.uploadYourPhotos,
+                        style: const TextStyle(
                           color: Colors.white,
                           fontSize: 24,
                           fontWeight: FontWeight.w600,
@@ -115,7 +115,7 @@ class _PhotoUploadPageState extends State<PhotoUploadPage> {
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 48.0),
                         child: Text(
-                          'Profil fotoğrafınızı seçin ve yükleyin.',
+                          l10n.selectProfilePhoto,
                           style: TextStyle(
                             color: Colors.white.withOpacity(0.7),
                             fontSize: 16,
@@ -186,7 +186,7 @@ class _PhotoUploadPageState extends State<PhotoUploadPage> {
                                   strokeWidth: 2,
                                 )
                               : Text(
-                                  l10n?.continueButton ?? 'Continue',
+                                  l10n.continueButton,
                                   style: const TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.w600,
@@ -215,14 +215,15 @@ class _PhotoUploadPageState extends State<PhotoUploadPage> {
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
       builder: (BuildContext context) {
+        final l10n = AppLocalizations.of(context)!;
         return Container(
           padding: const EdgeInsets.all(24),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Text(
-                'Fotoğraf Seç',
-                style: TextStyle(
+              Text(
+                l10n.selectPhoto,
+                style: const TextStyle(
                   color: Colors.white,
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
@@ -234,7 +235,7 @@ class _PhotoUploadPageState extends State<PhotoUploadPage> {
                 children: [
                   _buildPickerOption(
                     icon: Icons.camera_alt,
-                    label: 'Kamera',
+                    label: l10n.camera,
                     onTap: () {
                       Navigator.pop(context);
                       _pickImage(ImageSource.camera);
@@ -242,7 +243,7 @@ class _PhotoUploadPageState extends State<PhotoUploadPage> {
                   ),
                   _buildPickerOption(
                     icon: Icons.photo_library,
-                    label: 'Galeri',
+                    label: l10n.gallery,
                     onTap: () {
                       Navigator.pop(context);
                       _pickImage(ImageSource.gallery);
@@ -313,7 +314,8 @@ class _PhotoUploadPageState extends State<PhotoUploadPage> {
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Fotoğraf seçilemedi: $e'),
+          content:
+              Text('${AppLocalizations.of(context)!.couldNotSelectPhoto}: $e'),
           backgroundColor: Colors.red,
         ),
       );

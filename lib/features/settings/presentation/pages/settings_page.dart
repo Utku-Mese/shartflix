@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/di/injection.dart';
@@ -58,31 +59,32 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   Future<void> _logout() async {
+    final l10n = AppLocalizations.of(context)!;
     // Show confirmation dialog
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
         backgroundColor: AppColors.cardBackground,
         title: Text(
-          'Çıkış Yap',
+          l10n.logoutConfirmTitle,
           style: TextStyle(color: AppColors.textPrimary),
         ),
         content: Text(
-          'Oturumu kapatmak istediğinizden emin misiniz?',
+          l10n.logoutConfirmMessage,
           style: TextStyle(color: AppColors.textSecondary),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(false),
             child: Text(
-              'İptal',
+              l10n.cancel,
               style: TextStyle(color: AppColors.textSecondary),
             ),
           ),
           TextButton(
             onPressed: () => Navigator.of(context).pop(true),
             child: Text(
-              'Çıkış Yap',
+              l10n.logout,
               style: TextStyle(color: AppColors.primary),
             ),
           ),
@@ -108,6 +110,8 @@ class _SettingsPageState extends State<SettingsPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return BlocBuilder<AppSettingsBloc, AppSettingsState>(
       builder: (context, state) {
         // Update local state based on BLoC state
@@ -119,7 +123,7 @@ class _SettingsPageState extends State<SettingsPage> {
         return Scaffold(
           backgroundColor: AppColors.background,
           appBar: AppBar(
-            title: const Text('Ayarlar'),
+            title: Text(l10n.settings),
             centerTitle: true,
             backgroundColor: AppColors.background,
             foregroundColor: AppColors.textPrimary,
@@ -132,26 +136,26 @@ class _SettingsPageState extends State<SettingsPage> {
             padding: const EdgeInsets.all(16),
             children: [
               // Theme Section
-              _buildSectionHeader('Görünüm'),
-              _buildThemeCard(),
+              _buildSectionHeader(l10n.appearance),
+              _buildThemeCard(l10n),
 
               const SizedBox(height: 24),
 
               // Language Section
-              _buildSectionHeader('Dil'),
-              _buildLanguageCard(),
+              _buildSectionHeader(l10n.language),
+              _buildLanguageCard(l10n),
 
               const SizedBox(height: 24),
 
               // App Info Section
-              _buildSectionHeader('Uygulama Bilgileri'),
-              _buildAppInfoCard(),
+              _buildSectionHeader(l10n.applicationInfo),
+              _buildAppInfoCard(l10n),
 
               const SizedBox(height: 24),
 
               // Account Section
-              _buildSectionHeader('Hesap'),
-              _buildLogoutCard(),
+              _buildSectionHeader(l10n.account),
+              _buildLogoutCard(l10n),
 
               const SizedBox(height: 32),
             ],
@@ -175,7 +179,7 @@ class _SettingsPageState extends State<SettingsPage> {
     );
   }
 
-  Widget _buildThemeCard() {
+  Widget _buildThemeCard(AppLocalizations l10n) {
     return Container(
       decoration: BoxDecoration(
         color: AppColors.cardBackground,
@@ -193,7 +197,7 @@ class _SettingsPageState extends State<SettingsPage> {
               color: AppColors.textPrimary,
             ),
             title: Text(
-              'Açık Tema',
+              l10n.lightTheme,
               style: TextStyle(color: AppColors.textPrimary),
             ),
             trailing: Radio<bool>(
@@ -215,7 +219,7 @@ class _SettingsPageState extends State<SettingsPage> {
               color: AppColors.textPrimary,
             ),
             title: Text(
-              'Koyu Tema',
+              l10n.darkTheme,
               style: TextStyle(color: AppColors.textPrimary),
             ),
             trailing: Radio<bool>(
@@ -231,7 +235,7 @@ class _SettingsPageState extends State<SettingsPage> {
     );
   }
 
-  Widget _buildLanguageCard() {
+  Widget _buildLanguageCard(AppLocalizations l10n) {
     return Container(
       decoration: BoxDecoration(
         color: AppColors.cardBackground,
@@ -249,7 +253,7 @@ class _SettingsPageState extends State<SettingsPage> {
               style: TextStyle(fontSize: 24),
             ),
             title: Text(
-              'Türkçe',
+              l10n.turkish,
               style: TextStyle(color: AppColors.textPrimary),
             ),
             trailing: Radio<String>(
@@ -271,7 +275,7 @@ class _SettingsPageState extends State<SettingsPage> {
               style: TextStyle(fontSize: 24),
             ),
             title: Text(
-              'English',
+              l10n.english,
               style: TextStyle(color: AppColors.textPrimary),
             ),
             trailing: Radio<String>(
@@ -287,7 +291,7 @@ class _SettingsPageState extends State<SettingsPage> {
     );
   }
 
-  Widget _buildAppInfoCard() {
+  Widget _buildAppInfoCard(AppLocalizations l10n) {
     return Container(
       decoration: BoxDecoration(
         color: AppColors.cardBackground,
@@ -305,7 +309,7 @@ class _SettingsPageState extends State<SettingsPage> {
               color: AppColors.textPrimary,
             ),
             title: Text(
-              'Versiyon',
+              l10n.version,
               style: TextStyle(color: AppColors.textPrimary),
             ),
             trailing: Text(
@@ -324,7 +328,7 @@ class _SettingsPageState extends State<SettingsPage> {
               color: AppColors.textPrimary,
             ),
             title: Text(
-              'Gizlilik Politikası',
+              l10n.privacyPolicy,
               style: TextStyle(color: AppColors.textPrimary),
             ),
             trailing: Icon(
@@ -347,7 +351,7 @@ class _SettingsPageState extends State<SettingsPage> {
               color: AppColors.textPrimary,
             ),
             title: Text(
-              'Kullanım Şartları',
+              l10n.termsOfService,
               style: TextStyle(color: AppColors.textPrimary),
             ),
             trailing: Icon(
@@ -364,7 +368,7 @@ class _SettingsPageState extends State<SettingsPage> {
     );
   }
 
-  Widget _buildLogoutCard() {
+  Widget _buildLogoutCard(AppLocalizations l10n) {
     return Container(
       decoration: BoxDecoration(
         color: AppColors.cardBackground,
@@ -380,7 +384,7 @@ class _SettingsPageState extends State<SettingsPage> {
           color: AppColors.error,
         ),
         title: Text(
-          'Çıkış Yap',
+          l10n.logout,
           style: TextStyle(
             color: AppColors.error,
             fontWeight: FontWeight.w500,

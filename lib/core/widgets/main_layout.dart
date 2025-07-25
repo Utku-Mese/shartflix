@@ -120,7 +120,7 @@ class _MainLayoutState extends State<MainLayout> {
                     ? AppColors.textPrimary
                     : AppColors.textSecondary,
               ),
-              label: 'Keşfet',
+              label: l10n.explore,
               isSelected: _currentIndex == 1,
               onTap: () => _onNavItemTapped(1),
             ),

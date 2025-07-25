@@ -145,6 +145,7 @@ class _DiscoverPageState extends State<DiscoverPage> {
   }
 
   Widget _buildMovieCard(Movie movie, int movieIndex) {
+    final l10n = AppLocalizations.of(context)!;
     return Stack(
       children: [
         // Background Image - only show first image
@@ -283,7 +284,7 @@ class _DiscoverPageState extends State<DiscoverPage> {
 
                     // Director
                     Text(
-                      'Yönetmen: ${movie.director}',
+                      '${l10n.director}: ${movie.director}',
                       style: TextStyle(
                         color: Colors.white.withOpacity(0.9),
                         fontSize: 12,

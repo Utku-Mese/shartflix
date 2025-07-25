@@ -1,6 +1,10 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../../../../shared/widgets/premium_bottom_sheet.dart';
 import '../../../auth/presentation/bloc/auth_bloc.dart';
 import '../../../auth/presentation/bloc/auth_state.dart';
 import '../bloc/profile_bloc.dart';
@@ -37,6 +41,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return MultiBlocProvider(
       providers: [
         BlocProvider<AuthBloc>.value(value: _authBloc),
@@ -68,7 +73,7 @@ class _ProfilePageState extends State<ProfilePage> {
           //   ),
           // ),
           title: Text(
-            'Profil Detayı',
+            l10n.profileDetails,
             style: TextStyle(
               color: AppColors.textPrimary,
               fontSize: 18,
@@ -103,7 +108,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                     const SizedBox(width: 8),
                     Text(
-                      'Sınırlı Teklif',
+                      l10n.limitedOffer,
                       style: TextStyle(
                         color: AppColors.textPrimary,
                         fontSize: 12,
@@ -195,6 +200,7 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Widget _buildContent(ProfileLoaded state) {
+    final l10n = AppLocalizations.of(context)!;
     return CustomScrollView(
       slivers: [
         // Profile Header
@@ -219,7 +225,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
         // Favorite Movies Section
         SliverToBoxAdapter(
-          child: SectionHeader(title: 'Beğendiğim Filmler'),
+          child: SectionHeader(title: l10n.likedMovies),
         ),
 
         // Favorite Movies Grid

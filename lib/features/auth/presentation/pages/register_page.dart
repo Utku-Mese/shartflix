@@ -45,7 +45,7 @@ class _RegisterPageState extends State<RegisterPage> {
             padding: const EdgeInsets.all(24.0),
             child: BlocConsumer<AuthBloc, AuthState>(
               listener: (context, state) {
-                if (state is AuthError) {
+                if (state is AuthError && mounted) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       content: Text(state.message),
@@ -54,7 +54,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   );
                 }
                 // AuthAuthenticated durumunda geri dön - AuthWrapper handle edecek
-                if (state is AuthAuthenticated) {
+                if (state is AuthAuthenticated && mounted) {
                   Navigator.pop(context);
                 }
               },
@@ -151,10 +151,10 @@ class _RegisterPageState extends State<RegisterPage> {
                           isPassword: true,
                           validator: (value) {
                             if (value?.isEmpty ?? true) {
-                              return 'Confirm password is required';
+                              return l10n.confirmPasswordRequired;
                             }
                             if (value != _passwordController.text) {
-                              return 'Passwords do not match';
+                              return l10n.passwordMismatch;
                             }
                             return null;
                           },
@@ -189,7 +189,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         // Login Link
                         AuthNavigationLink(
                           text: l10n.alreadyHaveAccount,
-                          linkText: 'Login',
+                          linkText: l10n.loginTextButton,
                           onPressed: () {
                             Navigator.pop(context);
                           },
@@ -208,20 +208,23 @@ class _RegisterPageState extends State<RegisterPage> {
 
   void _onRegisterPressed(BuildContext context) {
     if (_formKey.currentState?.validate() ?? false) {
-      final fullName = _firstNameController.text.trim();
-      final nameParts = fullName.split(' ');
-      final firstName = nameParts.isNotEmpty ? nameParts.first : '';
-      final lastName = nameParts.length > 1 ? nameParts.skip(1).join(' ') : '';
+      if (mounted) {
+        final fullName = _firstNameController.text.trim();
+        final nameParts = fullName.split(' ');
+        final firstName = nameParts.isNotEmpty ? nameParts.first : '';
+        final lastName =
+            nameParts.length > 1 ? nameParts.skip(1).join(' ') : '';
 
-      context.read<AuthBloc>().add(
-            RegisterRequested(
-              firstName: firstName,
-              lastName: lastName,
-              email: _emailController.text.trim(),
-              password: _passwordController.text,
-              confirmPassword: _confirmPasswordController.text,
-            ),
-          );
+        context.read<AuthBloc>().add(
+              RegisterRequested(
+                firstName: firstName,
+                lastName: lastName,
+                email: _emailController.text.trim(),
+                password: _passwordController.text,
+                confirmPassword: _confirmPasswordController.text,
+              ),
+            );
+      }
     }
   }
 }

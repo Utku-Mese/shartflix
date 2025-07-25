@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../domain/entities/movie.dart';
 import '../bloc/movie_bloc.dart';
@@ -39,6 +40,8 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return BlocListener<MovieBloc, MovieState>(
       listener: (context, state) {
         if (state is MovieFavoriteUpdated) {
@@ -55,8 +58,8 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
               SnackBar(
                 content: Text(
                   _currentMovie.isFavorite
-                      ? 'Film favorilere eklendi!'
-                      : 'Film favorilerden çıkarıldı!',
+                      ? l10n.movieAddedToFavorites
+                      : l10n.movieRemovedFromFavorites,
                   style: const TextStyle(color: Colors.white),
                 ),
                 backgroundColor: AppColors.primary,
@@ -72,7 +75,7 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text(
-                  state.message ?? 'Bir hata oluştu!',
+                  state.message ?? l10n.anErrorOccurred,
                   style: const TextStyle(color: Colors.white),
                 ),
                 backgroundColor: Colors.red,
@@ -233,6 +236,7 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
   }
 
   Widget _buildMovieInfo() {
+    final l10n = AppLocalizations.of(context)!;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
@@ -289,20 +293,21 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
           const SizedBox(height: 16),
 
           // Director
-          _buildInfoRow('Yönetmen', _currentMovie.director, Icons.person),
+          _buildInfoRow(l10n.director, _currentMovie.director, Icons.person),
         ],
       ),
     );
   }
 
   Widget _buildPlotSection() {
+    final l10n = AppLocalizations.of(context)!;
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Konu',
+            l10n.plot,
             style: TextStyle(
               color: AppColors.textPrimary,
               fontSize: 20,
@@ -324,13 +329,14 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
   }
 
   Widget _buildCastSection() {
+    final l10n = AppLocalizations.of(context)!;
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Oyuncular',
+            l10n.cast,
             style: TextStyle(
               color: AppColors.textPrimary,
               fontSize: 20,
@@ -352,13 +358,14 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
   }
 
   Widget _buildDetailsSection() {
+    final l10n = AppLocalizations.of(context)!;
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Detaylar',
+            l10n.details,
             style: TextStyle(
               color: AppColors.textPrimary,
               fontSize: 20,
@@ -366,29 +373,30 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
             ),
           ),
           const SizedBox(height: 16),
-          _buildInfoRow('Yazar', _currentMovie.writer, Icons.edit),
+          _buildInfoRow(l10n.writer, _currentMovie.writer, Icons.edit),
           const SizedBox(height: 12),
-          _buildInfoRow('Dil', _currentMovie.language, Icons.language),
+          _buildInfoRow(l10n.language, _currentMovie.language, Icons.language),
           const SizedBox(height: 12),
-          _buildInfoRow('Ülke', _currentMovie.country, Icons.flag),
+          _buildInfoRow(l10n.country, _currentMovie.country, Icons.flag),
           const SizedBox(height: 12),
-          _buildInfoRow('Ödüller', _currentMovie.awards, Icons.emoji_events),
+          _buildInfoRow(l10n.awards, _currentMovie.awards, Icons.emoji_events),
           const SizedBox(height: 12),
           _buildInfoRow(
-              'Çıkış Tarihi', _currentMovie.released, Icons.calendar_today),
+              l10n.releaseDate, _currentMovie.released, Icons.calendar_today),
         ],
       ),
     );
   }
 
   Widget _buildRatingsSection() {
+    final l10n = AppLocalizations.of(context)!;
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Puanlar',
+            l10n.ratings,
             style: TextStyle(
               color: AppColors.textPrimary,
               fontSize: 20,
@@ -419,7 +427,7 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
           ),
           const SizedBox(height: 12),
           Text(
-            '${_currentMovie.imdbVotes} oy',
+            '${_currentMovie.imdbVotes} ${l10n.votes}',
             style: TextStyle(
               color: AppColors.textSecondary,
               fontSize: 14,

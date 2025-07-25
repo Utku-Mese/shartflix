@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../features/profile/domain/entities/profile.dart';
 
@@ -15,6 +16,8 @@ class ProfileHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Container(
       padding: const EdgeInsets.all(24),
       child: Row(
@@ -27,7 +30,7 @@ class ProfileHeader extends StatelessWidget {
             child: _buildUserInfo(),
           ),
           // Add Photo Button
-          _buildAddPhotoButton(),
+          _buildAddPhotoButton(l10n),
         ],
       ),
     );
@@ -96,7 +99,7 @@ class ProfileHeader extends StatelessWidget {
     );
   }
 
-  Widget _buildAddPhotoButton() {
+  Widget _buildAddPhotoButton(AppLocalizations l10n) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
       decoration: BoxDecoration(
@@ -106,7 +109,7 @@ class ProfileHeader extends StatelessWidget {
       child: InkWell(
         onTap: onAddPhotoTap,
         child: Text(
-          'Fotoğraf Ekle',
+          l10n.addPhoto,
           style: TextStyle(
             color: AppColors.textPrimary,
             fontSize: 13,

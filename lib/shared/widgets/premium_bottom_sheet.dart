@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../core/constants/app_colors.dart';
 
 class PremiumBottomSheet extends StatelessWidget {
@@ -6,6 +7,8 @@ class PremiumBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Container(
       decoration: const BoxDecoration(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
@@ -24,9 +27,9 @@ class PremiumBottomSheet extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             // Header
-            const Text(
-              'Sınırlı Teklif',
-              style: TextStyle(
+            Text(
+              l10n.limitedOffer,
+              style: const TextStyle(
                 color: Colors.white,
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
@@ -35,10 +38,10 @@ class PremiumBottomSheet extends StatelessWidget {
 
             const SizedBox(height: 8),
 
-            const Text(
-              'Jeton paketini seçerek bonus\nkazanın ve yeni bölümlerin kilidini açın!',
+            Text(
+              l10n.tokenPackageDescription,
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: const TextStyle(
                 color: Colors.white,
                 fontSize: 14,
               ),
@@ -66,9 +69,9 @@ class PremiumBottomSheet extends StatelessWidget {
               ),
               child: Column(
                 children: [
-                  const Text(
-                    'Alacağınız Bonuslar',
-                    style: TextStyle(
+                  Text(
+                    l10n.bonusesYouWillGet,
+                    style: const TextStyle(
                       color: Colors.white,
                       fontSize: 18,
                       fontWeight: FontWeight.w600,
@@ -83,22 +86,22 @@ class PremiumBottomSheet extends StatelessWidget {
                     children: [
                       _buildBonusItem(
                         imagePath: 'assets/images/bonus/bonus1.png',
-                        label: 'Premium\nHesap',
+                        label: l10n.premiumAccount,
                         color: const Color(0xFFE91E63),
                       ),
                       _buildBonusItem(
                         imagePath: 'assets/images/bonus/bonus2.png',
-                        label: 'Daha\nFazla Eşleşme',
+                        label: l10n.moreMatches,
                         color: const Color(0xFFE91E63),
                       ),
                       _buildBonusItem(
                         imagePath: 'assets/images/bonus/bonus3.png',
-                        label: 'Öne\nÇıkarma',
+                        label: l10n.boost,
                         color: const Color(0xFFE91E63),
                       ),
                       _buildBonusItem(
                         imagePath: 'assets/images/bonus/bonus4.png',
-                        label: 'Daha\nFazla Beğeni',
+                        label: l10n.moreLikes,
                         color: const Color(0xFFE91E63),
                       ),
                     ],
@@ -110,9 +113,9 @@ class PremiumBottomSheet extends StatelessWidget {
             const SizedBox(height: 32),
 
             // Packages Section
-            const Text(
-              'Kilidi açmak için bir jeton paketi seçin',
-              style: TextStyle(
+            Text(
+              l10n.selectTokenPackage,
+              style: const TextStyle(
                 color: Colors.white,
                 fontSize: 15,
                 fontWeight: FontWeight.w500,
@@ -130,7 +133,7 @@ class PremiumBottomSheet extends StatelessWidget {
                     originalPrice: '299',
                     finalPrice: '1.090',
                     packagePrice: '₺99,99',
-                    description: 'Başına haftalık',
+                    description: l10n.perWeek,
                     color: AppColors.primary,
                   ),
                 ),
@@ -141,7 +144,7 @@ class PremiumBottomSheet extends StatelessWidget {
                     originalPrice: '2.000',
                     finalPrice: '3.375',
                     packagePrice: '₺799,99',
-                    description: 'Başına haftalık',
+                    description: l10n.perWeek,
                     color: AppColors.primary,
                     isPopular: true,
                   ),
@@ -153,7 +156,7 @@ class PremiumBottomSheet extends StatelessWidget {
                     originalPrice: '1.000',
                     finalPrice: '1.350',
                     packagePrice: '₺399,99',
-                    description: 'Başına haftalık',
+                    description: l10n.perWeek,
                     color: AppColors.primary,
                   ),
                 ),
@@ -174,9 +177,9 @@ class PremiumBottomSheet extends StatelessWidget {
                   color: AppColors.primary,
                   borderRadius: BorderRadius.circular(16),
                 ),
-                child: const Center(
+                child: Center(
                   child: Text(
-                    'Tüm Jetonları Gör',
+                    l10n.viewAllTokens,
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 17,

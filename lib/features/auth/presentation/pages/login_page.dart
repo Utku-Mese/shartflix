@@ -37,7 +37,7 @@ class _LoginPageState extends State<LoginPage> {
           padding: const EdgeInsets.all(24.0),
           child: BlocConsumer<AuthBloc, AuthState>(
             listener: (context, state) {
-              if (state is AuthError) {
+              if (state is AuthError && mounted) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     content: Text(state.message),
@@ -187,12 +187,14 @@ class _LoginPageState extends State<LoginPage> {
 
   void _onLoginPressed(BuildContext context) {
     if (_formKey.currentState?.validate() ?? false) {
-      context.read<AuthBloc>().add(
-            LoginRequested(
-              email: _emailController.text.trim(),
-              password: _passwordController.text,
-            ),
-          );
+      if (mounted) {
+        context.read<AuthBloc>().add(
+              LoginRequested(
+                email: _emailController.text.trim(),
+                password: _passwordController.text,
+              ),
+            );
+      }
     }
   }
 }
