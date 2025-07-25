@@ -10,16 +10,16 @@ plugins {
 
 android {
     namespace = "com.nodelabs.shartflix"
-    compileSdk = flutter.compileSdkVersion
+    compileSdk = 35
     ndkVersion = flutter.ndkVersion
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8
+        jvmTarget = '17'
     }
 
     defaultConfig {
@@ -44,4 +44,11 @@ android {
 
 flutter {
     source = "../.."
+}
+
+dependencies {
+    implementation platform('com.google.firebase:firebase-bom:33.6.0')
+    implementation 'com.google.firebase:firebase-analytics'
+    implementation 'com.google.firebase:firebase-crashlytics'
+    implementation 'com.google.firebase:firebase-perf'
 }
