@@ -253,9 +253,11 @@ class PremiumBottomSheet extends StatelessWidget {
             decoration: BoxDecoration(
               gradient: RadialGradient(
                 center: Alignment.topLeft,
-                radius: 1.4,
+                radius: 1.9,
                 colors: [
-                  AppColors.primaryDark.withOpacity(0.7),
+                  isPopular
+                      ? Color(0XFF5949E6)
+                      : AppColors.primaryDark.withOpacity(0.7),
                   color,
                 ],
               ),
@@ -345,7 +347,7 @@ class PremiumBottomSheet extends StatelessWidget {
                 decoration: BoxDecoration(
                   gradient: RadialGradient(
                     colors: [
-                      AppColors.primaryDark,
+                      isPopular ? Color(0XFF5949E6) : AppColors.primaryDark,
                       AppColors.white.withOpacity(0.6),
                     ],
                     center: Alignment.center,
