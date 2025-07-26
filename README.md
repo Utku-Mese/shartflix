@@ -379,6 +379,27 @@ flutter_lints: ^5.0.0         # Dart linting rules
 
 ## 🔥 Firebase Integration
 
+### 📸 Firebase Analytics Screenshots
+
+Below are some screenshots from Firebase Analytics to show real-time data and events:
+
+<p align="center">
+  <img src="./readmeAssets/analytics_active_users.png" alt="Active Users" width="500"/>
+</p>
+
+<p align="center">
+  <img src="./readmeAssets/analytics_event_count.png" alt="Event Count" width="500"/>
+</p>
+
+<p align="center">
+  <img src="./readmeAssets/analytics_performance.png" alt="App Performance Stats" width="500"/>
+</p>
+
+<p align="center">
+  <img src="./readmeAssets/analytics_realtime_events.png" alt="Real-time Events" width="500"/>
+</p>
+
+
 ### Firebase Project Configuration
 
 | Platform | App ID | Bundle/Package ID |
