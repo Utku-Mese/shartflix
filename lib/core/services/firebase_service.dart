@@ -16,7 +16,6 @@ class FirebaseService {
   static FirebaseCrashlytics? get crashlytics => _crashlytics;
   static FirebasePerformance get performance => _performance!;
 
-  /// Firebase'i başlat
   static Future<void> initialize() async {
     try {
       await Firebase.initializeApp(
@@ -25,16 +24,16 @@ class FirebaseService {
 
       _analytics = FirebaseAnalytics.instance;
 
-      // Web'de Crashlytics desteklenmiyor, sadece mobil platformlarda başlat
+      // not supported on web
       if (!kIsWeb) {
         _crashlytics = FirebaseCrashlytics.instance;
-        // Crashlytics konfigürasyonu
+        // Crashlytics configuration
         await _configureCrashlytics();
       }
 
       _performance = FirebasePerformance.instance;
 
-      // Analytics konfigürasyonu
+      // Analytics configuration
       await _configureAnalytics();
 
       debugPrint('Firebase services initialized successfully');
@@ -44,45 +43,40 @@ class FirebaseService {
     }
   }
 
-  /// Crashlytics konfigürasyonu
+  /// Crashlytics configuration
   static Future<void> _configureCrashlytics() async {
-    // Web'de Crashlytics desteklenmiyor
+    // not supported on web
     if (kIsWeb || _crashlytics == null) return;
 
-    // Debug modda crashlytics'i devre dışı bırak
+    // Disable crashlytics in debug mode
     if (kDebugMode) {
       await _crashlytics!.setCrashlyticsCollectionEnabled(false);
     } else {
       await _crashlytics!.setCrashlyticsCollectionEnabled(true);
     }
 
-    // Flutter framework hatalarını yakala
     FlutterError.onError = (errorDetails) {
       _crashlytics!.recordFlutterFatalError(errorDetails);
     };
-
-    // Platform dispatcherlarını yakala (Web, iOS, Android)
+    // Catch platform errors
     PlatformDispatcher.instance.onError = (error, stack) {
       _crashlytics!.recordError(error, stack, fatal: true);
       return true;
     };
   }
 
-  /// Analytics konfigürasyonu
+  /// Analytics configuration
   static Future<void> _configureAnalytics() async {
     if (_analytics == null) return;
 
-    // Analytics'i her zaman etkin tut (debug ve production'da)
     await _analytics!.setAnalyticsCollectionEnabled(true);
 
-    // Debug modda daha detaylı logging
     if (kDebugMode) {
       await _analytics!.setAnalyticsCollectionEnabled(true);
-      print('🔥 Firebase Analytics Debug Mode: ENABLED');
+      print('Firebase Analytics Debug Mode: ENABLED');
     }
   }
 
-  /// Kullanıcı özelliklerini ayarla
   static Future<void> setUserProperties({
     required String userId,
     String? userType,
@@ -96,7 +90,7 @@ class FirebaseService {
     }
   }
 
-  /// Olay kaydet
+  /// Log event
   static Future<void> logEvent({
     required String name,
     Map<String, Object>? parameters,
@@ -109,7 +103,7 @@ class FirebaseService {
     );
   }
 
-  /// Ekran görüntüleme kaydet
+  /// Log screen view
   static Future<void> logScreenView({
     required String screenName,
     String? screenClass,
@@ -122,7 +116,7 @@ class FirebaseService {
     );
   }
 
-  /// Login olayını kaydet
+  /// Log login event
   static Future<void> logLogin(String loginMethod) async {
     await logEvent(
       name: 'login',
@@ -132,7 +126,7 @@ class FirebaseService {
     );
   }
 
-  /// Sign up olayını kaydet
+  /// Log sign up event
   static Future<void> logSignUp(String signUpMethod) async {
     await logEvent(
       name: 'sign_up',
@@ -142,7 +136,7 @@ class FirebaseService {
     );
   }
 
-  /// Film favorileme olayını kaydet
+  /// Log movie favorite event
   static Future<void> logMovieFavorite({
     required String movieId,
     required String movieTitle,
@@ -157,14 +151,14 @@ class FirebaseService {
     );
   }
 
-  /// Hata kaydet
+  /// Log error
   static Future<void> recordError({
     required dynamic exception,
     StackTrace? stackTrace,
     String? reason,
     bool fatal = false,
   }) async {
-    // Web'de Crashlytics desteklenmiyor
+
     if (kIsWeb || _crashlytics == null) {
       debugPrint('Error recorded (Web): $exception');
       if (stackTrace != null) debugPrint('Stack trace: $stackTrace');
@@ -179,9 +173,8 @@ class FirebaseService {
     );
   }
 
-  /// Özel log kaydet
+  /// Log custom message
   static Future<void> log(String message) async {
-    // Web'de Crashlytics desteklenmiyor
     if (kIsWeb || _crashlytics == null) {
       debugPrint('Crashlytics log (Web): $message');
       return;
@@ -190,14 +183,14 @@ class FirebaseService {
     await _crashlytics!.log(message);
   }
 
-  /// Performance tracking başlat
+  /// Start performance tracking
   static Trace? startTrace(String traceName) {
     if (_performance == null) return null;
 
     return _performance!.newTrace(traceName);
   }
 
-  /// HTTP metric oluştur
+  /// Create HTTP metric
   static HttpMetric? newHttpMetric(String url, HttpMethod httpMethod) {
     if (_performance == null) return null;
 

@@ -23,7 +23,6 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   late AuthBloc _authBloc;
   late ProfileBloc _profileBloc;
-  final int _currentIndex = 1;
 
   @override
   void initState() {
@@ -204,7 +203,6 @@ class _ProfilePageState extends State<ProfilePage> {
               final result =
                   await Navigator.pushNamed(context, '/photo-upload');
               if (result == true) {
-                // Photo uploaded successfully, refresh profile
                 _profileBloc.add(RefreshProfile());
               }
             },

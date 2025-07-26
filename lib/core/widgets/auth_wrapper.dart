@@ -43,7 +43,6 @@ class _AuthWrapperState extends State<AuthWrapper> {
       create: (context) => getIt<AuthBloc>()..add(CheckAuthStatus()),
       child: BlocConsumer<AuthBloc, AuthState>(
         listener: (context, state) {
-          // State değişikliklerini dinle ama ekstra aksiyon alma
         },
         builder: (context, state) {
           // Always show splash first

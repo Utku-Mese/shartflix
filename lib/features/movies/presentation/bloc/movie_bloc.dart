@@ -32,7 +32,7 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
 
     result.fold(
       (movies) {
-        // Movies loaded başarıyla yüklendiğinde analytics event'i
+        // Movies loaded başarıyla yüklendiğinde analytics eventi
         FirebaseService.logEvent(
           name: 'movies_loaded',
           parameters: {
@@ -59,7 +59,6 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
         }
       },
       (error) {
-        // Movie loading error'da Firebase'e error kaydet
         FirebaseService.recordError(
           exception: Exception('Movies loading failed: $error'),
           stackTrace: StackTrace.current,
@@ -84,7 +83,7 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
 
       result.fold(
         (movies) {
-          // Load more movies analytics event'i
+          // Load more movies analytics eventi
           FirebaseService.logEvent(
             name: 'movies_load_more',
             parameters: {
@@ -101,7 +100,6 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
           ));
         },
         (error) {
-          // Load more error'da Firebase'e error kaydet
           FirebaseService.recordError(
             exception: Exception('Load more movies failed: $error'),
             stackTrace: StackTrace.current,
@@ -117,7 +115,7 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
     ToggleMovieFavorite event,
     Emitter<MovieState> emit,
   ) async {
-    // Favorite toggle başlatma analytics event'i
+    // Favorite toggle başlatma analytics eventi
     FirebaseService.logEvent(
       name: 'movie_favorite_toggle',
       parameters: {
@@ -131,7 +129,7 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
     result.fold(
       (success) {
         if (success) {
-          // Başarılı favorite ekleme analytics event'i
+          // Başarılı favorite ekleme analytics eventi
           FirebaseService.logEvent(
             name: 'movie_favorite_added',
             parameters: {
@@ -145,7 +143,7 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
             message: 'Film favorilere eklendi',
           ));
         } else {
-          // Başarısız favorite ekleme analytics event'i
+          // Başarısız favorite ekleme analytics eventi
           FirebaseService.logEvent(
             name: 'movie_favorite_failed',
             parameters: {
@@ -162,14 +160,12 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
         }
       },
       (error) {
-        // Favorite error'da Firebase'e error kaydet
         FirebaseService.recordError(
           exception: Exception('Movie favorite toggle failed: $error'),
           stackTrace: StackTrace.current,
           reason: 'Failed to toggle favorite for movie: ${event.movieId}',
         );
 
-        // Error analytics event'i
         FirebaseService.logEvent(
           name: 'movie_favorite_error',
           parameters: {

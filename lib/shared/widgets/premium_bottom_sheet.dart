@@ -277,7 +277,7 @@ class PremiumBottomSheet extends StatelessWidget {
                 children: [
                   const SizedBox(height: 12),
 
-                  // Original Price (crossed out)
+                  // Original Price
                   Text(
                     originalPrice,
                     style: const TextStyle(

@@ -1,5 +1,4 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:injectable/injectable.dart';
 import '../../domain/usecases/get_profile_usecase.dart';
 import '../../domain/usecases/get_favorite_movies_usecase.dart';
 import '../../domain/usecases/upload_photo_usecase.dart';
@@ -39,7 +38,6 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
       final profile = profileResult.okOrNull!;
 
-      // If profile loaded successfully, load favorite movies
       final favoriteMoviesResult = await _getFavoriteMoviesUseCase.call();
 
       if (favoriteMoviesResult.isErr) {

@@ -151,7 +151,6 @@ class _DiscoverPageState extends State<DiscoverPage> {
     final l10n = AppLocalizations.of(context)!;
     return Stack(
       children: [
-        // Background Image - only show first image
         SizedBox(
           width: double.infinity,
           height: double.infinity,

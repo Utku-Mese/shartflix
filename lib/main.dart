@@ -18,14 +18,14 @@ import 'features/settings/presentation/pages/settings_page.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Initialize dependency injection (Firebase dahil)
+  // Initialize dependency injection
   await configureDependencies();
 
   // Initialize logger
   final logger = getIt<LoggerService>();
   logger.info('Shartflix App Starting...');
 
-  // Firebase Analytics - Uygulama başlatma eventi
+  // Firebase Analytics - log app open event
   await FirebaseService.logEvent(
     name: 'app_open',
     parameters: {

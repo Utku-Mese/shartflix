@@ -135,7 +135,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       if (!isClosed) emit(AuthUnauthenticated());
     } catch (e) {
       if (!isClosed)
-        emit(AuthUnauthenticated()); // Logout her durumda başarılı sayılsın
+        emit(AuthUnauthenticated());
     }
   }
 

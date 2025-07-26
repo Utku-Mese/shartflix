@@ -10,6 +10,8 @@ import '../../features/movies/presentation/pages/home_page.dart';
 import '../../features/movies/presentation/pages/discover_page.dart';
 import '../../features/profile/presentation/pages/profile_page.dart';
 
+
+/// Main layout widget that provides the main navigation structure for the app.
 class MainLayout extends StatefulWidget {
   final int initialIndex;
 

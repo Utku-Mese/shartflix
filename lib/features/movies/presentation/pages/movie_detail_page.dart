@@ -172,7 +172,7 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
                     ),
                   ),
                   errorWidget: (context, url, error) {
-                    // Eğer poster farklıysa fallback olarak kullan
+                    // Eğer poster farklıysa fallback olarak kullanicak
                     if (_currentMovie.poster != images[index]) {
                       return CachedNetworkImage(
                         imageUrl: _currentMovie.poster,
@@ -237,7 +237,6 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
 
   Widget _buildMovieInfo() {
     final l10n = AppLocalizations.of(context)!;
-    final theme = Theme.of(context);
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),

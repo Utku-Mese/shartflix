@@ -169,7 +169,7 @@ class MovieCard extends StatelessWidget {
   }
 
   Widget _buildPosterImage() {
-    // Önce poster'ı dene, hata olursa images listesinden kullan
+    // Önce poster'ı denenir, hata olursa images listesinden kullanilir
     String primaryImageUrl = movie.poster;
     String? fallbackImageUrl =
         movie.images.isNotEmpty ? movie.images.first : null;
@@ -186,7 +186,6 @@ class MovieCard extends StatelessWidget {
         ),
       ),
       errorWidget: (context, url, error) {
-        // Eğer fallback image varsa onu dene
         if (fallbackImageUrl != null && fallbackImageUrl != primaryImageUrl) {
           return CachedNetworkImage(
             imageUrl: fallbackImageUrl,
@@ -210,7 +209,6 @@ class MovieCard extends StatelessWidget {
           );
         }
 
-        // Fallback da yoksa veya aynıysa default icon göster
         return Container(
           color: AppColors.cardBackground,
           child: Icon(

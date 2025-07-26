@@ -138,12 +138,12 @@ class _HomePageState extends State<HomePage> with RouteAware {
               }
 
               if (state is MovieFavoriteUpdated) {
-                // Favori durumu güncellendiğinde, önceki MovieLoaded state'ini koru
+                // Favori durumu güncellendiğinde önceki MovieLoaded stateni korur
                 final previousState = context.read<MovieBloc>().state;
                 if (previousState is MovieLoaded) {
                   return _buildContent(previousState);
                 }
-                // Eğer önceki state MovieLoaded değilse, filmleri yeniden yükle
+                // Eğer önceki state MovieLoaded değilse filmleri yeniden yükler
                 context.read<MovieBloc>().add(const LoadMovies());
                 return Center(
                   child: CircularProgressIndicator(
@@ -221,7 +221,6 @@ class _HomePageState extends State<HomePage> with RouteAware {
               ),
             ),
 
-          // End message when all movies are loaded
           if (state.hasReachedMax && state.movies.isNotEmpty)
             SliverToBoxAdapter(
               child: Container(
@@ -267,13 +266,11 @@ class _HomePageState extends State<HomePage> with RouteAware {
                 ),
               ),
               errorWidget: (context, url, error) {
-                // İlk seçenek başarısız olursa alternatif dene
+                // İlk seçenek başarısız olursa alternatif dener
                 String? fallbackUrl;
                 if (movie.images.isNotEmpty && movie.images.length > 4) {
-                  // İlk seçenek images[4] idi, poster'ı dene
                   fallbackUrl = movie.poster;
                 } else {
-                  // İlk seçenek poster idi, images.first'ü dene
                   fallbackUrl =
                       movie.images.isNotEmpty ? movie.images.first : null;
                 }

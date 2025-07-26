@@ -7,9 +7,9 @@ final GetIt getIt = GetIt.instance;
 
 @InjectableInit()
 Future<void> configureDependencies() async {
-  // Firebase'i ilk başlat
+  // Initialize Firebase
   await FirebaseService.initialize();
 
-  // Diğer dependencies'leri başlat
+  // Initialize other dependencies
   await getIt.init();
 }
