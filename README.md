@@ -30,8 +30,9 @@
 
 ## 📺 Preview Video
 
-Watch the project preview video on YouTube:  
-[![Watch the video](https://img.shields.io/badge/Preview-YouTube-red)]([https://youtu.be/M30Eq9_Ipv0?si=4MlWD8ocORm_Axfv](https://youtu.be/M30Eq9_Ipv0?si=4MlWD8ocORm_Axfv))
+Watch the project preview video on YouTube: 
+
+ **[Watch the video](https://youtu.be/M30Eq9_Ipv0?si=4MlWD8ocORm_Axfv)**
 
 [![Watch the video](https://img.youtube.com/vi/M30Eq9_Ipv0/0.jpg)]([https://www.youtube.com/watch?v=M30Eq9_Ipv0](https://youtu.be/M30Eq9_Ipv0?si=4MlWD8ocORm_Axfv))
 
